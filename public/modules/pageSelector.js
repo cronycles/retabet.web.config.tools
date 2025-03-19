@@ -1,3 +1,5 @@
+import { addDeleteButton } from './utils.js'; // Utility function for adding delete buttons
+
 export function initializePageSelector() {
     const pageSelector = document.getElementById('pageSelector');
     const pagePanels = document.getElementById('pagePanels');
@@ -32,6 +34,9 @@ export function initializePageSelector() {
                         panelDiv.classList.add('droppable');
                         panelDiv.dataset.panelName = panelName;
 
+                        // Add delete button for panel
+                        addDeleteButton(panelDiv, 'panel', panelName, selectedPage);
+
                         const sections = pageData.panels[panelName];
                         sections.forEach(section => {
                             const sectionName = typeof section === 'string' ? section : Object.keys(section)[0];
@@ -39,6 +44,10 @@ export function initializePageSelector() {
                             sectionDiv.textContent = sectionName;
                             sectionDiv.draggable = true;
                             sectionDiv.dataset.sectionName = sectionName;
+
+                            // Add delete button for section
+                            addDeleteButton(sectionDiv, 'section', sectionName, selectedPage, panelName);
+
                             panelDiv.appendChild(sectionDiv);
                         });
 

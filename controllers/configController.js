@@ -118,29 +118,17 @@ exports.updatePage = (req, res) => {
         if (!page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName]) {
             page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = [];
         }
-    } else if (action === 'addSection') {
-        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] || [];
-        const defaultAttributes = sections[0].Configuration.Sections_CONF.Sections[sectionName];
-
-        if (!defaultAttributes) {
-            return res.status(400).json({ error: 'Invalid section name' });
-        }
-
-        panelSections.push({ [sectionName]: defaultAttributes });
-        page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = panelSections;
     } else if (action === 'removePanel') {
         delete page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
+    } else if (action === 'addSection') {
+        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] || [];
+        panelSections.push({ [sectionName]: attributes });
+        page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = panelSections;
     } else if (action === 'removeSection') {
         const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
         page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = panelSections.filter(
-            section => section.name !== sectionName
+            section => !section[sectionName]
         );
-    } else if (action === 'updateSection') {
-        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
-        const sectionIndex = panelSections.findIndex(section => section.name === sectionName);
-        if (sectionIndex !== -1) {
-            panelSections[sectionIndex] = { ...panelSections[sectionIndex], ...attributes };
-        }
     }
 
     pages[pageIndex] = page;
