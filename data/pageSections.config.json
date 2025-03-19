@@ -1,0 +1,85 @@
+[
+    {
+        "Configuration": {
+            "PageSections_CONF": {
+                "PageInvariantNames": {
+                    "CasinoGame": {
+                        "CentralPanel": [
+                            {
+                                "BetSlip": {
+                                    "Args": "",
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ]
+                    },
+                    "CasinoGameDetail": {
+                        "TopPanel": [
+                            {
+                                "UserBets": {
+                                    "Args": "",
+                                    "Active": false,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "UserBets": {
+                                    "Args": "",
+                                    "Active": false,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ],
+                        "BottomPanel": [
+                            {
+                                "BetSlip": {
+                                    "Args": "",
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "UserBets": {
+                                    "Args": "",
+                                    "Active": false,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+]

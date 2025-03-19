@@ -1,0 +1,17 @@
+[
+    {
+        "PanelName": "CentralPanel",
+        "Device": "",
+        "CssSpecificClasses": ""
+    },
+    {
+        "PanelName": "TopPanel",
+        "Device": "",
+        "CssSpecificClasses": ""
+    },
+    {
+        "PanelName": "BottomPanel",
+        "Device": "",
+        "CssSpecificClasses": ""
+    }
+]

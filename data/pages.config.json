@@ -1,0 +1,42 @@
+[
+    {
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "CasinoGame": {
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "PageTitleCasino",
+                        "TooltipResourcekey": "PageTooltipCasino",
+                        "DescriptionResourcekey": "PageDescriptionCasino",
+                        "KeywordsResourcekey": "PageKeywordsCasino",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCasino",
+                        "UrlResourceKey": "PageUrlCasino",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Casino (Home)",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoGameDetail": {
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "PageTitleSlot",
+                        "TooltipResourcekey": "PageTooltipSlot",
+                        "DescriptionResourcekey": "PageDescriptionSlot",
+                        "KeywordsResourcekey": "PageKeywordsSlot",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionSlot",
+                        "UrlResourceKey": "PageUrlSlots",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Casino (Slots)",
+                            "Tags": ""
+                        }
+                    }
+                }
+            }
+        }
+    }
+]

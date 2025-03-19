@@ -1,0 +1,43 @@
+[
+    {
+        "Configuration": {
+            "Sections_CONF": {
+                "DefaultSectionAttribute": {
+                    "Args": "",
+                        "Active": true,
+                        "Scrollable": false,
+                        "Selected": true,
+                        "Sortable": false,
+                        "Removable": false,
+                        "ViewName": "",
+                        "Visible": true,
+                        "WithTitle": false
+                },
+                "Sections": {
+                    "Betslip": {
+                        "Args": "",
+                        "Active": true,
+                        "Scrollable": false,
+                        "Selected": true,
+                        "Sortable": false,
+                        "Removable": false,
+                        "ViewName": "",
+                        "Visible": true,
+                        "WithTitle": false
+                    },
+                    "UserBets": {
+                        "Args": "",
+                        "Active": true,
+                        "Scrollable": false,
+                        "Selected": true,
+                        "Sortable": false,
+                        "Removable": false,
+                        "ViewName": "",
+                        "Visible": true,
+                        "WithTitle": false
+                    }
+                }
+            }
+        }
+    }
+]

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config Management Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Config Management Tool</h1>
+    <div id="app">
+        <div>
+            <label for="pageSelector">Select Page:</label>
+            <select id="pageSelector"></select>
+        </div>
+        <div id="panelsContainer">
+            <h2>Panels</h2>
+            <div id="availablePanels" class="droppable">
+                <h3>Available Panels</h3>
+                <!-- Panels will be dynamically loaded here -->
+            </div>
+            <div id="pagePanels" class="droppable">
+                <h3>Page Panels</h3>
+                <!-- Panels for the selected page will be displayed here -->
+            </div>
+        </div>
+        <div id="sectionsContainer">
+            <h2>Sections</h2>
+            <div id="availableSections" class="droppable">
+                <h3>Available Sections</h3>
+                <!-- Sections will be dynamically loaded here -->
+            </div>
+            <div id="panelSections" class="droppable">
+                <h3>Panel Sections</h3>
+                <!-- Sections for the selected panel will be displayed here -->
+            </div>
+        </div>
+    </div>
+    <div id="editSectionModal" style="display: none;">
+        <form id="editSectionForm">
+            <label for="attribute1">Attribute 1:</label>
+            <input type="text" name="attribute1" />
+            <label for="attribute2">Attribute 2:</label>
+            <input type="text" name="attribute2" />
+            <!-- Add more attributes as needed -->
+            <button type="button" id="restoreDefaults">Restore Defaults</button>
+            <button type="button" id="saveSectionAttributes">Save</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
