@@ -32,14 +32,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     Object.entries(sections[sectionName]).forEach(([key, value]) => {
                         const label = document.createElement('label');
                         label.textContent = key;
-                        const input = document.createElement('input');
-                        input.type = 'text';
-                        input.name = key;
-                        input.value = value;
 
-                        // Store the original type as a data attribute
-                        input.dataset.type = typeof value;
+                        let input;
+                        if (typeof value === 'boolean') {
+                            // Render dropdown for boolean attributes
+                            input = document.createElement('select');
+                            input.name = key;
 
+                            const trueOption = document.createElement('option');
+                            trueOption.value = 'true';
+                            trueOption.textContent = 'true';
+                            trueOption.selected = value === true;
+
+                            const falseOption = document.createElement('option');
+                            falseOption.value = 'false';
+                            falseOption.textContent = 'false';
+                            falseOption.selected = value === false;
+
+                            input.appendChild(trueOption);
+                            input.appendChild(falseOption);
+                        } else {
+                            // Render text input for other types
+                            input = document.createElement('input');
+                            input.type = 'text';
+                            input.name = key;
+                            input.value = value;
+                        }
+
+                        input.dataset.type = typeof value; // Store the original type
                         attributesContainer.appendChild(label);
                         attributesContainer.appendChild(input);
                     });
@@ -61,10 +81,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 Object.entries(defaultAttributes).forEach(([key, value]) => {
                     const label = document.createElement('label');
                     label.textContent = key;
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.name = key;
-                    input.value = value;
+
+                    let input;
+                    if (typeof value === 'boolean') {
+                        // Render dropdown for boolean attributes
+                        input = document.createElement('select');
+                        input.name = key;
+
+                        const trueOption = document.createElement('option');
+                        trueOption.value = 'true';
+                        trueOption.textContent = 'true';
+                        trueOption.selected = value === true;
+
+                        const falseOption = document.createElement('option');
+                        falseOption.value = 'false';
+                        falseOption.textContent = 'false';
+                        falseOption.selected = value === false;
+
+                        input.appendChild(trueOption);
+                        input.appendChild(falseOption);
+                    } else {
+                        // Render text input for other types
+                        input = document.createElement('input');
+                        input.type = 'text';
+                        input.name = key;
+                        input.value = value;
+                    }
+
                     input.dataset.type = typeof value; // Store the original type
                     attributesContainer.appendChild(label);
                     attributesContainer.appendChild(input);
@@ -79,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const sectionName = sectionNameInput.value;
         const attributes = {};
-        Array.from(attributesContainer.querySelectorAll('input')).forEach(input => {
+        Array.from(attributesContainer.querySelectorAll('input, select')).forEach(input => {
             const originalType = input.dataset.type; // Retrieve the original type
             let value = input.value;
 
