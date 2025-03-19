@@ -1,0 +1,22 @@
+[
+    {
+        "Configuration": {
+            "Panels_CONF": {
+                "Panels": {
+                    "CentralPanel": {
+                        "Device": "",
+                        "CssSpecificClasses": ""
+                    },
+                    "TopPanel": {
+                        "Device": "",
+                        "CssSpecificClasses": ""
+                    },
+                    "BottomPanel": {
+                        "Device": "",
+                        "CssSpecificClasses": ""
+                    }
+                }
+            }
+        }
+    }
+]

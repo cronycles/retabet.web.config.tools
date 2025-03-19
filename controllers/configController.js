@@ -3,7 +3,7 @@ const path = require('path');
 
 // File paths
 const sectionsPath = path.join(__dirname, '../data/sections.config.json');
-const panelsPath = path.join(__dirname, '../data/pagePanels.json');
+const panelsPath = path.join(__dirname, '../data/panels.config.json'); // Updated filename
 const pagesPath = path.join(__dirname, '../data/pageSections.config.json');
 const pagesConfigPath = path.join(__dirname, '../data/pages.config.json');
 
@@ -60,18 +60,25 @@ exports.updateSection = (req, res) => {
 // Handlers for pagePanels.json
 exports.getPanels = (req, res) => {
     const panels = readJSON(panelsPath);
-    res.json(panels);
+    const panelsData = panels[0].Configuration.Panels_CONF.Panels; // Updated structure
+    res.json(Object.keys(panelsData).map(panelName => ({
+        PanelName: panelName,
+        ...panelsData[panelName]
+    })));
 };
 
 exports.addPanel = (req, res) => {
     const panels = readJSON(panelsPath);
     const newPanel = req.body;
 
-    if (panels.some(panel => panel.PanelName === newPanel.PanelName)) {
+    if (panels[0].Configuration.Panels_CONF.Panels[newPanel.PanelName]) {
         return res.status(400).json({ error: 'Duplicate panel name' });
     }
 
-    panels.push(newPanel);
+    panels[0].Configuration.Panels_CONF.Panels[newPanel.PanelName] = {
+        Device: newPanel.Device || "",
+        CssSpecificClasses: newPanel.CssSpecificClasses || ""
+    };
     writeJSON(panelsPath, panels);
     res.status(201).json(newPanel);
 };
@@ -81,12 +88,11 @@ exports.updatePanel = (req, res) => {
     const panelName = req.params.panelName;
     const updatedPanel = req.body;
 
-    const index = panels.findIndex(panel => panel.PanelName === panelName);
-    if (index === -1) {
+    if (!panels[0].Configuration.Panels_CONF.Panels[panelName]) {
         return res.status(404).json({ error: 'Panel not found' });
     }
 
-    panels[index] = updatedPanel;
+    panels[0].Configuration.Panels_CONF.Panels[panelName] = updatedPanel;
     writeJSON(panelsPath, panels);
     res.json(updatedPanel);
 };
@@ -95,12 +101,12 @@ exports.deletePanel = (req, res) => {
     const panels = readJSON(panelsPath);
     const panelName = req.params.panelName;
 
-    const filteredPanels = panels.filter(panel => panel.PanelName !== panelName);
-    if (filteredPanels.length === panels.length) {
+    if (!panels[0].Configuration.Panels_CONF.Panels[panelName]) {
         return res.status(404).json({ error: 'Panel not found' });
     }
 
-    writeJSON(panelsPath, filteredPanels);
+    delete panels[0].Configuration.Panels_CONF.Panels[panelName];
+    writeJSON(panelsPath, panels);
     res.status(204).send();
 };
 
