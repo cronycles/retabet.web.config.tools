@@ -173,6 +173,12 @@ exports.updatePage = (req, res) => {
         page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = panelSections.filter(
             section => !section[sectionName]
         );
+    } else if (action === 'updateSection') {
+        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
+        const sectionIndex = panelSections.findIndex(section => section[sectionName]);
+        if (sectionIndex !== -1) {
+            panelSections[sectionIndex][sectionName] = attributes;
+        }
     }
 
     pages[pageIndex] = page;
