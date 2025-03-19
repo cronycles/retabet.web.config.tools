@@ -103,6 +103,7 @@ exports.addPage = (req, res) => {
 
 exports.updatePage = (req, res) => {
     const pages = readJSON(pagesPath);
+    const sections = readJSON(sectionsPath);
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
@@ -113,7 +114,17 @@ exports.updatePage = (req, res) => {
 
     const page = pages[pageIndex];
 
-    if (action === 'removePanel') {
+    if (action === 'addSection') {
+        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] || [];
+        const defaultAttributes = sections[0].Configuration.Sections_CONF.Sections[sectionName];
+
+        if (!defaultAttributes) {
+            return res.status(400).json({ error: 'Invalid section name' });
+        }
+
+        panelSections.push({ [sectionName]: defaultAttributes });
+        page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = panelSections;
+    } else if (action === 'removePanel') {
         delete page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
     } else if (action === 'removeSection') {
         const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
