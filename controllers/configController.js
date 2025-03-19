@@ -114,7 +114,11 @@ exports.updatePage = (req, res) => {
 
     const page = pages[pageIndex];
 
-    if (action === 'addSection') {
+    if (action === 'addPanel') {
+        if (!page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName]) {
+            page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = [];
+        }
+    } else if (action === 'addSection') {
         const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] || [];
         const defaultAttributes = sections[0].Configuration.Sections_CONF.Sections[sectionName];
 

@@ -3,6 +3,9 @@ export function initializeDragAndDrop() {
         if (e.target.dataset.sectionName) {
             e.dataTransfer.setData('text/plain', e.target.dataset.sectionName);
         }
+        if (e.target.dataset.panelName) {
+            e.dataTransfer.setData('panelName', e.target.dataset.panelName);
+        }
     });
 
     document.addEventListener('dragover', e => {
@@ -34,6 +37,31 @@ export function initializeDragAndDrop() {
                     }
                 } else {
                     console.error('Failed to add section to page');
+                }
+            });
+        }
+
+        if (e.target.id === 'pagePanels') {
+            e.preventDefault();
+            const panelName = e.dataTransfer.getData('panelName');
+            const selectedPage = document.getElementById('pageSelector').value;
+
+            fetch(`/api/pages/${selectedPage}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'addPanel',
+                    panelName
+                })
+            }).then(response => {
+                if (response.ok) {
+                    const panelDiv = document.createElement('div');
+                    panelDiv.textContent = panelName;
+                    panelDiv.classList.add('droppable');
+                    panelDiv.dataset.panelName = panelName;
+                    e.target.appendChild(panelDiv);
+                } else {
+                    console.error('Failed to add panel to page');
                 }
             });
         }

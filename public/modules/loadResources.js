@@ -6,7 +6,8 @@ export function loadAvailablePanels() {
             panels.forEach(panel => {
                 const div = document.createElement('div');
                 div.textContent = panel.PanelName;
-                div.draggable = false;
+                div.draggable = true;
+                div.dataset.panelName = panel.PanelName;
                 availablePanels.appendChild(div);
             });
         });
