@@ -32,6 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         input.type = 'text';
                         input.name = key;
                         input.value = value;
+
+                        // Store the original type as a data attribute
+                        input.dataset.type = typeof value;
+
                         attributesContainer.appendChild(label);
                         attributesContainer.appendChild(input);
                     });
@@ -49,7 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const sectionName = sectionNameInput.value;
         const attributes = {};
         Array.from(attributesContainer.querySelectorAll('input')).forEach(input => {
-            attributes[input.name] = input.value;
+            const originalType = input.dataset.type; // Retrieve the original type
+            let value = input.value;
+
+            // Convert the value back to its original type
+            if (originalType === 'boolean') {
+                value = value === 'true';
+            } else if (originalType === 'number') {
+                value = parseFloat(value);
+            }
+
+            attributes[input.name] = value;
         });
 
         const method = editingSection ? 'PUT' : 'POST';
