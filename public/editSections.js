@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const attributesContainer = document.getElementById('attributesContainer');
     const formTitle = document.getElementById('formTitle');
     const cancelEditButton = document.getElementById('cancelEditButton');
+    const addNewSectionButton = document.getElementById('addNewSectionButton');
+    const sectionFormContainer = document.getElementById('sectionFormContainer');
 
     let editingSection = null;
 
@@ -13,6 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(res => res.json())
         .then(data => {
             const sections = data[0].Configuration.Sections_CONF.Sections;
+            const defaultAttributes = data[0].Configuration.Sections_CONF.DefaultSectionAttributes;
+
             Object.keys(sections).forEach(sectionName => {
                 const li = document.createElement('li');
                 li.textContent = sectionName;
@@ -40,10 +44,33 @@ document.addEventListener('DOMContentLoaded', () => {
                         attributesContainer.appendChild(input);
                     });
                     cancelEditButton.style.display = 'inline-block'; // Show the cancel button
+                    sectionFormContainer.style.display = 'block';
                 });
 
                 li.appendChild(editButton);
                 sectionsList.appendChild(li);
+            });
+
+            // Handle "Add New Section" button
+            addNewSectionButton.addEventListener('click', () => {
+                editingSection = null;
+                formTitle.textContent = 'Add New Section';
+                sectionNameInput.value = '';
+                sectionNameInput.disabled = false;
+                attributesContainer.innerHTML = '';
+                Object.entries(defaultAttributes).forEach(([key, value]) => {
+                    const label = document.createElement('label');
+                    label.textContent = key;
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = key;
+                    input.value = value;
+                    input.dataset.type = typeof value; // Store the original type
+                    attributesContainer.appendChild(label);
+                    attributesContainer.appendChild(input);
+                });
+                cancelEditButton.style.display = 'none';
+                sectionFormContainer.style.display = 'block';
             });
         });
 
@@ -84,5 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
         sectionNameInput.disabled = false; // Enable editing the section name
         attributesContainer.innerHTML = '';
         cancelEditButton.style.display = 'none'; // Hide the cancel button
+        sectionFormContainer.style.display = 'none';
     });
 });

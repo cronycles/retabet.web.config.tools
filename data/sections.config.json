@@ -35,6 +35,17 @@
                         "ViewName": "",
                         "Visible": true,
                         "WithTitle": false
+                    },
+                    "JoniSection": {
+                        "Args": "",
+                        "Active": true,
+                        "Scrollable": false,
+                        "Selected": true,
+                        "Sortable": false,
+                        "Removable": false,
+                        "ViewName": "",
+                        "Visible": true,
+                        "WithTitle": false
                     }
                 }
             }
