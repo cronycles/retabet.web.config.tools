@@ -1,0 +1,74 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const sectionsList = document.getElementById('sectionsList');
+    const sectionForm = document.getElementById('sectionForm');
+    const sectionNameInput = document.getElementById('sectionName');
+    const attributesContainer = document.getElementById('attributesContainer');
+    const formTitle = document.getElementById('formTitle');
+    const cancelEditButton = document.getElementById('cancelEditButton');
+
+    let editingSection = null;
+
+    // Load existing sections
+    fetch('/api/sections')
+        .then(res => res.json())
+        .then(data => {
+            const sections = data[0].Configuration.Sections_CONF.Sections;
+            Object.keys(sections).forEach(sectionName => {
+                const li = document.createElement('li');
+                li.textContent = sectionName;
+
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.addEventListener('click', () => {
+                    editingSection = sectionName;
+                    formTitle.textContent = `Edit Section: ${sectionName}`;
+                    sectionNameInput.value = sectionName;
+                    sectionNameInput.disabled = false; // Allow editing the section name
+                    attributesContainer.innerHTML = '';
+                    Object.entries(sections[sectionName]).forEach(([key, value]) => {
+                        const label = document.createElement('label');
+                        label.textContent = key;
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.name = key;
+                        input.value = value;
+                        attributesContainer.appendChild(label);
+                        attributesContainer.appendChild(input);
+                    });
+                    cancelEditButton.style.display = 'inline-block'; // Show the cancel button
+                });
+
+                li.appendChild(editButton);
+                sectionsList.appendChild(li);
+            });
+        });
+
+    // Handle form submission
+    sectionForm.addEventListener('submit', e => {
+        e.preventDefault();
+        const sectionName = sectionNameInput.value;
+        const attributes = {};
+        Array.from(attributesContainer.querySelectorAll('input')).forEach(input => {
+            attributes[input.name] = input.value;
+        });
+
+        const method = editingSection ? 'PUT' : 'POST';
+        fetch('/api/sections', {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ sectionName, attributes, oldSectionName: editingSection })
+        }).then(() => {
+            window.location.reload();
+        });
+    });
+
+    // Handle cancel edit
+    cancelEditButton.addEventListener('click', () => {
+        editingSection = null;
+        formTitle.textContent = 'Add Section';
+        sectionNameInput.value = '';
+        sectionNameInput.disabled = false; // Enable editing the section name
+        attributesContainer.innerHTML = '';
+        cancelEditButton.style.display = 'none'; // Hide the cancel button
+    });
+});

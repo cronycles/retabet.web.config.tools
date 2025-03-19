@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Sections</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Edit Sections</h1>
+    <div id="sectionsContainer">
+        <h2>Existing Sections</h2>
+        <ul id="sectionsList">
+            <!-- Sections will be dynamically loaded here -->
+        </ul>
+    </div>
+    <div id="sectionFormContainer">
+        <h2 id="formTitle">Add/Edit Section</h2>
+        <form id="sectionForm">
+            <label for="sectionName">Section Name:</label>
+            <input type="text" id="sectionName" name="sectionName" required />
+            <div id="attributesContainer">
+                <!-- Attributes will be dynamically added here -->
+            </div>
+            <button type="submit">Save</button>
+            <button type="button" id="cancelEditButton" style="display: none;">Cancel Edit</button>
+        </form>
+    </div>
+    <script type="module" src="editSections.js"></script>
+</body>
+</html>

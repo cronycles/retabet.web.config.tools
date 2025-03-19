@@ -2,6 +2,17 @@
     {
         "Configuration": {
             "Sections_CONF": {
+                "DefaultSectionAttributes": {
+                    "Args": "",
+                    "Active": true,
+                    "Scrollable": false,
+                    "Selected": true,
+                    "Sortable": false,
+                    "Removable": false,
+                    "ViewName": "",
+                    "Visible": true,
+                    "WithTitle": false
+                },
                 "Sections": {
                     "Betslip": {
                         "Args": "",

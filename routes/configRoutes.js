@@ -4,6 +4,8 @@ const configController = require('../controllers/configController');
 
 // Routes for sections.config.json (read-only)
 router.get('/sections', configController.getSections);
+router.post('/sections', configController.addSection);
+router.put('/sections', configController.updateSection);
 
 // Routes for pagePanels.json
 router.get('/panels', configController.getPanels);
