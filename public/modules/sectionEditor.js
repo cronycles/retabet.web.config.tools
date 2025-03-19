@@ -1,8 +1,10 @@
-export function renderSectionEditor(container, attributes, onSave, onCancel) {
+export function renderSectionEditor(container, attributes, onSave, onCancel, sectionName) {
     container.innerHTML = ''; // Clear the container
 
     const form = document.createElement('form');
     form.id = 'sectionEditorForm';
+
+    const fields = {}; // Store references to input fields for easy updates
 
     Object.entries(attributes).forEach(([key, value]) => {
         const label = document.createElement('label');
@@ -35,6 +37,7 @@ export function renderSectionEditor(container, attributes, onSave, onCancel) {
         }
 
         input.dataset.type = typeof value; // Store the original type
+        fields[key] = input; // Save reference to the input field
         form.appendChild(label);
         form.appendChild(input);
     });
@@ -48,8 +51,35 @@ export function renderSectionEditor(container, attributes, onSave, onCancel) {
     cancelButton.textContent = 'Cancel';
     cancelButton.addEventListener('click', onCancel);
 
+    const restoreDefaultsButton = document.createElement('button');
+    restoreDefaultsButton.type = 'button';
+    restoreDefaultsButton.textContent = 'Restore Defaults';
+    restoreDefaultsButton.addEventListener('click', () => {
+        fetch('/api/sections')
+            .then(res => res.json())
+            .then(data => {
+                const defaultAttributes = data[0].Configuration.Sections_CONF.Sections[sectionName];
+                if (!defaultAttributes) {
+                    console.error('Default attributes not found for section:', sectionName);
+                    return;
+                }
+
+                // Update form fields with default attributes
+                Object.entries(defaultAttributes).forEach(([key, value]) => {
+                    if (fields[key]) {
+                        if (fields[key].dataset.type === 'boolean') {
+                            fields[key].value = value ? 'true' : 'false';
+                        } else {
+                            fields[key].value = value;
+                        }
+                    }
+                });
+            });
+    });
+
     form.appendChild(saveButton);
     form.appendChild(cancelButton);
+    form.appendChild(restoreDefaultsButton);
 
     form.addEventListener('submit', e => {
         e.preventDefault();

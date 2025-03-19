@@ -79,7 +79,8 @@ export function initializePageSelector() {
                                     },
                                     () => {
                                         editorContainer.remove();
-                                    }
+                                    },
+                                    sectionName // Pass sectionName for restoring defaults
                                 );
                             });
 
