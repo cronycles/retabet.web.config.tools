@@ -3,7 +3,7 @@
         "Configuration": {
             "Panels_CONF": {
                 "Panels": {
-                    "CentralPanel": {
+                    "MainPanel": {
                         "Device": "",
                         "CssSpecificClasses": ""
                     },

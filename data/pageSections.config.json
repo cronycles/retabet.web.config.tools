@@ -4,7 +4,7 @@
             "PageSections_CONF": {
                 "PageInvariantNames": {
                     "CasinoGame": {
-                        "CentralPanel": [
+                        "MainPanel": [
                             {
                                 "BetSlip": {
                                     "Args": "",
