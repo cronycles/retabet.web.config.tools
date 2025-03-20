@@ -171,43 +171,46 @@ exports.addPage = (req, res) => {
 
 exports.updatePage = (req, res) => {
     const pages = readJSON(pagesPath); // Use updated readJSON
-    const sections = readJSON(sectionsPath); // Use updated readJSON
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
-    const pageIndex = pages.findIndex(page => page.Configuration.PageSections_CONF.PageInvariantNames[pageName]);
-    if (pageIndex === -1) {
-        return res.status(404).json({ error: 'Page not found' });
+    // Ensure the PageInvariantNames key exists
+    if (!pages[0]?.Configuration?.PageSections_CONF?.PageInvariantNames) {
+        pages[0].Configuration.PageSections_CONF.PageInvariantNames = {};
     }
 
-    const page = pages[pageIndex];
+    const pageInvariantNames = pages[0].Configuration.PageSections_CONF.PageInvariantNames;
+
+    // If the page does not exist, create it
+    if (!pageInvariantNames[pageName]) {
+        pageInvariantNames[pageName] = {};
+    }
 
     if (action === 'addPanel') {
-        if (!page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName]) {
-            page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = [];
+        if (!pageInvariantNames[pageName][panelName]) {
+            pageInvariantNames[pageName][panelName] = [];
         }
     } else if (action === 'removePanel') {
-        delete page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
+        delete pageInvariantNames[pageName][panelName];
     } else if (action === 'addSection') {
-        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] || [];
+        const panelSections = pageInvariantNames[pageName][panelName] || [];
         panelSections.push({ [sectionName]: attributes });
-        page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = panelSections;
+        pageInvariantNames[pageName][panelName] = panelSections;
     } else if (action === 'removeSection') {
-        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
-        page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = panelSections.filter(
+        const panelSections = pageInvariantNames[pageName][panelName];
+        pageInvariantNames[pageName][panelName] = panelSections.filter(
             section => !section[sectionName]
         );
     } else if (action === 'updateSection') {
-        const panelSections = page.Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName];
+        const panelSections = pageInvariantNames[pageName][panelName];
         const sectionIndex = panelSections.findIndex(section => section[sectionName]);
         if (sectionIndex !== -1) {
             panelSections[sectionIndex][sectionName] = attributes;
         }
     }
 
-    pages[pageIndex] = page;
     writeJSON(pagesPath, pages);
-    res.json(page);
+    res.json(pageInvariantNames[pageName]);
 };
 
 exports.deletePage = (req, res) => {

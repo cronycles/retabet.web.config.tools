@@ -5,6 +5,7 @@ export function initializePageSelector() {
     const pageSelector = document.getElementById('pageSelector');
     const pageDropdown = document.getElementById('pageDropdown'); // Reference to the dropdown container
     const pagePanels = document.getElementById('pagePanels');
+    const placeholder = document.getElementById('pagePanelsPlaceholder');
 
     let pages = []; // Store pages for filtering
 
@@ -66,8 +67,10 @@ export function initializePageSelector() {
             .then(res => res.json())
             .then(pageSections => {
                 const pageData = pageSections[selectedPage];
+                pagePanels.innerHTML = ''; // Clear the pagePanels area
+
                 if (pageData) {
-                    pagePanels.innerHTML = '<h3>Page Panels</h3>';
+                    if (placeholder) placeholder.style.display = 'none'; // Hide placeholder
                     Object.keys(pageData).forEach(panelName => {
                         const panelDiv = document.createElement('div');
                         panelDiv.textContent = panelName;
@@ -78,24 +81,25 @@ export function initializePageSelector() {
                         addDeleteButton(panelDiv, 'panel', panelName, selectedPage);
 
                         const sections = pageData[panelName];
+                        const sectionsUl = document.createElement('ul');
                         sections.forEach(section => {
                             const sectionName = typeof section === 'string' ? section : Object.keys(section)[0];
                             const sectionAttributes = typeof section === 'string' ? {} : section[sectionName];
 
-                            const sectionDiv = document.createElement('div');
-                            sectionDiv.textContent = sectionName;
-                            sectionDiv.draggable = true;
-                            sectionDiv.dataset.sectionName = sectionName;
+                            const sectionLi = document.createElement('li');
+                            sectionLi.textContent = sectionName;
+                            sectionLi.draggable = true;
+                            sectionLi.dataset.sectionName = sectionName;
 
                             // Add delete button for section
-                            addDeleteButton(sectionDiv, 'section', sectionName, selectedPage, panelName);
+                            addDeleteButton(sectionLi, 'section', sectionName, selectedPage, panelName);
 
                             // Add edit button for section
                             const editButton = document.createElement('button');
                             editButton.textContent = 'Edit';
                             editButton.addEventListener('click', () => {
                                 const editorContainer = document.createElement('div');
-                                sectionDiv.appendChild(editorContainer);
+                                sectionLi.appendChild(editorContainer);
 
                                 renderSectionEditor(
                                     editorContainer,
@@ -122,12 +126,15 @@ export function initializePageSelector() {
                                 );
                             });
 
-                            sectionDiv.appendChild(editButton);
-                            panelDiv.appendChild(sectionDiv);
+                            sectionLi.appendChild(editButton);
+                            sectionsUl.appendChild(sectionLi);
                         });
 
+                        panelDiv.appendChild(sectionsUl);
                         pagePanels.appendChild(panelDiv);
                     });
+                } else {
+                    if (placeholder) placeholder.style.display = 'block'; // Show placeholder
                 }
             });
     });
