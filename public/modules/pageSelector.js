@@ -8,7 +8,7 @@ export function initializePageSelector() {
 
     let pages = []; // Store pages for filtering
 
-    // Fetch pages from pages.config.json
+    // Fetch pages from the backend
     fetch('/api/pages/config')
         .then(res => res.json())
         .then(data => {
@@ -61,7 +61,7 @@ export function initializePageSelector() {
     pageSelector.addEventListener('change', () => {
         const selectedPage = pageSelector.value;
 
-        // Fetch page sections from pageSections.config.json
+        // Fetch page sections from the backend
         fetch('/api/pages/sections')
             .then(res => res.json())
             .then(pageSections => {

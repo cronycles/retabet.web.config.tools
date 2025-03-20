@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Sections Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Page Sections Management</h1>
+    <div id="app">
+        <div>
+            <label for="pageSelector">Select Page:</label>
+            <input type="text" id="pageSelector" autocomplete="off" />
+            <div id="pageDropdown" class="dropdown"></div>
+        </div>
+        <div id="panelsContainer">
+            <h2>Panels</h2>
+            <div id="availablePanels" class="droppable">
+                <h3>Available Panels</h3>
+                <!-- Panels will be dynamically loaded here -->
+            </div>
+            <div id="pagePanels" class="droppable">
+                <h3>Page Panels</h3>
+                <!-- Panels for the selected page will be displayed here -->
+            </div>
+            <a href="editPanels.html" class="button-link">Edit Panels</a>
+        </div>
+        <div id="sectionsContainer">
+            <h2>Sections</h2>
+            <div id="availableSections" class="droppable">
+                <h3>Available Sections</h3>
+                <!-- Sections will be dynamically loaded here -->
+            </div>
+            <a href="editSections.html" class="button-link">Edit Sections</a>
+        </div>
+    </div>
+    <script type="module" src="pageSections.js"></script>
+</body>
+</html>
