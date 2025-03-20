@@ -15,7 +15,9 @@
                 },
                 "Sections": {
                     "Betslip": {
-                        "Args": { "ClassName": "betslip_container janimateSquare" },
+                        "Args": {
+                            "ClassName": "betslip_container janimateSquare"
+                        },
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -26,7 +28,10 @@
                         "WithTitle": false
                     },
                     "BetslipUserBetsSwitcher": {
-                        "Args": { "ShowBack": true, "IsUserBetsAlwaysEnabled": true },
+                        "Args": {
+                            "ShowBack": true,
+                            "IsUserBetsAlwaysEnabled": true
+                        },
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -37,7 +42,9 @@
                         "WithTitle": false
                     },
                     "CookiesPolicy": {
-                        "Args": { "CookiesPolicyViewName": "_CookiesPolicy" },
+                        "Args": {
+                            "CookiesPolicyViewName": "_CookiesPolicy"
+                        },
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -48,7 +55,10 @@
                         "WithTitle": false
                     },
                     "GameDetail": {
-                        "Args": { "NumGamesRelated": 6, "GameOpenTarget": "_top" },
+                        "Args": {
+                            "NumGamesRelated": 6,
+                            "GameOpenTarget": "_top"
+                        },
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -103,7 +113,11 @@
                         "WithTitle": false
                     },
                     "Searcher": {
-                        "Args": { "MaxResultElements": 15, "MaxPromotedElements": 15, "MaxSuggestElements": 10 },
+                        "Args": {
+                            "MaxResultElements": 15,
+                            "MaxPromotedElements": 15,
+                            "MaxSuggestElements": 10
+                        },
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -125,7 +139,10 @@
                         "WithTitle": false
                     },
                     "SportsNoResult": {
-                        "Args": { "ShowTitle": true, "FromDiscipline": true },
+                        "Args": {
+                            "ShowTitle": true,
+                            "FromDiscipline": true
+                        },
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -142,10 +159,22 @@
                             "TabsNavClasses": "tab__group--fullwidth",
                             "LastDays": 3,
                             "StatusConfigurations": [
-                                { "Status": 3 },
-                                { "Status": 2 },
-                                { "Status": 4, "ClassName": "betslip_container betslip_container--userbets", "LastDays": 30 },
-                                { "Status": 1, "ShowDateFilter": true, "IconClass": "ico-m icon-calendar" }
+                                {
+                                    "Status": 3
+                                },
+                                {
+                                    "Status": 2
+                                },
+                                {
+                                    "Status": 4,
+                                    "ClassName": "betslip_container betslip_container--userbets",
+                                    "LastDays": 30
+                                },
+                                {
+                                    "Status": 1,
+                                    "ShowDateFilter": true,
+                                    "IconClass": "ico-m icon-calendar"
+                                }
                             ],
                             "AlwaysVisible": false
                         },

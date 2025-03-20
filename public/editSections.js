@@ -34,7 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         label.textContent = key;
 
                         let input;
-                        if (typeof value === 'boolean') {
+                        if (key === 'Args') {
+                            // Render a textarea for the Args attribute (serialized JSON)
+                            input = document.createElement('textarea');
+                            input.name = key;
+                            input.value = JSON.stringify(value, null, 2); // Serialize the object
+                        } else if (typeof value === 'boolean') {
                             // Render dropdown for boolean attributes
                             input = document.createElement('select');
                             input.name = key;
@@ -83,7 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     label.textContent = key;
 
                     let input;
-                    if (typeof value === 'boolean') {
+                    if (key === 'Args') {
+                        // Render a textarea for the Args attribute (serialized JSON)
+                        input = document.createElement('textarea');
+                        input.name = key;
+                        input.value = JSON.stringify(value, null, 2); // Serialize the object
+                    } else if (typeof value === 'boolean') {
                         // Render dropdown for boolean attributes
                         input = document.createElement('select');
                         input.name = key;
@@ -122,12 +132,19 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const sectionName = sectionNameInput.value;
         const attributes = {};
-        Array.from(attributesContainer.querySelectorAll('input, select')).forEach(input => {
+        Array.from(attributesContainer.querySelectorAll('input, select, textarea')).forEach(input => {
             const originalType = input.dataset.type; // Retrieve the original type
             let value = input.value;
 
             // Convert the value back to its original type
-            if (originalType === 'boolean') {
+            if (input.name === 'Args') {
+                try {
+                    value = JSON.parse(value); // Parse the JSON string back to an object
+                } catch (error) {
+                    alert('Invalid JSON format in Args field.');
+                    return;
+                }
+            } else if (originalType === 'boolean') {
                 value = value === 'true';
             } else if (originalType === 'number') {
                 value = parseFloat(value);
