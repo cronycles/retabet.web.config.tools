@@ -67,7 +67,7 @@ export function initializePageSelector() {
             .then(res => res.json())
             .then(pageSections => {
                 const pageData = pageSections[selectedPage];
-                pagePanels.innerHTML = ''; // Clear the pagePanels area
+                pagePanels.innerHTML = '<h3>Page Panels</h3>'; // Ensure the title remains visible
 
                 if (pageData) {
                     if (placeholder) placeholder.style.display = 'none'; // Hide placeholder
