@@ -3,7 +3,151 @@
         "Configuration": {
             "Pages_CONF": {
                 "Pages": {
-                    "CasinoGame": {
+                    "SportsbookHome": {
+                        "Categories": ["Public", "Sportsbook"],
+                        "TitleResourcekey": "PageTitle",
+                        "TooltipResourcekey": "PageTooltip",
+                        "DescriptionResourcekey": "PageDescription",
+                        "KeywordsResourcekey": "PageKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescription",
+                        "Url": "",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Deportes (Home)",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookLive": {
+                        "Categories": ["Public", "Sportsbook"],
+                        "TitleResourcekey": "PageTitleLive",
+                        "TooltipResourcekey": "PageTooltipLive",
+                        "DescriptionResourcekey": "PageDescriptionLive",
+                        "KeywordsResourcekey": "PageKeywordsLive",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLive",
+                        "UrlResourceKey": "PageUrlLive",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Live",
+                            "Tags": ""
+                        }
+                    },
+                    "Help": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleAyuda",
+                        "TooltipResourcekey": "PageTooltipAyuda",
+                        "DescriptionResourcekey": "PageDescriptionAyuda",
+                        "KeywordsResourcekey": "PageKeywordsAyuda",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionAyuda",
+                        "UrlResourceKey": "PageUrlAyuda",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Ayuda",
+                            "Tags": ""
+                        }
+                    },
+                    "ContactUs": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleContacto",
+                        "TooltipResourcekey": "PageTooltipContacto",
+                        "DescriptionResourcekey": "PageDescriptionContacto",
+                        "KeywordsResourcekey": "PageKeywordsContacto",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionContacto",
+                        "UrlResourceKey": "PageUrlContacto",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Contacto",
+                            "Tags": ""
+                        }
+                    },
+                    "SignUp": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleRegistro",
+                        "TooltipResourcekey": "PageTooltipRegistro",
+                        "DescriptionResourcekey": "PageDescriptionRegistro",
+                        "KeywordsResourcekey": "PageKeywordsRegistro",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionRegistro",
+                        "UrlResourceKey": "PageUrlRegistro",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Registro",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookSports": {
+                        "Categories": ["Public", "Sportsbook"],
+                        "TitleResourcekey": "PageTitleDeportes",
+                        "TooltipResourcekey": "PageTooltipDeportes",
+                        "DescriptionResourcekey": "PageDescriptionDeportes",
+                        "KeywordsResourcekey": "PageKeywordsDeportes",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDeportes",
+                        "UrlResourceKey": "PageUrlDeportes",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Deportes (AZ)",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookPromotions": {
+                        "Categories": ["Public", "Sportsbook", "Promotion"],
+                        "TitleResourcekey": "PageTitleBonos",
+                        "TooltipResourcekey": "PageTooltipBonos",
+                        "DescriptionResourcekey": "PageDescriptionBonos",
+                        "KeywordsResourcekey": "PageKeywordsBonos",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionBonos",
+                        "UrlResourceKey": "PageUrlBonos",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Promociones",
+                            "Action": "Promociones (Home)",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookPromotionDetail": {
+                        "Categories": ["Public", "Sportsbook", "Promotion"],
+                        "TitleResourcekey": "DynamicMetaPromotionDetailTitle",
+                        "TooltipResourcekey": "PageTooltipBonoDetail",
+                        "DescriptionResourcekey": "DynamicMetaPromotionDetailDescription",
+                        "KeywordsResourcekey": "DynamicMetaPromotionDetailKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionBonoDetail",
+                        "Url": "bono-detail",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Promociones",
+                            "Action": "Bono",
+                            "Tags": ""
+                        }
+                    },
+                    "ResponsibleGambling": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleJuegoResp",
+                        "TooltipResourcekey": "PageTooltipJuegoResp",
+                        "DescriptionResourcekey": "PageDescriptionJuegoResp",
+                        "KeywordsResourcekey": "PageKeywordsJuegoResp",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionJuegoResp",
+                        "UrlResourceKey": "PageUrlJuegoMasSeguro",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Juego Responsable",
+                            "Tags": ""
+                        }
+                    },
+                    "Casino": {
                         "Categories": ["Public", "Casino"],
                         "TitleResourcekey": "PageTitleCasino",
                         "TooltipResourcekey": "PageTooltipCasino",
@@ -19,7 +163,7 @@
                             "Tags": ""
                         }
                     },
-                    "CasinoGameDetail": {
+                    "CasinoSlots": {
                         "Categories": ["Public", "Casino"],
                         "TitleResourcekey": "PageTitleSlot",
                         "TooltipResourcekey": "PageTooltipSlot",
@@ -34,6 +178,3547 @@
                             "Action": "Casino (Slots)",
                             "Tags": ""
                         }
+                    },
+                    "CasinoLiveRoulette": {
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "PageTitleRuletaVivo",
+                        "TooltipResourcekey": "PageTooltipRuletaVivo",
+                        "DescriptionResourcekey": "PageDescriptionRuletaVivo",
+                        "KeywordsResourcekey": "PageKeywordsRuletaVivo",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionRuletaVivo",
+                        "UrlResourceKey": "PageUrlLiveRoulette",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Casino (Ruleta en vivo)",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoRoulette": {
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "PageTitleRuleta",
+                        "TooltipResourcekey": "PageTooltipRuleta",
+                        "DescriptionResourcekey": "PageDescriptionRuleta",
+                        "KeywordsResourcekey": "PageKeywordsRuleta",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionRuleta",
+                        "UrlResourceKey": "PageUrlRoulette",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Casino (Ruleta)",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoCards": {
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "PageTitleBlackjack",
+                        "TooltipResourcekey": "PageTooltipBlackjack",
+                        "DescriptionResourcekey": "PageDescriptionBlackjack",
+                        "KeywordsResourcekey": "PageKeywordsBlackjack",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionBlackjack",
+                        "UrlResourceKey": "PageUrlBlackJack",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Casino (Blackjack)",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoPromotions": {
+                        "Categories": ["Public", "Casino", "Promotion"],
+                        "TitleResourcekey": "PageTitleBonosCasino",
+                        "TooltipResourcekey": "PageTooltipBonosCasino",
+                        "DescriptionResourcekey": "PageDescriptionBonosCasino",
+                        "KeywordsResourcekey": "PageKeywordsBonosCasino",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionBonosCasino",
+                        "UrlResourceKey": "PageUrlBonosCasino",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Promociones (Casino)",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoPromotionDetail": {
+                        "Categories": ["Public", "Casino", "Promotion"],
+                        "TitleResourcekey": "DynamicMetaPromotionDetailTitle",
+                        "TooltipResourcekey": "PageTooltipCasinoBonoDetail",
+                        "DescriptionResourcekey": "DynamicMetaPromotionDetailDescription",
+                        "KeywordsResourcekey": "DynamicMetaPromotionDetailKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCasinoBonoDetail",
+                        "Url": "casino-bono-detail",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Promociones",
+                            "Action": "Bono (Casino)",
+                            "Tags": ""
+                        }
+                    },
+                    "RTPCasino": {
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "PageTitleRTPCasino",
+                        "TooltipResourcekey": "PageTooltipRTPCasino",
+                        "DescriptionResourcekey": "PageDescriptionRTPCasino",
+                        "KeywordsResourcekey": "PageKeywordsRTPCasino",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionRTPCasino",
+                        "UrlResourceKey": "PageUrlRTPCasino",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "RTP Casino",
+                            "Tags": ""
+                        }
+                    },
+                    "CookiesPolicy": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleCookiesPolicy",
+                        "TooltipResourcekey": "PageTooltipCookiesPolicy",
+                        "DescriptionResourcekey": "PageDescriptionCookiesPolicy",
+                        "KeywordsResourcekey": "PageKeywordsCookiesPolicy",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCookiesPolicy",
+                        "UrlResourceKey": "PageUrlCookiesPolicy",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Política Cookies",
+                            "Tags": ""
+                        }
+                    },
+                    "SportRadarPage": {
+                        "Categories": ["Public", "Sportsbook"],
+                        "TitleResourcekey": "PageTitleSportRadarEurocup",
+                        "TooltipResourcekey": "PageTooltipSportRadarEurocup",
+                        "DescriptionResourcekey": "PageDescriptionSportRadarEurocup",
+                        "KeywordsResourcekey": "PageKeywordsSportRadarEurocup",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionSportRadarEurocup",
+                        "Url": "eurocup data center",
+                        "IsEnabled": false
+                    },
+                    "SportsbookDiscipline": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Modalidad (Home)",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookSubdiscipline": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaSubdisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipSubDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaSubdisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaSubdisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionSubDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Competición",
+                            "Tags": ""
+                        }
+                    },
+                    "VirtualGames": {
+                        "Categories": ["Public", "VirtualGames"],
+                        "TitleResourcekey": "PageTitleVirtualGames",
+                        "TooltipResourcekey": "PageTooltipVirtualGames",
+                        "DescriptionResourcekey": "PageDescriptionVirtualGames",
+                        "KeywordsResourcekey": "PageKeywordsVirtualGames",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionVirtualGames",
+                        "UrlResourceKey": "PageUrlVirtualGames",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Virtuales",
+                            "Action": "Juegos Virtuales",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookEventDetail": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaEventTitle",
+                        "TooltipResourcekey": "PageTooltipEvent",
+                        "DescriptionResourcekey": "DynamicMetaEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Evento",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookMutuels": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Modalidad (Porras)",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookLottery": {
+                        "Categories": ["Public", "Lottery", "Sportsbook", "DisciplineRelated", "SpecialDisciplineRelated"],
+                        "TitleResourcekey": "PageTitleLoteria",
+                        "TooltipResourcekey": "PageTooltipLoteria",
+                        "DescriptionResourcekey": "PageDescriptionLoteria",
+                        "KeywordsResourcekey": "PageKeywordsLoteria",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLoteria",
+                        "UrlResourceKey": "PageUrlLoteria",
+                        "IsDynamic": false,
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true
+                    },
+                    "SportsbookGreyhounds": {
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated", "SpecialDisciplineRelated"],
+                        "TitleResourcekey": "PageTitleGalgos",
+                        "TooltipResourcekey": "PageTooltipGalgos",
+                        "DescriptionResourcekey": "PageDescriptionGalgos",
+                        "KeywordsResourcekey": "PageKeywordsGalgos",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionGalgos",
+                        "UrlResourceKey": "PageUrlGalgos",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Galgos",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookHorses": {
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated", "SpecialDisciplineRelated"],
+                        "TitleResourcekey": "PageTitleCaballos",
+                        "TooltipResourcekey": "PageTooltipCaballos",
+                        "DescriptionResourcekey": "PageDescriptionCaballos",
+                        "KeywordsResourcekey": "PageKeywordsCaballos",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCaballos",
+                        "UrlResourceKey": "PageUrlCaballos",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Caballos",
+                            "Tags": ""
+                        }
+                    },
+                    "ESports": {
+                        "Categories": ["Public", "ESports"],
+                        "TitleResourcekey": "PageTitleEsports",
+                        "TooltipResourcekey": "PageTooltipEsports",
+                        "DescriptionResourcekey": "PageDescriptionEsports",
+                        "KeywordsResourcekey": "PageKeywordsEsports",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEsports",
+                        "UrlResourceKey": "PageUrlEsports",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Esports",
+                            "Action": "Esports (Home)",
+                            "Tags": ""
+                        }
+                    },
+                    "ESportsCategory": {
+                        "ParentPageInvariantName": "ESports",
+                        "Categories": ["Public", "ESports"],
+                        "TitleResourcekey": "DynamicMetaEsportCategoryTitle",
+                        "TooltipResourcekey": "PageTooltipEsportCategory",
+                        "DescriptionResourcekey": "DynamicMetaEsportCategoryDescription",
+                        "KeywordsResourcekey": "DynamicMetaEsportCategoryKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEsportCategory",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Esports",
+                            "Action": "Modalidad (Esports)",
+                            "Tags": ""
+                        }
+                    },
+                    "ESportsEventDetail": {
+                        "ParentPageInvariantName": "ESports",
+                        "Categories": ["Public", "ESports"],
+                        "TitleResourcekey": "DynamicMetaEventTitle",
+                        "TooltipResourcekey": "PageTooltipEvent",
+                        "DescriptionResourcekey": "DynamicMetaEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Esports",
+                            "Action": "Evento (Esports)",
+                            "Tags": ""
+                        }
+                    },
+                    "ESportsLiveEventDetail": {
+                        "ParentPageInvariantName": "ESports",
+                        "Categories": ["Public", "ESports"],
+                        "TitleResourcekey": "DynamicMetaEventTitle",
+                        "TooltipResourcekey": "PageTooltipEvent",
+                        "DescriptionResourcekey": "DynamicMetaEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Esports",
+                            "Action": "Evento (Live)(Esports)",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookCalendar": {
+                        "Categories": ["Public", "Sportsbook"],
+                        "TitleResourcekey": "PageTitleCalendario",
+                        "TooltipResourcekey": "PageTooltipCalendario",
+                        "DescriptionResourcekey": "PageDescriptionCalendario",
+                        "KeywordsResourcekey": "PageKeywordsCalendario",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCalendario",
+                        "UrlResourceKey": "PageUrlCalendario",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Calendario",
+                            "Tags": ""
+                        }
+                    },
+                    "AuthorizedGambling": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleAuthorizedGambling",
+                        "TooltipResourcekey": "PageTooltipAuthorizedGambling",
+                        "DescriptionResourcekey": "PageDescriptionAuthorizedGambling",
+                        "KeywordsResourcekey": "PageKeywordsAuthorizedGambling",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionAuthorizedGambling",
+                        "UrlResourceKey": "PageUrlJuegoAutorizado",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Juego Autorizado",
+                            "Tags": ""
+                        }
+                    },
+                    "Over18": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleOver18",
+                        "TooltipResourcekey": "PageTooltipOver18",
+                        "DescriptionResourcekey": "PageDescriptionOver18",
+                        "KeywordsResourcekey": "PageKeywordsOver18",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionOver18",
+                        "UrlResourceKey": "PageUrl18",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Mas de 18",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoLottery": {
+                        "Categories": ["Public", "Casino", "Lottery"],
+                        "TitleResourcekey": "PageTitleCasinoLottery",
+                        "TooltipResourcekey": "PageTooltipCasinoLottery",
+                        "DescriptionResourcekey": "PageDescriptionCasinoLottery",
+                        "KeywordsResourcekey": "PageKeywordsCasinoLottery",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCasinoLottery",
+                        "Url": "casino loteria",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true
+                    },
+                    "SportsbookCategory": {
+                        // (region/torneo)
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Región",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookWorldCup": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Sportsbook World Cup",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoGameDetail": {
+                        //(Ficha casino)
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "DynamicMetaCasinoGameTitle",
+                        "TooltipResourcekey": "PageTooltipCasino",
+                        "DescriptionResourcekey": "DynamicMetaCasinoGameDescription",
+                        "KeywordsResourcekey": "DynamicMetaCasinoGameKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCasino",
+                        "Url": "game detail",
+                        "IsEnabled": true
+                    },
+                    "CasinoGame": {
+                        //(url juego casino)
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "DynamicMetaGameTitle",
+                        "TooltipResourcekey": "PageTooltipGame",
+                        "DescriptionResourcekey": "DynamicMetaGameDescription",
+                        "KeywordsResourcekey": "DynamicMetaGameKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionGames",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Juego Casino",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookLiveEventDetail": {
+                        "Categories": ["Public", "Sportsbook"],
+                        "TitleResourcekey": "DynamicMetaLiveEventTitle",
+                        "TooltipResourcekey": "PageTooltipLiveEvent",
+                        "DescriptionResourcekey": "DynamicMetaLiveEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaLiveEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLiveEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Evento (Live)",
+                            "Tags": ""
+                        }
+                    },
+                    "RecoverPassword": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleRecoverPass",
+                        "TooltipResourcekey": "PageTooltipRecoverPass",
+                        "DescriptionResourcekey": "PageDescriptionRecoverPass",
+                        "KeywordsResourcekey": "PageKeywordsRecoverPass",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionRecoverPass",
+                        "UrlResourceKey": "PageUrlRecoverPassword",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Recuperar contraseña",
+                            "Tags": ""
+                        }
+                    },
+                    "SportsbookLiveDiscipline": {
+                        "Categories": ["Public", "Sportsbook"],
+                        "TitleResourcekey": "DynamicMetaDisciplineLiveTitle",
+                        "TooltipResourcekey": "PageTooltipDisciplineLive",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineLiveDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineLiveKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLive",
+                        "UrlResourceKey": "PageUrlLive",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Modalidad",
+                            "Tags": ""
+                        }
+                    },
+                    "CasinoBoardGames": {
+                        "Categories": ["Public", "Casino"],
+                        "TitleResourcekey": "PageTitleBoardGames",
+                        "TooltipResourcekey": "PageTooltipBoardGames",
+                        "DescriptionResourcekey": "PageDescriptionBoardGames",
+                        "KeywordsResourcekey": "PageKeywordsBoardGames",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionBoardGames",
+                        "UrlResourceKey": "PageUrlBoardGames",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true
+                    },
+                    "VirtualGameDetail": {
+                        "Categories": ["Public", "VirtualGames"],
+                        "TitleResourcekey": "DynamicMetaVirtualGameTitle",
+                        "TooltipResourcekey": "PageTooltipVirtualGame",
+                        "DescriptionResourcekey": "DynamicMetaVirtualGameDescription",
+                        "KeywordsResourcekey": "DynamicMetaVirtualGameKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionVirtualGames",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Juego Casino",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaSelfExclusion": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleAutoexclusion",
+                        "TooltipResourcekey": "PageTooltipAutoexclusion",
+                        "DescriptionResourcekey": "PageDescriptionAutoexclusion",
+                        "KeywordsResourcekey": "PageKeywordsAutoexclusion",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionAutoexclusion",
+                        "UrlResourceKey": "PageUrlSelfExclusion",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "autoexclusion",
+                            "Tags": ""
+                        }
+                    },
+                    "Sitemap": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleSitemap",
+                        "TooltipResourcekey": "PageTooltipSitemap",
+                        "DescriptionResourcekey": "PageDescriptionSitemap",
+                        "KeywordsResourcekey": "PageKeywordsSitemap",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionSitemap",
+                        "Url": "sitemap",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Sitemap",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaHome": {
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleHome",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipHome",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonHome",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsHome",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionHome",
+                        "UrlResourceKey": "PageUrlPrivateArea",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Area Privada (Home)",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaRetabetCard": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleRetaCard",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipRetaCard",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonRetaCard",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsRetaCard",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionRetaCard",
+                        "UrlResourceKey": "PageUrlPrivateAreaRetaCard",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Tarjeta RETAbet",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaDeposit": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDeposit",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDeposit",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDeposit",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDeposit",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDeposit",
+                        "UrlResourceKey": "PageUrlPrivateAreaDeposit",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Ingreso",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaWithdrawal": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawal",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawal",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawal",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawal",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawal",
+                        "UrlResourceKey": "PageUrlPrivateAreaWithdrawal",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Retirada",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaCasino": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea", "Casino"],
+                        "TitleResourcekey": "PagePrivateAreaTitleCasinoHome",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipCasinoHome",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonCasinoHome",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsCasinoHome",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionCasinoHome",
+                        "UrlResourceKey": "PageUrlPrivateAreaCasino",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaVirtualGames": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaVirtualGames",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipVirtualGames",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonVirtualGames",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsVirtualGames",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionVirtualGames",
+                        "Url": "juegos virtuales",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaInboxMessages": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea", "Inbox"],
+                        "TitleResourcekey": "PagePrivateAreaTitleInboxMessageList",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipInboxMessageList",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonInboxMessageList",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsInboxMessageList",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionInboxMessageList",
+                        "UrlResourceKey": "PageUrlPrivateAreaInboxMessageList",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Mensaje",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaInboxMessageDetail": {
+                        "ParentPageInvariantName": "PrivateAreaInboxMessages",
+                        "Categories": ["PrivateArea", "Inbox"],
+                        "TitleResourcekey": "PagePrivateAreaTitleInboxMessageDetail",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipInboxMessageDetail",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonInboxMessageDetail",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsInboxMessageDetail",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionInboxMessageDetail",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Mensajes",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaUserBets": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleMyBets",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipMyBets",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonMyBets",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsMyBets",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionMyBets",
+                        "UrlResourceKey": "PageUrlPrivateAreaMyBets",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Mis Apuestas",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaConfiguration": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleConfiguration",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipConfiguration",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonConfiguration",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsConfiguration",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionConfiguration",
+                        "UrlResourceKey": "PageUrlPrivateAreaConfiguration",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Configuración",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaHistoric": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleHistoric",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipHistoric",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonHistoric",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsHistoric",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionHistoric",
+                        "UrlResourceKey": "PageUrlPrivateAreaHistoric",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Historial",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaFreebetDetail": {
+                        "ParentPageInvariantName": "PrivateAreaUserFreebets",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleMyFreebets",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipMyFreebets",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonMyFreebets",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsMyFreebets",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionMyFreebets",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Freebet",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaDepositShops": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleShops",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipShops",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonShops",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsShops",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionShops",
+                        "UrlResourceKey": "PageUrlPrivateAreaShops",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Ingreso",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaWithdrawalShops": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalShops",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalShops",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalShops",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalShops",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalShops",
+                        "UrlResourceKey": "PageUrlPrivateAreaShops",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Ingreso",
+                            "Tags": ""
+                        }
+                    },
+                    "PrivateAreaWithdrawalMonnetPayments": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawal",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawal",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawal",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawal",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawal",
+                        "UrlResourceKey": "PageUrlPrivateAreaImmediateBankTransfer",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositBizum": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositBizum",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositBizum",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositBizum",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositBizum",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositBizum",
+                        "UrlResourceKey": "PageUrlPrivateAreaBizum",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositRedsys": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositRedsys",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositRedsys",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositRedsys",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositRedsys",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositRedsys",
+                        "UrlResourceKey": "PageUrlPrivateAreaCreditDebitCard",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositFastpay": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositFastpay",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositFastpay",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositFastpay",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositFastpay",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositFastpay",
+                        "UrlResourceKey": "PageUrlPrivateAreaFastPay",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositBankTransfer": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositBankTransfer",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositBankTransfer",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositBankTransfer",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositBankTransfer",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositBankTransfer",
+                        "UrlResourceKey": "PageUrlPrivateAreaBankTransfer",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositTurboTransfer": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositTurboTransfer",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositTurboTransfer",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositTurboTransfer",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositTurboTransfer",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositTurboTransfer",
+                        "UrlResourceKey": "PageUrlPrivateAreaTurboTransfer",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositYapePlin": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositYapePlin",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositYapePlin",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositYapePlin",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositYapePlin",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositYapePlin",
+                        "UrlResourceKey": "PageUrlPrivateAreaYapePlin",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaUserFreebets": {
+                        "ParentPageInvariantName": "PrivateAreaHome",
+                        "Categories": ["PrivateArea"],
+                        "TitleResourcekey": "PagePrivateAreaTitleMyFreebets",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipMyFreebets",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonMyFreebets",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsMyFreebets",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionMyFreebets",
+                        "UrlResourceKey": "PageUrlPrivateAreaFreebets",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositPagoEfectivo": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositPagoEfectivo",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositPagoEfectivo",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositPagoEfectivo",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositPagoEfectivo",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositPagoEfectivo",
+                        "UrlResourceKey": "PageUrlPrivateAreaPagoEfectivo",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositPayPal": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositPayPal",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositPayPal",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositPayPal",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositPayPal",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositPayPal",
+                        "UrlResourceKey": "PageUrlPrivateAreaPaypal",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositRetaCard": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositRetaCard",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositRetaCard",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositRetaCard",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositRetaCard",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositRetaCard",
+                        "UrlResourceKey": "PageUrlPrivateAreaRetaCard",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositSafetyPay": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositSafetyPay",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositSafetyPay",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositSafetyPay",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositSafetyPay",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositSafetyPay",
+                        "UrlResourceKey": "PageUrlPrivateAreaSafetyPay",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositNiubiz": {
+                        //Ex Visanet
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositVisaNet",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositVisaNet",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositVisaNet",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositVisaNet",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositVisaNet",
+                        "UrlResourceKey": "PageUrlPrivateAreaVisaNet",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaWithdrawalBankTransfer": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalBankTransfer",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalBankTransfer",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalBankTransfer",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalBankTransfer",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalBankTransfer",
+                        "UrlResourceKey": "PageUrlPrivateAreaBankTransfer",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaWithdrawalBBVA": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalBBVA",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalBBVA",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalBBVA",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalBBVA",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalBBVA",
+                        "UrlResourceKey": "PageUrlPrivateAreaBbva",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaWithdrawalNiubiz": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalNiubiz",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalNiubiz",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalNiubiz",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalNiubiz",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalNiubiz",
+                        "UrlResourceKey": "PageUrlPrivateAreaNiubiz",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositYapeOnline": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositYapeOnline",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositYapeOnline",
+                        "DescriptionResourcekey": "PagePrivateAreaDescriptionDepositYapeOnline",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositYapeOnline",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositYapeOnline",
+                        "UrlResourceKey": "PageUrlYapeOnline",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaWithdrawalAdHocCdCard": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalAdHocCdCard",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalAdHocCdCard",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalAdHocCdCard",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalAdHocCdCard",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalAdHocCdCard",
+                        "UrlResourceKey": "PageUrlPrivateAreaAdHocCdCard",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaWithdrawalFastpay": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalFastpay",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalFastpay",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalFastpay",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalFastpay",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalFastpay",
+                        "UrlResourceKey": "PageUrlPrivateAreaFastPay",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaWithdrawalRetabetCard": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalRetabetCard",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalRetabetCard",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalRetabetCard",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalRetabetCard",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalRetabetCard",
+                        "UrlResourceKey": "PageUrlPrivateAreaRetaCard",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaWithdrawalPayPal": {
+                        "ParentPageInvariantName": "PrivateAreaWithdrawal",
+                        "Categories": ["PrivateArea", "WithdrawalMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleWithdrawalPayPal",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipWithdrawalPayPal",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonWithdrawalPayPal",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsWithdrawalPayPal",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionWithdrawalPayPal",
+                        "UrlResourceKey": "PageUrlPrivateAreaPaypal",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositBizumRedsys": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositBizum",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositBizum",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositBizum",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositBizum",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositBizum",
+                        "UrlResourceKey": "PageUrlPrivateAreaBizumRed",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositMBWay": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositMBWay",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositMBWay",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositMBWay",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositMBWay",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositMBWay",
+                        "UrlResourceKey": "PageUrlPrivateAreaDepositMBWay",
+                        "IsEnabled": true
+                    },
+                    "PrivateAreaDepositMbMultibanco": {
+                        "ParentPageInvariantName": "PrivateAreaDeposit",
+                        "Categories": ["PrivateArea", "DepositMethods"],
+                        "TitleResourcekey": "PagePrivateAreaTitleDepositMbMultibanco",
+                        "TooltipResourcekey": "PagePrivateAreaTooltipDepositMbMultibanco",
+                        "DescriptionResourcekey": "PagePrivateAreaDescripitonDepositMbMultibanco",
+                        "KeywordsResourcekey": "PagePrivateAreaKeywordsDepositMbMultibanco",
+                        "ShortDescriptionResourcekey": "PagePrivateAreaShortDescriptionDepositMbMultibanco",
+                        "UrlResourceKey": "PageUrlPrivateAreaMbMultibanco",
+                        "IsEnabled": true
+                    }
+                }
+            }
+        }
+    },
+    {
+        "IncludedDevices": ["desktop"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "SportsbookHome": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "icon-home",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookLive": {
+                        "IdLayout": 5,
+                        "Orden": 2,
+                        "Icono": "icon-live",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "Help": {
+                        "IdLayout": 6,
+                        "Orden": 6,
+                        "Icono": "icon-question",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "ContactUs": {
+                        "IdLayout": 6,
+                        "Orden": 7,
+                        "Icono": "icon-envelope2",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SignUp": {
+                        "IdLayout": 6,
+                        "Orden": 13,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookSports": {
+                        "IdLayout": 2,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookPromotions": {
+                        "IdLayout": 6,
+                        "Orden": 5,
+                        "Icono": "icon-concesiones",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookPromotionDetail": {
+                        "IdLayout": 6,
+                        "Orden": 9,
+                        "Icono": "icon-concesiones",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "ResponsibleGambling": {
+                        "IdLayout": 6,
+                        "Orden": 10,
+                        "Icono": "icon-marciano",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "Casino": {
+                        "IdLayout": 7,
+                        "Orden": 14,
+                        "Icono": "icon-casino",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CasinoSlots": {
+                        "IdLayout": 7,
+                        "Orden": 17,
+                        "Icono": "icon-slots",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CasinoLiveRoulette": {
+                        "IdLayout": 7,
+                        "Orden": 15,
+                        "Icono": "icon-ruleta",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CasinoRoulette": {
+                        "IdLayout": 7,
+                        "Orden": 18,
+                        "Icono": "icon-ruleta",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CasinoCards": {
+                        "IdLayout": 7,
+                        "Orden": 19,
+                        "Icono": "icon-blackjack",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CasinoPromotions": {
+                        "IdLayout": 8,
+                        "Orden": 20,
+                        "Icono": "icon-concesiones",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CasinoPromotionDetail": {
+                        "IdLayout": 8,
+                        "Orden": 9,
+                        "Icono": "icon-concesiones",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "RTPCasino": {
+                        "IdLayout": 7,
+                        "Orden": 22,
+                        "Icono": "icon-casino",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CookiesPolicy": {
+                        "IdLayout": 6,
+                        "Orden": 16,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "CookiesConfiguration": {
+                        "IdLayout": 6,
+                        "Orden": 16,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportRadarPage": {
+                        "IdLayout": 4,
+                        "Orden": 17,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookDiscipline": {
+                        "IdLayout": 4,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookSubdiscipline": {
+                        "IdLayout": 4,
+                        "Orden": 4,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "VirtualGames": {
+                        "IdLayout": 10,
+                        "Orden": 23,
+                        "Icono": "",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookEventDetail": {
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookMutuels": {
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookLottery": {
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookGreyhounds": {
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookHorses": {
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "ESports": {
+                        "IdLayout": 11,
+                        "Orden": 3,
+                        "Icono": "ico-l mod-mod_114",
+                        "NavMenus": [1, 8, 9],
+                        "Header": {
+                            "HeaderType": 3
+                        }
+                    },
+                    "ESportsCategory": {
+                        "IdLayout": 11,
+                        "Orden": 3,
+                        "Icono": "ico-l mod-mod_114",
+                        "NavMenus": [1, 8, 9],
+                        "Header": {
+                            "HeaderType": 3
+                        }
+                    },
+                    "ESportsEventDetail": {
+                        "IdLayout": 12,
+                        "Orden": 3,
+                        "Icono": "ico-l mod-mod_114",
+                        "NavMenus": [1, 8, 9],
+                        "Header": {
+                            "HeaderType": 3
+                        }
+                    },
+                    "ESportsLiveEventDetail": {
+                        "IdLayout": 12,
+                        "Orden": 3,
+                        "Icono": "ico-l mod-mod_114",
+                        "NavMenus": [1, 8, 9],
+                        "Header": {
+                            "HeaderType": 3
+                        }
+                    },
+                    "SportsbookCalendar": {
+                        "IdLayout": 4,
+                        "Orden": 4,
+                        "Icono": "icon-calendar",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "AuthorizedGambling": {
+                        "IdLayout": 6,
+                        "Orden": 23,
+                        "Icono": "icon-marciano",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "Over18": {
+                        "IdLayout": 6,
+                        "Orden": 23,
+                        "Icono": "icon-marciano",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "CasinoLottery": {
+                        "IdLayout": 7,
+                        "Orden": 17,
+                        "Icono": "icon-slots",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "SportsbookCategory": {
+                        "IdLayout": 4,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookWorldCup": {
+                        "IdLayout": 4,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "CasinoGameDetail": {
+                        "IdLayout": 7,
+                        "Orden": 14,
+                        "Icono": "icon-casino",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "CasinoGame": {
+                        "IdLayout": 7,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookLiveEventDetail": {
+                        "IdLayout": 18,
+                        "Orden": 3,
+                        "Icono": "icon-live",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "RecoverPassword": {
+                        "IdLayout": 6,
+                        "Orden": 7,
+                        "Icono": "icon-envelope2",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookLiveDiscipline": {
+                        "IdLayout": 5,
+                        "Orden": 2,
+                        "Icono": "icon-live",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "CasinoBoardGames": {
+                        "IdLayout": 7,
+                        "Orden": 17,
+                        "Icono": "icon-blackjack",
+                        "NavMenus": [1, 2, 3, 9],
+                        "Header": {
+                            "HeaderType": 2
+                        }
+                    },
+                    "VirtualGameDetail": {
+                        "IdLayout": 7,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaSelfExclusion": {
+                        "IdLayout": 6,
+                        "Orden": 23,
+                        "Icono": "icon-marciano",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "Sitemap": {
+                        "IdLayout": 6,
+                        "Orden": 23,
+                        "Icono": "icon-marciano",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaHome": {
+                        "IdLayout": 16,
+                        "Orden": 0,
+                        "Icono": "home-private",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaRetabetCard": {
+                        "IdLayout": 16,
+                        "Orden": 4,
+                        "Icono": "tarjeta-reta",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDeposit": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawal": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaCasino": {
+                        "IdLayout": 16,
+                        "Orden": 8,
+                        "Icono": "casino",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaVirtualGames": {
+                        "IdLayout": 16,
+                        "Orden": 9,
+                        "Icono": "desktop",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaInboxMessages": {
+                        "IdLayout": 16,
+                        "Orden": 1,
+                        "Icono": "envelope",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaInboxMessageDetail": {
+                        "IdLayout": 16,
+                        "Orden": 0,
+                        "Icono": "desktop",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaUserBets": {
+                        "IdLayout": 16,
+                        "Orden": 3,
+                        "Icono": "desktop",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaConfiguration": {
+                        "IdLayout": 17,
+                        "Orden": 6,
+                        "Icono": "cog",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaHistoric": {
+                        "IdLayout": 17,
+                        "Orden": 6,
+                        "Icono": "cog",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaFreebetDetail": {
+                        "IdLayout": 16,
+                        "Orden": 2,
+                        "Icono": "freebets",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositShops": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalShops": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalMonnetPayments": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositBizum": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositRedsys": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositFastpay": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositBankTransfer": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositTurboTransfer": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositYapePlin": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaUserFreebets": {
+                        "IdLayout": 16,
+                        "Orden": 2,
+                        "Icono": "freebets",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositPagoEfectivo": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositPayPal": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositRetaCard": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositSafetyPay": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositNiubiz": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalBankTransfer": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalBBVA": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalNiubiz": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositYapeOnline": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalAdHocCdCard": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalFastpay": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalRetabetCard": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaWithdrawalPayPal": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "retirar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositBizumRedsys": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositMBWay": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "PrivateAreaDepositMbMultibanco": {
+                        "IdLayout": 19,
+                        "Orden": 0,
+                        "Icono": "ingresar",
+                        "NavMenus": [1, 3, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "NewTermsAndConditions": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleNuevosTC",
+                        "TooltipResourcekey": "PageTooltipNuevosTC",
+                        "DescriptionResourcekey": "PageDescriptionNuevosTC",
+                        "KeywordsResourcekey": "PageKeywordsNuevosTC",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionNuevosTC",
+                        "Url": "newTermsAndConditions",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Nuevos Términos",
+                            "Tags": ""
+                        },
+                        "IdLayout": 1,
+                        "Orden": 11,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "NewPrivacyPolicy": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleNuevaPolitica",
+                        "TooltipResourcekey": "PageTooltipNuevaPolitica",
+                        "DescriptionResourcekey": "PageDescriptionNuevaPolitica",
+                        "KeywordsResourcekey": "PageKeywordsNuevaPolitica",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionNuevaPolitica",
+                        "Url": "newPrivacyPolicy",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Nueva privacidad",
+                            "Tags": ""
+                        },
+                        "IdLayout": 1,
+                        "Orden": 12,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "BrowserNotSupported": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleNavNoSoportado",
+                        "TooltipResourcekey": "PageTooltipNavNoSoportado",
+                        "DescriptionResourcekey": "PageDescriptionNavNoSoportado",
+                        "KeywordsResourcekey": "PageKeywordsNavNoSoportado",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionNavNoSoportado",
+                        "Url": "browserNotSupported",
+                        "IsEnabled": true,
+                        "IdLayout": 1,
+                        "Orden": 16,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 2, 3, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "BrowserObsolete": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleNavObsolete",
+                        "TooltipResourcekey": "PageTooltipNavObsolete",
+                        "DescriptionResourcekey": "PageDescriptionNavObsolete",
+                        "KeywordsResourcekey": "PageKeywordsNavObsolete",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionNavObsolete",
+                        "Url": "browserObsolete",
+                        "IsEnabled": true,
+                        "IdLayout": 1,
+                        "Orden": 16,
+                        "Icono": "icon-equalizer",
+                        "NavMenus": [1, 2, 3, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookRegions": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Modalidad (Competiciones)",
+                            "Tags": ""
+                        },
+                        "IdLayout": 4,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookTournaments": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "IdLayout": 4,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookLotteryEventDetail": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Lottery", "Sportsbook", "DisciplineRelated", "SpecialDisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaEventTitle",
+                        "TooltipResourcekey": "PageTooltipEvent",
+                        "DescriptionResourcekey": "DynamicMetaEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookGreyhoundsEventDetail": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated", "SpecialDisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaEventTitle",
+                        "TooltipResourcekey": "PageTooltipEvent",
+                        "DescriptionResourcekey": "DynamicMetaEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Carrera Galgos",
+                            "Tags": ""
+                        },
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookHorsesEventDetail": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated", "SpecialDisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaEventTitle",
+                        "TooltipResourcekey": "PageTooltipEvent",
+                        "DescriptionResourcekey": "DynamicMetaEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Caballos",
+                            "Tags": ""
+                        },
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "SportsbookMutuelsEventDetail": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaEventTitle",
+                        "TooltipResourcekey": "PageTooltipEvent",
+                        "DescriptionResourcekey": "DynamicMetaEventDescription",
+                        "KeywordsResourcekey": "DynamicMetaEventKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionEvent",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Evento (Porras)",
+                            "Tags": ""
+                        },
+                        "IdLayout": 9,
+                        "Orden": 3,
+                        "Icono": "mod-mod_sports",
+                        "NavMenus": [1, 3, 4, 6, 9],
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    },
+                    "ThirdPartLogin": {
+                        "Categories": ["Public", "Login"],
+                        "TitleResourcekey": "PageTitleLogin",
+                        "TooltipResourcekey": "PageTooltipLogin",
+                        "DescriptionResourcekey": "PageDescriptionLogin",
+                        "KeywordsResourcekey": "PageKeywordsLogin",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLogin",
+                        "Url": "third part login",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "Login",
+                            "Tags": ""
+                        },
+                        "IdLayout": 20,
+                        "LayoutBase": "_LayoutReduced.cshtml",
+                        "ViewName": "ReducedThirdPart.cshtml",
+                        "Orden": 1,
+                        "Icono": "icon-envelope",
+                        "Header": {
+                            "HeaderType": 1
+                        }
+                    }
+                }
+            }
+        }
+    },
+    {
+        "IncludedDevices": ["mobile"],
+        "Configuration": {
+            //mobile
+            "Pages_CONF": {
+                "Pages": {
+                    "SportsbookHome": {
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "mod-mod_sports",
+                        "VisibleLeftPanel": true,
+                        "VisibleTopPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 1
+                    },
+                    "SportsbookLive": {
+                        "IdLayout": 2,
+                        "Orden": 3,
+                        "Icono": "icon-live",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "Help": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-equalizer",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "ContactUs": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-envelope2",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "SignUp": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-equalizer",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false
+                    },
+                    "SportsbookSports": {
+                        "IdLayout": 1,
+                        "Orden": 6,
+                        "Icono": "icon-menu-az",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookPromotions": {
+                        "IdLayout": 1,
+                        "Orden": 5,
+                        "Icono": "icon-concesiones",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookPromotionDetail": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "ResponsibleGambling": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-bar-chart",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": false,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "Casino": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-casino",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10],
+                        "TopMenuId": 2
+                    },
+                    "CasinoSlots": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-slots",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10],
+                        "TopMenuId": 2
+                    },
+                    "CasinoLiveRoulette": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-casino-live",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10],
+                        "TopMenuId": 2
+                    },
+                    "CasinoRoulette": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-ruleta",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10],
+                        "TopMenuId": 2
+                    },
+                    "CasinoCards": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-blackjack",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10],
+                        "TopMenuId": 2
+                    },
+                    "CasinoPromotions": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "icon-concesiones",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10],
+                        "TopMenuId": 2
+                    },
+                    "CasinoPromotionDetail": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10]
+                    },
+                    "RTPCasino": {
+                        "IdLayout": 1,
+                        "Orden": 8,
+                        "Icono": "icon-casino",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10]
+                    },
+                    "CookiesPolicy": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "CookiesConfiguration": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "SportRadarPage": {
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "mod-mod_111",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 1
+                    },
+                    "SportsbookDiscipline": {
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 1
+                    },
+                    "SportsbookSubdiscipline": {
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "VirtualGames": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-desktop",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookEventDetail": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookMutuels": {
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookLottery": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "mod-mod_60",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookGreyhounds": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "mod-mod_27",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookHorses": {
+                        "IdLayout": 1,
+                        "Orden": 100,
+                        "Icono": "mod-mod_28",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "ESports": {
+                        "IdLayout": 2,
+                        "Orden": 99,
+                        "Icono": "ico-l mod-mod_114",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 3
+                    },
+                    "ESportsCategory": {
+                        "IdLayout": 2,
+                        "Orden": 99,
+                        "Icono": "ico-l mod-mod_11",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 3
+                    },
+                    "ESportsEventDetail": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "ESportsLiveEventDetail": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookCalendar": {
+                        "IdLayout": 1,
+                        "Orden": 4,
+                        "Icono": "icon-calendar",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "AuthorizedGambling": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-bar-chart",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": false,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "Over18": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-bar-chart",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": false,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "CasinoLottery": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-slots",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19],
+                        "TopMenuId": 2
+                    },
+                    "SportsbookCategory": {
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookWorldCup": {
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "mod-mod_111",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 1
+                    },
+                    "CasinoGameDetail": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-casino",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [11, 7, 8, 9, 10],
+                        "QuickLinksBarItemIdsLoggedIn": [11, 7, 8, 9, 10]
+                    },
+                    "CasinoGame": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsLoggedIn": [12, 17, 14, 13, 15]
+                    },
+                    "SportsbookLiveEventDetail": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "RecoverPassword": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-equalizer",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "SportsbookLiveDiscipline": {
+                        "IdLayout": 2,
+                        "Orden": 3,
+                        "Icono": "icon-live",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "CasinoBoardGames": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "icon-slots",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19],
+                        "TopMenuId": 2
+                    },
+                    "VirtualGameDetail": {
+                        "IdLayout": 2,
+                        "Orden": 8,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsLoggedIn": [12, 17, 14, 13, 16]
+                    },
+                    "PrivateAreaSelfExclusion": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-equalizer",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "Sitemap": {
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-equalizer",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaHome": {
+                        "IdLayout": 1,
+                        "Orden": 0,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false,
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "PrivateAreaRetabetCard": {
+                        "IdLayout": 1,
+                        "Orden": 3,
+                        "Icono": "icon-tarjeta-reta",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDeposit": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawal": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-retirar",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaCasino": {
+                        "IdLayout": 1,
+                        "Orden": 7,
+                        "Icono": "icon-casino",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": true,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaVirtualGames": {
+                        "IdLayout": 1,
+                        "Orden": 8,
+                        "Icono": "wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": true,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaInboxMessages": {
+                        "IdLayout": 1,
+                        "Orden": 0,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": true,
+                        "VisibleCarousel": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false,
+                        "Carousel": {
+                            "IsEnabled": false,
+                            "Group": 0,
+                            "Order": 0
+                        }
+                    },
+                    "PrivateAreaInboxMessageDetail": {
+                        "IdLayout": 1,
+                        "Orden": 0,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": true,
+                        "VisibleCarousel": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false,
+                        "Carousel": {
+                            "IsEnabled": false,
+                            "Group": 0,
+                            "Order": 0
+                        }
+                    },
+                    "PrivateAreaUserBets": {
+                        "IdLayout": 1,
+                        "Orden": 2,
+                        "Icono": "icon-ticket",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false,
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "PrivateAreaConfiguration": {
+                        "IdLayout": 1,
+                        "Orden": 0,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": true,
+                        "VisibleCarousel": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false,
+                        "Carousel": {
+                            "IsEnabled": false,
+                            "Group": 0,
+                            "Order": 0
+                        }
+                    },
+                    "PrivateAreaHistoric": {
+                        "IdLayout": 1,
+                        "Orden": 4,
+                        "Icono": "icon-th-list",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": true,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaFreebetDetail": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false,
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "PrivateAreaDepositShops": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalShops": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalMonnetPayments": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositBizum": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositRedsys": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositFastpay": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositBankTransfer": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositTurboTransfer": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositYapePlin": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaUserFreebets": {
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false,
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "PrivateAreaDepositPagoEfectivo": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositPayPal": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositRetaCard": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositSafetyPay": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositNiubiz": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalBankTransfer": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalBBVA": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalNiubiz": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositYapeOnline": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalAdHocCdCard": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalFastpay": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalRetabetCard": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaWithdrawalPayPal": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositBizumRedsys": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositMBWay": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "PrivateAreaDepositMbMultibanco": {
+                        "IdLayout": 3,
+                        "Orden": 0,
+                        "Icono": "icon-wallet-filled-money-tool1",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "VisibleFloatButton": false
+                    },
+                    "Login": {
+                        "Categories": ["Public", "Login"],
+                        "TitleResourcekey": "PageTitleLogin",
+                        "TooltipResourcekey": "PageTooltipLogin",
+                        "DescriptionResourcekey": "PageDescriptionLogin",
+                        "KeywordsResourcekey": "PageKeywordsLogin",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLogin",
+                        "UrlResourceKey": "PageUrlLogin",
+                        "IsEnabled": true,
+                        "IsIncludedInSitemap": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Login",
+                            "Tags": ""
+                        },
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-equalizer",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "ForgotPassword": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleForgotPass",
+                        "TooltipResourcekey": "PageTooltipForgotPass",
+                        "DescriptionResourcekey": "PageDescriptionForgotPass",
+                        "KeywordsResourcekey": "PageKeywordsForgotPass",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionForgotPass",
+                        "UrlResourceKey": "PageUrlForgotPassword",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Área Privada",
+                            "Action": "Recuperar Contraseña",
+                            "Tags": ""
+                        },
+                        "IdLayout": 1,
+                        "Orden": 99,
+                        "Icono": "icon-equalizer",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "SportsbookLotteryOtherDraws": {
+                        "Categories": ["Public", "Lottery"],
+                        "TitleResourcekey": "PageTitleLoteriaOtros",
+                        "TooltipResourcekey": "PageTooltipLoteriaOtros",
+                        "DescriptionResourcekey": "PageDescriptionLoteriaOtros",
+                        "KeywordsResourcekey": "PageKeywordsLoteriaOtros",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLoteriaOtros",
+                        "UrlResourceKey": "PageUrlLoteriaOtrosSorteos",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Casino",
+                            "Action": "Lotería (Otros Sorteos)",
+                            "Tags": ""
+                        },
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "mod-mod_60",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "SportsbookLotteryAwardsTable": {
+                        "ParentPageInvariantName": "SportsbookLottery",
+                        "Categories": ["Public", "Lottery"],
+                        "TitleResourcekey": "PageTitleLoteriaTabla",
+                        "TooltipResourcekey": "PageTooltipLoteriaTabla",
+                        "DescriptionResourcekey": "PageDescriptionLoteriaTabla",
+                        "KeywordsResourcekey": "PageKeywordsLoteriaTabla",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionLoteriaTabla",
+                        "Url": "loteria tabla de premios",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Lotería (Tabla de Premios)",
+                            "Tags": ""
+                        },
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "mod-mod_60",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8]
+                    },
+                    "IncorrectManagementUnit": {
+                        "Categories": ["Public"],
+                        "TitleResourcekey": "PageTitleIncorrectManagementUnit",
+                        "TooltipResourcekey": "PageTooltipIncorrectManagementUnit",
+                        "DescriptionResourcekey": "PageDescriptionIncorrectManagementUnit",
+                        "KeywordsResourcekey": "PageKeywordsIncorrectManagementUnit",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionIncorrectManagementUnit",
+                        "UrlResourceKey": "PageUrlUgIncorrecta",
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "General",
+                            "Action": "UG Incorrecta",
+                            "Tags": ""
+                        },
+                        "IdLayout": 1,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": true
+                    },
+                    "SportsbookCompetitions": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Modalidad (Competiciones)",
+                            "Tags": ""
+                        },
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 1
+                    },
+                    "SportsbookToday": {
+                        "ParentPageInvariantName": "SportsbookSports",
+                        "Categories": ["Public", "Sportsbook", "DisciplineRelated"],
+                        "TitleResourcekey": "DynamicMetaDisciplineTitle",
+                        "TooltipResourcekey": "PageTooltipDiscipline",
+                        "DescriptionResourcekey": "DynamicMetaDisciplineDescription",
+                        "KeywordsResourcekey": "DynamicMetaDisciplineKeywords",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionDiscipline",
+                        "IsDynamic": true,
+                        "IsEnabled": true,
+                        "AnalyticsTrackValues": {
+                            "Category": "Deportes",
+                            "Action": "Modalidad (Hoy)",
+                            "Tags": ""
+                        },
+                        "IdLayout": 2,
+                        "Orden": 1,
+                        "Icono": "",
+                        "VisibleLeftPanel": true,
+                        "VisibleRightPanel": true,
+                        "VisibleSelectorWidget": false,
+                        "VisiblePageTitle": false,
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 8],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 8],
+                        "TopMenuId": 1
+                    }
+                }
+            }
+        }
+    },
+    {
+        "IncludedUGs": ["peru"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "PrivateAreaRetabetCard": {
+                        //Tarjeta Reta icono peru
+                        "Icono": "tarjeta-reta-peru"
+                    },
+                    "CasinoSlots": {
+                        "TitleResourcekey": "PageTitleTragamonedas",
+                        "TooltipResourcekey": "PageTooltipTragamonedas",
+                        "DescriptionResourcekey": "PageDescriptionTragamonedas",
+                        "KeywordsResourcekey": "PageKeywordsTragamonedas",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionTragamonedas",
+                        "Url": "tragamonedas"
+                    },
+                    "CasinoLiveRoulette": {
+                        "TitleResourcekey": "PageTitleCasinoVivo",
+                        "TooltipResourcekey": "PageTooltipCasinoVivo",
+                        "DescriptionResourcekey": "PageDescriptionCasinoVivo",
+                        "KeywordsResourcekey": "PageKeywordsCasinoVivo",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCasinoVivo",
+                        "InvariantPageName": "Casino en Vivo",
+                        "Url": "casino en vivo"
+                    },
+                    "CasinoCards": {
+                        "TitleResourcekey": "PageTitleCasinoCards",
+                        "TooltipResourcekey": "PageTooltipCasinoCards",
+                        "DescriptionResourcekey": "PageDescriptionCasinoCards",
+                        "KeywordsResourcekey": "PageKeywordsCasinoCards",
+                        "ShortDescriptionResourcekey": "PageShortDescriptionCasinoCards",
+                        "InvariantPageName": "CasinoCards",
+                        "Url": "cartas"
+                    }
+                }
+            }
+        }
+    },
+    {
+        "IncludedUGs": ["peru"],
+        "IncludedDevices": ["mobile"],
+        "Configuration": {
+            //peru mobile
+            "Pages_CONF": {
+                "Pages": {
+                    "Casino": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "CasinoSlots": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "CasinoLiveRoulette": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "CasinoRoulette": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "CasinoCards": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "CasinoPromotions": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "CasinoPromotionDetail": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "RTPCasino": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    },
+                    "CasinoGameDetail": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [6, 7, 8, 18, 19],
+                        "QuickLinksBarItemIdsLoggedIn": [6, 7, 8, 18, 19]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "murcia", "madrid", "andalucia", "castillalamancha", "canarias", "peru", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "ResponsibleGambling": {
+                        //Juego responsable
+                        "UrlResourceKey": "PageUrlJuegoResponsable"
+                    },
+                    "Over18": {
+                        //+18
+                        "IsEnabled": false
+                    },
+                    "PrivateAreaSelfExclusion": {
+                        //AutoExclusion
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Galgos
+        "IncludedUGs": ["portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "SportsbookGreyhounds": {
+                        //Sportsbook Galgos carreras
+                        "IsEnabled": false
+                    },
+                    "SportsbookGreyhoundsEventDetail": {
+                        //Sportsbook detalle carrera galgos
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Caballos
+        "IncludedUGs": ["euskadi", "andalucia", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "SportsbookHorses": {
+                        //Sportsbook Caballos carreras
+                        "IsEnabled": false
+                    },
+                    "SportsbookHorsesEventDetail": {
+                        //Sportsbook detalle carrera caballos
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Casino y Virtuales
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "andalucia", "madrid", "castillalamancha", "murcia", "canarias"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "Casino": {
+                        "IsEnabled": false
+                    },
+                    "CasinoSlots": {
+                        "IsEnabled": false
+                    },
+                    "CasinoLiveRoulette": {
+                        "IsEnabled": false
+                    },
+                    "CasinoRoulette": {
+                        "IsEnabled": false
+                    },
+                    "CasinoCards": {
+                        //Blackjack
+                        "IsEnabled": false
+                    },
+                    "CasinoPromotions": {
+                        "IsEnabled": false
+                    },
+                    "CasinoPromotionDetail": {
+                        "IsEnabled": false
+                    },
+                    "RTPCasino": {
+                        "IsEnabled": false
+                    },
+                    "VirtualGames": {
+                        "IsEnabled": false
+                    },
+                    "CasinoGameDetail": {
+                        "IsEnabled": false
+                    },
+                    "CasinoGame": {
+                        "IsEnabled": false
+                    },
+                    "VirtualGameDetail": {
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //No Casino y Virtuales
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "andalucia", "madrid", "castillalamancha", "murcia", "canarias"],
+        "IncludedDevices": ["mobile"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "SportsbookHome": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookLive": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookSports": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookPromotions": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookPromotionDetail": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportRadarPage": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5],
+                        "TopMenuId": 1
+                    },
+                    "SportsbookDiscipline": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5],
+                        "TopMenuId": 1
+                    },
+                    "SportsbookSubdiscipline": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookEventDetail": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookMutuels": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookLottery": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookGreyhounds": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookHorses": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "ESports": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "ESportsCategory": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "ESportsEventDetail": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "ESportsLiveEventDetail": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookCalendar": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookCategory": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookWorldCup": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookLiveEventDetail": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookLiveDiscipline": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "PrivateAreaHome": {
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "PrivateAreaUserBets": {
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "PrivateAreaFreebetDetail": {
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "PrivateAreaUserFreebets": {
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookLotteryOtherDraws": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookLotteryAwardsTable": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookCompetitions": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    },
+                    "SportsbookToday": {
+                        "QuickLinksBarItemIdsNotLoggedIn": [1, 2, 3, 4, 5],
+                        "QuickLinksBarItemIdsLoggedIn": [1, 2, 3, 4, 5]
+                    }
+                }
+            }
+        }
+    },
+    //Casino solo peru
+    {
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "murcia", "apuestas", "madrid", "andalucia", "castillalamancha", "canarias", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "CasinoLottery": {
+                        // casino loteria
+                        "IsEnabled": false
+                    },
+                    "CasinoBoardGames": {
+                        //casino juegos de mesa
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Lotto
+        "IncludedUGs": ["euskadi", "apuestas", "andalucia", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "SportsbookLottery": {
+                        //Lotto
+                        "IsEnabled": false
+                    },
+                    "SportsbookLotteryEventDetail": {
+                        //Lotto Detail
+                        "IsEnabled": false
+                    },
+                    "SportsbookLotteryOtherDraws": {
+                        "IsEnabled": false
+                    },
+                    "SportsbookLotteryAwardsTable": {
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Third part login
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "murcia", "madrid", "andalucia", "castillalamancha", "canarias", "apuestas", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "ThirdPartLogin": {
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Esports
+        "IncludedUGs": ["madrid", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "ESports": {
+                        //Esports
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //freebets
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "murcia", "andalucia", "castillalamancha", "canarias", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "PrivateAreaFreebetDetail": {
+                        "IsEnabled": false
+                    },
+                    "PrivateAreaUserFreebets": {
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Juego autorizado
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "murcia", "madrid", "andalucia", "castillalamancha", "canarias", "portugal"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "AuthorizedGambling": {
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //Multibanco
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "murcia", "apuestas", "madrid", "andalucia", "castillalamancha", "canarias", "peru"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "PrivateAreaDepositMbMultibanco": {
+                        "IsEnabled": false
+                    }
+                }
+            }
+        }
+    },
+    {
+        //MBWay
+        "IncludedUGs": ["euskadi", "navarra", "rioja", "murcia", "apuestas", "madrid", "andalucia", "castillalamancha", "canarias", "peru"],
+        "Configuration": {
+            "Pages_CONF": {
+                "Pages": {
+                    "PrivateAreaDepositMBWay": {
+                        "IsEnabled": false
                     }
                 }
             }

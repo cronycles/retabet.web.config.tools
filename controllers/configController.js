@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const JSON5 = require('json5'); // Import the json5 library
 
 // File paths
 const sectionsPath = path.join(__dirname, '../data/sections.config.json');
@@ -8,19 +9,26 @@ const pagesPath = path.join(__dirname, '../data/pageSections.config.json');
 const pagesConfigPath = path.join(__dirname, '../data/pages.config.json');
 
 // Utility to read JSON files
-const readJSON = (filePath) => JSON.parse(fs.readFileSync(filePath, 'utf8'));
+const readJSON = (filePath) => {
+    try {
+        return JSON5.parse(fs.readFileSync(filePath, 'utf8')); // Use JSON5 for parsing
+    } catch (error) {
+        console.error(`Error reading JSON file at ${filePath}:`, error);
+        throw error;
+    }
+};
 
 // Utility to write JSON files
 const writeJSON = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
 
 // Handlers for sections.config.json
 exports.getSections = (req, res) => {
-    const sections = readJSON(sectionsPath);
+    const sections = readJSON(sectionsPath); // Use updated readJSON
     res.json(sections);
 };
 
 exports.addSection = (req, res) => {
-    const sections = readJSON(sectionsPath);
+    const sections = readJSON(sectionsPath); // Use updated readJSON
     const { sectionName, attributes } = req.body;
 
     if (sections[0].Configuration.Sections_CONF.Sections[sectionName]) {
@@ -33,7 +41,7 @@ exports.addSection = (req, res) => {
 };
 
 exports.updateSection = (req, res) => {
-    const sections = readJSON(sectionsPath);
+    const sections = readJSON(sectionsPath); // Use updated readJSON
     const { sectionName, attributes, oldSectionName } = req.body;
 
     if (!sections[0].Configuration.Sections_CONF.Sections[oldSectionName]) {
@@ -59,7 +67,7 @@ exports.updateSection = (req, res) => {
 
 // Handlers for pagePanels.json
 exports.getPanels = (req, res) => {
-    const panels = readJSON(panelsPath);
+    const panels = readJSON(panelsPath); // Use updated readJSON
     const panelsData = panels[0].Configuration.Panels_CONF.Panels; // Updated structure
     res.json(Object.keys(panelsData).map(panelName => ({
         PanelName: panelName,
@@ -68,7 +76,7 @@ exports.getPanels = (req, res) => {
 };
 
 exports.addPanel = (req, res) => {
-    const panels = readJSON(panelsPath);
+    const panels = readJSON(panelsPath); // Use updated readJSON
     const newPanel = req.body;
 
     if (panels[0].Configuration.Panels_CONF.Panels[newPanel.PanelName]) {
@@ -84,7 +92,7 @@ exports.addPanel = (req, res) => {
 };
 
 exports.updatePanel = (req, res) => {
-    const panels = readJSON(panelsPath);
+    const panels = readJSON(panelsPath); // Use updated readJSON
     const panelName = req.params.panelName;
     const updatedPanel = req.body;
 
@@ -98,7 +106,7 @@ exports.updatePanel = (req, res) => {
 };
 
 exports.deletePanel = (req, res) => {
-    const panels = readJSON(panelsPath);
+    const panels = readJSON(panelsPath); // Use updated readJSON
     const panelName = req.params.panelName;
 
     if (!panels[0].Configuration.Panels_CONF.Panels[panelName]) {
@@ -112,17 +120,28 @@ exports.deletePanel = (req, res) => {
 
 // Handlers for pageSections.config.json
 exports.getPages = (req, res) => {
-    const pagesConfig = readJSON(pagesConfigPath);
-    const pageSections = readJSON(pagesPath);
-    const pages = Object.keys(pagesConfig[0].Configuration.Pages_CONF.Pages).map(pageName => {
-        const panels = pageSections[0].Configuration.PageSections_CONF.PageInvariantNames[pageName] || {};
-        return { name: pageName, panels };
-    });
-    res.json(pages);
+    try {
+        const pagesConfig = readJSON(pagesConfigPath); // Use updated readJSON
+        const pageSections = readJSON(pagesPath); // Use updated readJSON
+
+        if (!pagesConfig[0]?.Configuration?.Pages_CONF?.Pages) {
+            throw new Error('Invalid structure in pages.config.json');
+        }
+
+        const pages = Object.keys(pagesConfig[0].Configuration.Pages_CONF.Pages).map(pageName => {
+            const panels = pageSections[0]?.Configuration?.PageSections_CONF?.PageInvariantNames[pageName] || {};
+            return { name: pageName, panels };
+        });
+
+        res.json(pages);
+    } catch (error) {
+        console.error('Error in getPages:', error);
+        res.status(500).json({ error: 'Failed to fetch pages' });
+    }
 };
 
 exports.addPage = (req, res) => {
-    const pages = readJSON(pagesPath);
+    const pages = readJSON(pagesPath); // Use updated readJSON
     const newPage = req.body;
 
     if (pages.some(page => page.Configuration.PageSections_CONF.PageInvariantNames[newPage.name])) {
@@ -146,8 +165,8 @@ exports.addPage = (req, res) => {
 };
 
 exports.updatePage = (req, res) => {
-    const pages = readJSON(pagesPath);
-    const sections = readJSON(sectionsPath);
+    const pages = readJSON(pagesPath); // Use updated readJSON
+    const sections = readJSON(sectionsPath); // Use updated readJSON
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
@@ -187,7 +206,7 @@ exports.updatePage = (req, res) => {
 };
 
 exports.deletePage = (req, res) => {
-    const pages = readJSON(pagesPath);
+    const pages = readJSON(pagesPath); // Use updated readJSON
     const pageName = req.params.pageName;
 
     const filteredPages = pages.filter(page => !page.Configuration.PageSections_CONF.PageInvariantNames[pageName]);
