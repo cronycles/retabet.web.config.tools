@@ -227,17 +227,23 @@ exports.getPagesConfig = (req, res) => {
         const keys = new Set();
 
         // Collect all unique page keys from all contexts
-        pagesConfig.forEach((item) => {
+        pagesConfig.forEach((item, index) => {
             if (item.Configuration && item.Configuration.Pages_CONF && item.Configuration.Pages_CONF.Pages) {
                 Object.keys(item.Configuration.Pages_CONF.Pages).forEach((key) => {
                     keys.add(key);
+
+                    // Mark pages exclusive to this context
+                    if (!mergedPages[key]) {
+                        mergedPages[key] = { ...item.Configuration.Pages_CONF.Pages[key], ExclusiveContext: item.IncludedDevices || item.IncludedUGs || null };
+                    } else {
+                        mergedPages[key].ExclusiveContext = null; // Not exclusive if found in multiple contexts
+                    }
                 });
             }
         });
 
         // Merge pages from all contexts
         keys.forEach((key) => {
-            mergedPages[key] = {}; // Initialize the page object
             pagesConfig.forEach((item) => {
                 if (item.Configuration && item.Configuration.Pages_CONF && item.Configuration.Pages_CONF.Pages[key]) {
                     // Merge attributes from the current context into the page

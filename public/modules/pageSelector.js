@@ -13,7 +13,17 @@ export function initializePageSelector() {
             pages.forEach(page => {
                 const option = document.createElement('option');
                 option.value = page.name;
-                option.textContent = page.name;
+
+                // Display "(Only Desktop)", "(Only Mobile)", etc., for exclusive contexts
+                if (page.ExclusiveContext) {
+                    const contextText = Array.isArray(page.ExclusiveContext)
+                        ? page.ExclusiveContext.map(context => `Only ${context.charAt(0).toUpperCase() + context.slice(1)}`).join(', ')
+                        : `Only ${page.ExclusiveContext.charAt(0).toUpperCase() + page.ExclusiveContext.slice(1)}`;
+                    option.textContent = `${page.name} (${contextText})`;
+                } else {
+                    option.textContent = page.name;
+                }
+
                 pageSelector.appendChild(option);
             });
 
