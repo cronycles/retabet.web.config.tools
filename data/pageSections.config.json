@@ -60,6 +60,34 @@
                                     "Visible": true,
                                     "WithTitle": false
                                 }
+                            },
+                            {
+                                "CookiesPolicy": {
+                                    "Args": {
+                                        "CookiesPolicyViewName": "_CookiesPolicy"
+                                    },
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "GameSessionTimer": {
+                                    "Args": "",
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
                             }
                         ],
                         "BottomPanel": [
