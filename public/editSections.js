@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             input = document.createElement('textarea');
                             input.name = key;
                             input.value = JSON.stringify(value, null, 2); // Serialize the object
+                            input.classList.add('args-input'); // Add a class for validation
                         } else if (typeof value === 'boolean') {
                             // Render dropdown for boolean attributes
                             input = document.createElement('select');
@@ -93,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         input = document.createElement('textarea');
                         input.name = key;
                         input.value = JSON.stringify(value, null, 2); // Serialize the object
+                        input.classList.add('args-input'); // Add a class for validation
                     } else if (typeof value === 'boolean') {
                         // Render dropdown for boolean attributes
                         input = document.createElement('select');
@@ -132,16 +134,21 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const sectionName = sectionNameInput.value;
         const attributes = {};
+        let isValid = true;
+
         Array.from(attributesContainer.querySelectorAll('input, select, textarea')).forEach(input => {
             const originalType = input.dataset.type; // Retrieve the original type
             let value = input.value;
 
-            // Convert the value back to its original type
+            // Validate and convert the Args field
             if (input.name === 'Args') {
                 try {
                     value = JSON.parse(value); // Parse the JSON string back to an object
+                    input.classList.remove('error'); // Remove error styling if valid
                 } catch (error) {
+                    input.classList.add('error'); // Add error styling
                     alert('Invalid JSON format in Args field.');
+                    isValid = false;
                     return;
                 }
             } else if (originalType === 'boolean') {
@@ -152,6 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             attributes[input.name] = value;
         });
+
+        if (!isValid) return; // Prevent form submission if validation fails
 
         const method = editingSection ? 'PUT' : 'POST';
         fetch('/api/sections', {

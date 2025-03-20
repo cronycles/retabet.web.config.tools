@@ -63,3 +63,8 @@ h1 {
 .dropdown-item:hover {
     background-color: #f0f0f0;
 }
+
+.error {
+    border: 2px solid red;
+    background-color: #ffe6e6;
+}
