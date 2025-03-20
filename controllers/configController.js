@@ -217,3 +217,40 @@ exports.deletePage = (req, res) => {
     writeJSON(pagesPath, filteredPages);
     res.status(204).send();
 };
+
+// Handler to get pages from pages.config.json
+exports.getPagesConfig = (req, res) => {
+    try {
+        const pagesConfig = readJSON(pagesConfigPath); // Use updated readJSON
+
+        if (!pagesConfig[0]?.Configuration?.Pages_CONF?.Pages) {
+            throw new Error('Invalid structure in pages.config.json');
+        }
+
+        const pages = Object.keys(pagesConfig[0].Configuration.Pages_CONF.Pages).map(pageName => ({
+            name: pageName,
+            ...pagesConfig[0].Configuration.Pages_CONF.Pages[pageName]
+        }));
+
+        res.json(pages);
+    } catch (error) {
+        console.error('Error in getPagesConfig:', error);
+        res.status(500).json({ error: 'Failed to fetch pages' });
+    }
+};
+
+// Handler to get page sections from pageSections.config.json
+exports.getPageSections = (req, res) => {
+    try {
+        const pageSections = readJSON(pagesPath); // Use updated readJSON
+
+        if (!pageSections[0]?.Configuration?.PageSections_CONF?.PageInvariantNames) {
+            throw new Error('Invalid structure in pageSections.config.json');
+        }
+
+        res.json(pageSections[0].Configuration.PageSections_CONF.PageInvariantNames);
+    } catch (error) {
+        console.error('Error in getPageSections:', error);
+        res.status(500).json({ error: 'Failed to fetch page sections' });
+    }
+};

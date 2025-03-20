@@ -5,7 +5,8 @@ export function initializePageSelector() {
     const pageSelector = document.getElementById('pageSelector');
     const pagePanels = document.getElementById('pagePanels');
 
-    fetch('/api/pages')
+    // Fetch pages from pages.config.json
+    fetch('/api/pages/config')
         .then(res => res.json())
         .then(pages => {
             pageSelector.innerHTML = ''; // Clear existing options
@@ -24,13 +25,15 @@ export function initializePageSelector() {
 
     pageSelector.addEventListener('change', () => {
         const selectedPage = pageSelector.value;
-        fetch('/api/pages')
+
+        // Fetch page sections from pageSections.config.json
+        fetch('/api/pages/sections')
             .then(res => res.json())
-            .then(pages => {
-                const pageData = pages.find(page => page.name === selectedPage);
+            .then(pageSections => {
+                const pageData = pageSections[selectedPage];
                 if (pageData) {
                     pagePanels.innerHTML = '<h3>Page Panels</h3>';
-                    Object.keys(pageData.panels).forEach(panelName => {
+                    Object.keys(pageData).forEach(panelName => {
                         const panelDiv = document.createElement('div');
                         panelDiv.textContent = panelName;
                         panelDiv.classList.add('droppable');
@@ -39,7 +42,7 @@ export function initializePageSelector() {
                         // Add delete button for panel
                         addDeleteButton(panelDiv, 'panel', panelName, selectedPage);
 
-                        const sections = pageData.panels[panelName];
+                        const sections = pageData[panelName];
                         sections.forEach(section => {
                             const sectionName = typeof section === 'string' ? section : Object.keys(section)[0];
                             const sectionAttributes = typeof section === 'string' ? {} : section[sectionName];

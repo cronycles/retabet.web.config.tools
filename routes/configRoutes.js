@@ -19,4 +19,10 @@ router.post('/pages', configController.addPage);
 router.put('/pages/:pageName', configController.updatePage);
 router.delete('/pages/:pageName', configController.deletePage);
 
+// Route to get pages from pages.config.json
+router.get('/pages/config', configController.getPagesConfig);
+
+// Route to get page sections from pageSections.config.json
+router.get('/pages/sections', configController.getPageSections);
+
 module.exports = router;
