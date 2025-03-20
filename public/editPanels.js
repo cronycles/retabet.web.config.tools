@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     editingPanel = panel.PanelName;
                     formTitle.textContent = `Edit Panel: ${panel.PanelName}`;
                     panelNameInput.value = panel.PanelName;
-                    panelNameInput.disabled = true; // Prevent editing the panel name
+                    panelNameInput.disabled = false; // Allow editing the panel name
                     attributesContainer.innerHTML = '';
                     Object.entries(panel).forEach(([key, value]) => {
                         if (key === 'PanelName') return; // Skip the PanelName field
