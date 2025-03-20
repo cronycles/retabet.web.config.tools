@@ -68,11 +68,16 @@ exports.updateSection = (req, res) => {
 // Handlers for pagePanels.json
 exports.getPanels = (req, res) => {
     const panels = readJSON(panelsPath); // Use updated readJSON
-    const panelsData = panels[0].Configuration.Panels_CONF.Panels; // Updated structure
-    res.json(Object.keys(panelsData).map(panelName => ({
-        PanelName: panelName,
-        ...panelsData[panelName]
-    })));
+    const panelsData = panels[0].Configuration.Panels_CONF.Panels; // Extract panels
+    const defaultAttributes = panels[0].Configuration.Panels_CONF.DefaultPanelAttributes; // Extract default attributes
+
+    res.json({
+        DefaultPanelAttributes: defaultAttributes,
+        Panels: Object.keys(panelsData).map(panelName => ({
+            PanelName: panelName,
+            ...panelsData[panelName]
+        }))
+    });
 };
 
 exports.addPanel = (req, res) => {

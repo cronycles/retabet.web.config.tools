@@ -2,10 +2,24 @@
     {
         "Configuration": {
             "Panels_CONF": {
+                "DefaultPanelAttributes": {
+                    "Device": "",
+                    "CssSpecificClasses": "",
+                    "IsVisible": true,
+                    "IsSortable": false
+                },
                 "Panels": {
                     "MainPanel": {
-                        "Device": "",
-                        "CssSpecificClasses": ""
+                        "Device": "desktop",
+                        "CssSpecificClasses": "main-panel",
+                        "IsVisible": true,
+                        "IsSortable": true
+                    },
+                    "SecondaryPanel": {
+                        "Device": "mobile",
+                        "CssSpecificClasses": "secondary-panel",
+                        "IsVisible": true,
+                        "IsSortable": false
                     },
                     "TopPanel": {
                         "Device": "",

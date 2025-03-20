@@ -9,12 +9,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const panelFormContainer = document.getElementById('panelFormContainer');
 
     let editingPanel = null;
+    let defaultAttributes = {}; // Store default attributes
 
-    // Load existing panels
+    // Fetch default attributes and existing panels
     fetch('/api/panels')
         .then(res => res.json())
         .then(data => {
-            data.forEach(panel => {
+            // Extract DefaultPanelAttributes and Panels
+            defaultAttributes = data.DefaultPanelAttributes || {};
+            const panels = data.Panels || [];
+
+            // Render existing panels
+            panels.forEach(panel => {
                 const li = document.createElement('li');
                 li.textContent = panel.PanelName;
 
@@ -32,11 +38,33 @@ document.addEventListener('DOMContentLoaded', () => {
                         const label = document.createElement('label');
                         label.textContent = key;
 
-                        const input = document.createElement('input');
-                        input.type = 'text';
-                        input.name = key;
-                        input.value = value;
+                        let input;
+                        if (typeof value === 'boolean') {
+                            // Render dropdown for boolean attributes
+                            input = document.createElement('select');
+                            input.name = key;
 
+                            const trueOption = document.createElement('option');
+                            trueOption.value = 'true';
+                            trueOption.textContent = 'true';
+                            trueOption.selected = value === true;
+
+                            const falseOption = document.createElement('option');
+                            falseOption.value = 'false';
+                            falseOption.textContent = 'false';
+                            falseOption.selected = value === false;
+
+                            input.appendChild(trueOption);
+                            input.appendChild(falseOption);
+                        } else {
+                            // Render text input for other types
+                            input = document.createElement('input');
+                            input.type = 'text';
+                            input.name = key;
+                            input.value = value;
+                        }
+
+                        input.dataset.type = typeof value; // Store the original type
                         attributesContainer.appendChild(label);
                         attributesContainer.appendChild(input);
                     });
@@ -55,6 +83,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 panelNameInput.value = '';
                 panelNameInput.disabled = false;
                 attributesContainer.innerHTML = '';
+
+                // Populate form with default attributes
+                Object.entries(defaultAttributes).forEach(([key, value]) => {
+                    const label = document.createElement('label');
+                    label.textContent = key;
+
+                    let input;
+                    if (typeof value === 'boolean') {
+                        // Render dropdown for boolean attributes
+                        input = document.createElement('select');
+                        input.name = key;
+
+                        const trueOption = document.createElement('option');
+                        trueOption.value = 'true';
+                        trueOption.textContent = 'true';
+                        trueOption.selected = value === true;
+
+                        const falseOption = document.createElement('option');
+                        falseOption.value = 'false';
+                        falseOption.textContent = 'false';
+                        falseOption.selected = value === false;
+
+                        input.appendChild(trueOption);
+                        input.appendChild(falseOption);
+                    } else {
+                        // Render text input for other types
+                        input = document.createElement('input');
+                        input.type = 'text';
+                        input.name = key;
+                        input.value = value;
+                    }
+
+                    input.dataset.type = typeof value; // Store the original type
+                    attributesContainer.appendChild(label);
+                    attributesContainer.appendChild(input);
+                });
+
                 cancelEditButton.style.display = 'none';
                 panelFormContainer.style.display = 'block';
             });
@@ -65,8 +130,18 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const panelName = panelNameInput.value;
         const attributes = {};
-        Array.from(attributesContainer.querySelectorAll('input')).forEach(input => {
-            attributes[input.name] = input.value;
+        Array.from(attributesContainer.querySelectorAll('input, select')).forEach(input => {
+            const originalType = input.dataset.type; // Retrieve the original type
+            let value = input.value;
+
+            // Convert the value back to its original type
+            if (originalType === 'boolean') {
+                value = value === 'true';
+            } else if (originalType === 'number') {
+                value = parseFloat(value);
+            }
+
+            attributes[input.name] = value;
         });
 
         const method = editingPanel ? 'PUT' : 'POST';
