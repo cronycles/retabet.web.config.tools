@@ -223,13 +223,33 @@ exports.getPagesConfig = (req, res) => {
     try {
         const pagesConfig = readJSON(pagesConfigPath); // Use updated readJSON
 
-        if (!pagesConfig[0]?.Configuration?.Pages_CONF?.Pages) {
-            throw new Error('Invalid structure in pages.config.json');
-        }
+        const mergedPages = {};
+        const keys = new Set();
 
-        const pages = Object.keys(pagesConfig[0].Configuration.Pages_CONF.Pages).map(pageName => ({
+        // Collect all unique page keys from all contexts
+        pagesConfig.forEach((item) => {
+            if (item.Configuration && item.Configuration.Pages_CONF && item.Configuration.Pages_CONF.Pages) {
+                Object.keys(item.Configuration.Pages_CONF.Pages).forEach((key) => {
+                    keys.add(key);
+                });
+            }
+        });
+
+        // Merge pages from all contexts
+        keys.forEach((key) => {
+            mergedPages[key] = {}; // Initialize the page object
+            pagesConfig.forEach((item) => {
+                if (item.Configuration && item.Configuration.Pages_CONF && item.Configuration.Pages_CONF.Pages[key]) {
+                    // Merge attributes from the current context into the page
+                    Object.assign(mergedPages[key], item.Configuration.Pages_CONF.Pages[key]);
+                }
+            });
+        });
+
+        // Convert mergedPages into an array of pages
+        const pages = Object.keys(mergedPages).map((pageName) => ({
             name: pageName,
-            ...pagesConfig[0].Configuration.Pages_CONF.Pages[pageName]
+            ...mergedPages[pageName],
         }));
 
         res.json(pages);
