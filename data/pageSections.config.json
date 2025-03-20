@@ -7,7 +7,7 @@
                         "MainPanel": [
                             {
                                 "BetSlip": {
-                                    "Args": "",
+                                    "Args": {},
                                     "Active": true,
                                     "Scrollable": false,
                                     "Selected": true,
@@ -20,7 +20,7 @@
                             },
                             {
                                 "UserBets": {
-                                    "Args": "",
+                                    "Args": {},
                                     "Active": true,
                                     "Scrollable": false,
                                     "Selected": true,
@@ -37,7 +37,7 @@
                         "TopPanel": [
                             {
                                 "UserBets": {
-                                    "Args": "",
+                                    "Args": {},
                                     "Active": false,
                                     "Scrollable": false,
                                     "Selected": true,
@@ -50,7 +50,7 @@
                             },
                             {
                                 "UserBets": {
-                                    "Args": "",
+                                    "Args": {},
                                     "Active": false,
                                     "Scrollable": false,
                                     "Selected": true,
@@ -78,7 +78,7 @@
                             },
                             {
                                 "GameSessionTimer": {
-                                    "Args": "",
+                                    "Args": {},
                                     "Active": true,
                                     "Scrollable": false,
                                     "Selected": true,
@@ -93,7 +93,7 @@
                         "BottomPanel": [
                             {
                                 "BetSlip": {
-                                    "Args": "",
+                                    "Args": {},
                                     "Active": true,
                                     "Scrollable": false,
                                     "Selected": true,
@@ -106,7 +106,7 @@
                             },
                             {
                                 "UserBets": {
-                                    "Args": "",
+                                    "Args": {},
                                     "Active": false,
                                     "Scrollable": false,
                                     "Selected": true,

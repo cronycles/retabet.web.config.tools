@@ -3,7 +3,7 @@
         "Configuration": {
             "Sections_CONF": {
                 "DefaultSectionAttributes": {
-                    "Args": "",
+                    "Args": {},
                     "Active": true,
                     "Scrollable": false,
                     "Selected": true,
@@ -59,7 +59,7 @@
                         "WithTitle": false
                     },
                     "Login": {
-                        "Args": "",
+                        "Args": {},
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -70,7 +70,7 @@
                         "WithTitle": false
                     },
                     "GameSessionTimer": {
-                        "Args": "",
+                        "Args": {},
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -81,7 +81,7 @@
                         "WithTitle": false
                     },
                     "RecoverPassword": {
-                        "Args": "",
+                        "Args": {},
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -92,7 +92,7 @@
                         "WithTitle": false
                     },
                     "Register": {
-                        "Args": "",
+                        "Args": {},
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
@@ -114,7 +114,7 @@
                         "WithTitle": false
                     },
                     "Sitemap": {
-                        "Args": "",
+                        "Args": {},
                         "Active": true,
                         "Scrollable": false,
                         "Selected": true,
