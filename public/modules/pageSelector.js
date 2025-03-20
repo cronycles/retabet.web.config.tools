@@ -3,35 +3,60 @@ import { renderSectionEditor } from './sectionEditor.js'; // Reuse the section e
 
 export function initializePageSelector() {
     const pageSelector = document.getElementById('pageSelector');
+    const pageDropdown = document.getElementById('pageDropdown'); // Reference to the dropdown container
     const pagePanels = document.getElementById('pagePanels');
+
+    let pages = []; // Store pages for filtering
 
     // Fetch pages from pages.config.json
     fetch('/api/pages/config')
         .then(res => res.json())
-        .then(pages => {
-            pageSelector.innerHTML = ''; // Clear existing options
-            pages.forEach(page => {
-                const option = document.createElement('option');
-                option.value = page.name;
+        .then(data => {
+            pages = data; // Store pages for filtering
+            renderDropdown(pages); // Render the dropdown with all pages
+        });
 
-                // Display "(Only Desktop)", "(Only Mobile)", etc., for exclusive contexts
-                if (page.ExclusiveContext) {
-                    const contextText = Array.isArray(page.ExclusiveContext)
-                        ? page.ExclusiveContext.map(context => `Only ${context.charAt(0).toUpperCase() + context.slice(1)}`).join(', ')
-                        : `Only ${page.ExclusiveContext.charAt(0).toUpperCase() + page.ExclusiveContext.slice(1)}`;
-                    option.textContent = `${page.name} (${contextText})`;
-                } else {
-                    option.textContent = page.name;
-                }
+    // Render the dropdown options
+    function renderDropdown(pagesToRender) {
+        pageDropdown.innerHTML = ''; // Clear existing options
+        pagesToRender.forEach(page => {
+            const option = document.createElement('div');
+            option.classList.add('dropdown-item');
+            option.textContent = page.ExclusiveContext
+                ? `${page.name} (${Array.isArray(page.ExclusiveContext) ? page.ExclusiveContext.map(context => `Only ${context.charAt(0).toUpperCase() + context.slice(1)}`).join(', ') : `Only ${page.ExclusiveContext.charAt(0).toUpperCase() + page.ExclusiveContext.slice(1)}`})`
+                : page.name;
+            option.dataset.value = page.name;
 
-                pageSelector.appendChild(option);
+            option.addEventListener('click', () => {
+                pageSelector.value = page.name; // Set the input value
+                pageSelector.dispatchEvent(new Event('change')); // Trigger the change event
+                pageDropdown.style.display = 'none'; // Hide the dropdown
             });
 
-            if (pages.length > 0) {
-                pageSelector.value = pages[0].name;
-                pageSelector.dispatchEvent(new Event('change'));
-            }
+            pageDropdown.appendChild(option);
         });
+    }
+
+    // Filter dropdown options based on input
+    pageSelector.addEventListener('input', () => {
+        const searchTerm = pageSelector.value.toLowerCase();
+        const filteredPages = pages.filter(page => page.name.toLowerCase().includes(searchTerm));
+        renderDropdown(filteredPages);
+        pageDropdown.style.display = 'block'; // Show the dropdown
+    });
+
+    // Show all options when the input is focused
+    pageSelector.addEventListener('focus', () => {
+        renderDropdown(pages); // Render all pages
+        pageDropdown.style.display = 'block'; // Show the dropdown
+    });
+
+    // Hide the dropdown when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!pageSelector.contains(event.target) && !pageDropdown.contains(event.target)) {
+            pageDropdown.style.display = 'none'; // Hide the dropdown
+        }
+    });
 
     pageSelector.addEventListener('change', () => {
         const selectedPage = pageSelector.value;
