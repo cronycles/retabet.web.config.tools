@@ -4,37 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page Sections Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Page Sections Management</h1>
-    <div id="app">
-        <div>
-            <label for="pageSelector">Select Page:</label>
-            <input type="text" id="pageSelector" autocomplete="off" />
-            <div id="pageDropdown" class="dropdown"></div>
-        </div>
-        <div id="panelsContainer">
-            <h2>Panels</h2>
-            <div id="availablePanels" class="droppable">
-                <h3>Available Panels</h3>
-                <!-- Panels will be dynamically loaded here -->
-            </div>
-            <div id="pagePanels" class="droppable">
-                <h3>Page Panels</h3>
-                <!-- Panels for the selected page will be displayed here -->
-            </div>
-            <a href="editPanels.html" class="button-link">Edit Panels</a>
-        </div>
-        <div id="sectionsContainer">
-            <h2>Sections</h2>
-            <div id="availableSections" class="droppable">
-                <h3>Available Sections</h3>
-                <!-- Sections will be dynamically loaded here -->
-            </div>
-            <a href="editSections.html" class="button-link">Edit Sections</a>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" id="sidebarMenu">
+                <div class="position-sticky">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="pageSections.html">Page Sections</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="editPanels.html">Edit Panels</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="editSections.html">Edit Sections</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <h1 class="mt-4">Page Sections Management</h1>
+                <div id="app">
+                    <div>
+                        <label for="pageSelector">Select Page:</label>
+                        <input type="text" id="pageSelector" class="form-control" autocomplete="off" />
+                        <div id="pageDropdown" class="dropdown"></div>
+                    </div>
+                    <div id="panelsContainer" class="mt-4">
+                        <h2>Panels</h2>
+                        <div id="availablePanels" class="droppable border p-3">
+                            <h3>Available Panels</h3>
+                            <!-- Panels will be dynamically loaded here -->
+                        </div>
+                        <div id="pagePanels" class="droppable border p-3">
+                            <h3>Page Panels</h3>
+                            <!-- Panels for the selected page will be displayed here -->
+                        </div>
+                        <a href="editPanels.html" class="btn btn-primary mt-3">Edit Panels</a>
+                    </div>
+                    <div id="sectionsContainer" class="mt-4">
+                        <h2>Sections</h2>
+                        <div id="availableSections" class="droppable border p-3">
+                            <h3>Available Sections</h3>
+                            <!-- Sections will be dynamically loaded here -->
+                        </div>
+                        <a href="editSections.html" class="btn btn-primary mt-3">Edit Sections</a>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
     <script type="module" src="pageSections.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

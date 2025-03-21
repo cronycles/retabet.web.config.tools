@@ -23,6 +23,7 @@ h1 {
     padding: 10px;
     min-height: 100px;
     flex: 1;
+    background-color: #f8f9fa;
 }
 
 .droppable h3 {
@@ -67,4 +68,18 @@ h1 {
 .error {
     border: 2px solid red;
     background-color: #ffe6e6;
+}
+
+.sidebar {
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    padding-top: 1rem;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
 }
