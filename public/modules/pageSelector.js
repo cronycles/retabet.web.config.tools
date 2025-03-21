@@ -8,6 +8,7 @@ export function initializePageSelector() {
     const placeholder = document.getElementById('pagePanelsPlaceholder');
 
     let pages = []; // Store pages for filtering
+    let currentEditingSection = null; // Track the currently open editor
 
     // Fetch pages from the backend
     fetch('/api/pages/config')
@@ -98,6 +99,11 @@ export function initializePageSelector() {
                             const editButton = document.createElement('button');
                             editButton.textContent = 'Edit';
                             editButton.addEventListener('click', () => {
+                                if (currentEditingSection) return; // Prevent opening multiple editors
+
+                                currentEditingSection = sectionName; // Track the currently editing section
+                                editButton.disabled = true; // Disable the edit button
+
                                 const editorContainer = document.createElement('div');
                                 sectionLi.appendChild(editorContainer);
 
@@ -117,10 +123,14 @@ export function initializePageSelector() {
                                         }).then(() => {
                                             editorContainer.remove();
                                             Object.assign(sectionAttributes, updatedAttributes);
+                                            currentEditingSection = null; // Reset the editing section
+                                            editButton.disabled = false; // Re-enable the edit button
                                         });
                                     },
                                     () => {
                                         editorContainer.remove();
+                                        currentEditingSection = null; // Reset the editing section
+                                        editButton.disabled = false; // Re-enable the edit button
                                     },
                                     sectionName // Pass sectionName for restoring defaults
                                 );
