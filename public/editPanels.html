@@ -18,13 +18,17 @@
     <div id="panelFormContainer" style="display: none;">
         <h2 id="formTitle">Add/Edit Panel</h2>
         <form id="panelForm">
-            <label for="panelName">Panel Name:</label>
-            <input type="text" id="panelName" name="panelName" required />
-            <div id="attributesContainer">
+            <div class="form-group">
+                <label for="panelName">Panel Name:</label>
+                <input type="text" id="panelName" name="panelName" required />
+            </div>
+            <div id="attributesContainer" class="form-group">
                 <!-- Attributes will be dynamically added here -->
             </div>
-            <button type="submit">Save</button>
-            <button type="button" id="cancelEditButton" style="display: none;">Cancel Edit</button>
+            <div class="form-actions">
+                <button type="submit">Save</button>
+                <button type="button" id="cancelEditButton">Cancel</button>
+            </div>
         </form>
     </div>
     <script type="module" src="editPanels.js"></script>
