@@ -93,6 +93,7 @@ export function initializeDragAndDrop() {
                                 const sectionLi = document.createElement('li');
                                 sectionLi.textContent = sectionName;
                                 sectionLi.dataset.sectionName = sectionName;
+                                sectionLi.setAttribute('draggable', 'true');
 
                                 // Add delete button for the section
                                 addDeleteButton(sectionLi, 'section', sectionName, selectedPage, panelName);
