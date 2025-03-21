@@ -293,3 +293,28 @@ exports.getPageSections = (req, res) => {
         res.status(500).json({ error: 'Failed to fetch page sections' });
     }
 };
+
+exports.updateSectionOrder = (req, res) => {
+    const { pageName, panelName } = req.params;
+    const { order } = req.body;
+
+    const pagesConfig = readJSON(pagesPath); // Ensure this reads the correct file
+    const page = pagesConfig[0]?.Configuration?.PageSections_CONF?.PageInvariantNames[pageName];
+    if (!page || !page[panelName]) {
+        return res.status(404).json({ error: 'Page or panel not found' });
+    }
+
+    const panelSections = page[panelName];
+    const reorderedSections = order.map(sectionName => {
+        return panelSections.find(section => {
+            return typeof section === 'string'
+                ? section === sectionName
+                : Object.keys(section)[0] === sectionName;
+        });
+    });
+
+    pagesConfig[0].Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = reorderedSections;
+    writeJSON(pagesPath, pagesConfig);
+
+    res.json({ message: 'Section order updated successfully' });
+};

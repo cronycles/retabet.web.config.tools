@@ -142,10 +142,67 @@ export function initializePageSelector() {
 
                         panelDiv.appendChild(sectionsUl);
                         pagePanels.appendChild(panelDiv);
+
+                        // Enable section sorting
+                        enableSectionSorting(panelDiv, panelName, selectedPage);
                     });
                 } else {
                     if (placeholder) placeholder.style.display = 'block'; // Show placeholder
                 }
             });
+    });
+
+    function enableSectionSorting(panelDiv, panelName, selectedPage) {
+        const sectionsUl = panelDiv.querySelector('ul');
+        if (!sectionsUl) return;
+
+        sectionsUl.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', e.target.dataset.sectionName);
+            e.target.classList.add('dragging');
+        });
+
+        sectionsUl.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const dragging = sectionsUl.querySelector('.dragging');
+            const afterElement = getDragAfterElement(sectionsUl, e.clientY);
+            if (afterElement == null) {
+                sectionsUl.appendChild(dragging);
+            } else {
+                sectionsUl.insertBefore(dragging, afterElement);
+            }
+        });
+
+        sectionsUl.addEventListener('dragend', (e) => {
+            e.target.classList.remove('dragging');
+            const newOrder = Array.from(sectionsUl.children).map(li => li.dataset.sectionName);
+
+            // Update the backend with the new order
+            fetch(`/api/pages/${selectedPage}/panels/${panelName}/sections/order`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ order: newOrder }),
+            }).catch(err => console.error('Failed to update section order:', err));
+        });
+
+        function getDragAfterElement(container, y) {
+            const draggableElements = [...container.querySelectorAll('li:not(.dragging)')];
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = y - box.top - box.height / 2;
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+    }
+
+    // Call enableSectionSorting for each panel
+    pagePanels.addEventListener('DOMNodeInserted', (e) => {
+        if (e.target.classList.contains('droppable')) {
+            const panelName = e.target.dataset.panelName;
+            enableSectionSorting(e.target, panelName, selectedPage);
+        }
     });
 }

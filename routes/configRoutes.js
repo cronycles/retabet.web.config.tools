@@ -25,4 +25,6 @@ router.get('/pages/config', configController.getPagesConfig);
 // Route to get page sections from pageSections.config.json
 router.get('/pages/sections', configController.getPageSections);
 
+router.put('/pages/:pageName/panels/:panelName/sections/order', configController.updateSectionOrder);
+
 module.exports = router;
