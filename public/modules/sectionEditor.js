@@ -11,7 +11,13 @@ export function renderSectionEditor(container, attributes, onSave, onCancel, sec
         label.textContent = key;
 
         let input;
-        if (typeof value === 'boolean') {
+        if (key === 'Args') {
+            // Render a textarea for the Args attribute (serialized JSON)
+            input = document.createElement('textarea');
+            input.name = key;
+            input.value = JSON.stringify(value, null, 2); // Serialize the object
+            input.classList.add('args-input'); // Add a class for validation
+        } else if (typeof value === 'boolean') {
             // Render dropdown for boolean attributes
             input = document.createElement('select');
             input.name = key;
@@ -67,7 +73,9 @@ export function renderSectionEditor(container, attributes, onSave, onCancel, sec
                 // Update form fields with default attributes
                 Object.entries(defaultAttributes).forEach(([key, value]) => {
                     if (fields[key]) {
-                        if (fields[key].dataset.type === 'boolean') {
+                        if (key === 'Args') {
+                            fields[key].value = JSON.stringify(value, null, 2); // Serialize the object
+                        } else if (fields[key].dataset.type === 'boolean') {
                             fields[key].value = value ? 'true' : 'false';
                         } else {
                             fields[key].value = value;
@@ -84,12 +92,24 @@ export function renderSectionEditor(container, attributes, onSave, onCancel, sec
     form.addEventListener('submit', e => {
         e.preventDefault();
         const updatedAttributes = {};
-        Array.from(form.querySelectorAll('input, select')).forEach(input => {
+        let isValid = true;
+
+        Array.from(form.querySelectorAll('input, select, textarea')).forEach(input => {
             const originalType = input.dataset.type;
             let value = input.value;
 
-            // Convert the value back to its original type
-            if (originalType === 'boolean') {
+            // Validate and convert the Args field
+            if (input.name === 'Args') {
+                try {
+                    value = JSON.parse(value); // Parse the JSON string back to an object
+                    input.classList.remove('error'); // Remove error styling if valid
+                } catch (error) {
+                    input.classList.add('error'); // Add error styling
+                    alert('Invalid JSON format in Args field.');
+                    isValid = false;
+                    return;
+                }
+            } else if (originalType === 'boolean') {
                 value = value === 'true';
             } else if (originalType === 'number') {
                 value = parseFloat(value);
@@ -97,6 +117,8 @@ export function renderSectionEditor(container, attributes, onSave, onCancel, sec
 
             updatedAttributes[input.name] = value;
         });
+
+        if (!isValid) return; // Prevent form submission if validation fails
 
         onSave(updatedAttributes);
     });
