@@ -192,6 +192,11 @@ exports.updatePage = (req, res) => {
         }
     } else if (action === 'removePanel') {
         delete pageInvariantNames[pageName][panelName];
+
+        // Remove the page if it has no panels left
+        if (Object.keys(pageInvariantNames[pageName]).length === 0) {
+            delete pageInvariantNames[pageName];
+        }
     } else if (action === 'addSection') {
         const panelSections = pageInvariantNames[pageName][panelName] || [];
         panelSections.push({ [sectionName]: attributes });
