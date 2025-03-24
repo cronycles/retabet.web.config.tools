@@ -29,7 +29,7 @@ export function initializeDragAndDrop() {
 
         const selectedPage = document.getElementById('pageSelector').value;
 
-        if (e.target.id === 'pagePanels') {
+        if (e.target.id === 'panelsSectionContainer') {
             const panelName = e.dataTransfer.getData('panelName');
             if (panelName && selectedPage) {
                 // Add the panel to the pageSections.config.json

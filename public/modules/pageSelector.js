@@ -4,7 +4,7 @@ import { renderSectionEditor } from './sectionEditor.js'; // Reuse the section e
 export function initializePageSelector() {
     const pageSelector = document.getElementById('pageSelector');
     const pageDropdown = document.getElementById('pageDropdown'); // Reference to the dropdown container
-    const pagePanels = document.getElementById('pagePanels');
+    const panelsSectionContainer = document.getElementById('panelsSectionContainer');
     const placeholder = document.getElementById('pagePanelsPlaceholder');
 
     let pages = []; // Store pages for filtering
@@ -68,8 +68,7 @@ export function initializePageSelector() {
             .then(res => res.json())
             .then(pageSections => {
                 const pageData = pageSections[selectedPage];
-                pagePanels.innerHTML = '<h3>Page Panels</h3>'; // Ensure the title remains visible
-
+                
                 if (pageData) {
                     if (placeholder) placeholder.style.display = 'none'; // Hide placeholder
                     Object.keys(pageData).forEach(panelName => {
@@ -143,7 +142,7 @@ export function initializePageSelector() {
                         });
 
                         panelDiv.appendChild(sectionsUl);
-                        pagePanels.appendChild(panelDiv);
+                        panelsSectionContainer.appendChild(panelDiv);
 
                         // Enable section sorting
                         enableSectionSorting(panelDiv, panelName, selectedPage);
@@ -201,7 +200,7 @@ export function initializePageSelector() {
     }
 
     // Call enableSectionSorting for each panel
-    pagePanels.addEventListener('DOMNodeInserted', (e) => {
+    panelsSectionContainer.addEventListener('DOMNodeInserted', (e) => {
         if (e.target.classList.contains('droppable')) {
             const panelName = e.target.dataset.panelName;
             enableSectionSorting(e.target, panelName, selectedPage);
