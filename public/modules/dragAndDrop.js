@@ -61,9 +61,10 @@ export function initializeDragAndDrop() {
 
                         panelDiv.appendChild(sectionsUl);
 
-                        // Append to the correct container
-                        const container = isPlaceholder ? e.target.parentElement : e.target;
-                        container.appendChild(panelDiv);
+                        var placeholderElement = document.getElementById("dropPanelPlaceholder");
+                        if (placeholderElement) {
+                            placeholderElement.parentElement.insertBefore(panelDiv, placeholderElement); // Insert before the placeholder
+                        }
                     } else {
                         console.error('Failed to add panel to page');
                     }

@@ -140,8 +140,11 @@ export function initializePageSelector() {
                         });
 
                         panelDiv.appendChild(sectionsUl);
-                        panelsSectionContainer.appendChild(panelDiv);
-
+                        var placeholderElement = document.getElementById("dropPanelPlaceholder");
+                        if (placeholderElement) {
+                            placeholderElement.parentElement.insertBefore(panelDiv, placeholderElement); // Insert before the placeholder
+                        }
+                        
                         // Enable section sorting
                         enableSectionSorting(panelDiv, panelName, selectedPage);
                     });
