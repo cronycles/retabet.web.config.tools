@@ -11,18 +11,18 @@ export function initializeDragAndDrop() {
     });
 
     document.addEventListener('dragover', e => {
-        const isPlaceholder = e.target.classList.contains('placeholder-text') && e.target.parentElement.id === 'panelsSectionContainer';
+        const isAPlaceholder = e.target.classList.contains('placeholder-text');
         
-        if (e.target.classList.contains('droppable') ||isPlaceholder ) {
+        if (e.target.classList.contains('droppable') ||isAPlaceholder ) {
             e.preventDefault(); // Allow dropping
             e.target.classList.add('drag-over'); // Add visual feedback
         }
     });
 
     document.addEventListener('dragleave', e => {
-        const isPlaceholder = e.target.classList.contains('placeholder-text') && e.target.parentElement.id === 'panelsSectionContainer';
+        const isAPlaceholder = e.target.classList.contains('placeholder-text');
         
-        if (e.target.classList.contains('droppable') ||isPlaceholder) {
+        if (e.target.classList.contains('droppable') ||isAPlaceholder) {
             e.target.classList.remove('drag-over'); // Remove visual feedback
         }
     });
@@ -34,8 +34,8 @@ export function initializeDragAndDrop() {
         const selectedPage = document.getElementById('pageSelector').value;
 
         // Allow dropping panels on the placeholder text
-        const isPlaceholder = e.target.classList.contains('placeholder-text') && e.target.parentElement.id === 'panelsSectionContainer';
-        if (e.target.id === 'panelsSectionContainer' || isPlaceholder) {
+        const isDopPanelPlaceholder = e.target.id === 'dropPanelPlaceholder';
+        if (e.target.id === 'panelsSectionContainer' || isDopPanelPlaceholder) {
             const panelName = e.dataTransfer.getData('panelName');
             if (panelName && selectedPage) {
                 // Add the panel to the pageSections.config.json
@@ -61,9 +61,9 @@ export function initializeDragAndDrop() {
 
                         panelDiv.appendChild(sectionsUl);
 
-                        var placeholderElement = document.getElementById("dropPanelPlaceholder");
-                        if (placeholderElement) {
-                            placeholderElement.parentElement.insertBefore(panelDiv, placeholderElement); // Insert before the placeholder
+                        var dopPanelPlaceholder = document.getElementById("dropPanelPlaceholder");
+                        if (dopPanelPlaceholder) {
+                            dopPanelPlaceholder.parentElement.insertBefore(panelDiv, dopPanelPlaceholder); // Insert before the placeholder
                         }
                     } else {
                         console.error('Failed to add panel to page');
