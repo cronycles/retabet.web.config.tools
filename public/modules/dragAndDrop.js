@@ -83,12 +83,12 @@ export function initializeDragAndDrop() {
 
                         if (dropPanelPlaceHolder) {
                             dropPanelPlaceHolder.parentElement.insertBefore(panelDiv, dropPanelPlaceHolder); // Insert before the placeholder
+                            enableSectionSorting(panelName, selectedPage);
                         }
                     } else {
                         console.error("Failed to add panel to page");
                     }
                 });
-                enableSectionSorting(panelName, selectedPage);
             }
         } else if (isADroppableSectionArea && e.target.dataset.panelName) {
             const sectionName = e.dataTransfer.getData("sectionName");
@@ -166,13 +166,13 @@ export function initializeDragAndDrop() {
                                         sectionLi,
                                         sectionPlaceholderFinding
                                     ); // Insert before the placeholder
+                                    enableSectionSorting(panelName, selectedPage);
                                 }
                             } else {
                                 console.error("Failed to add section to panel");
                             }
                         });
                     });
-                    enableSectionSorting(panelName, selectedPage);
             }
         }
     });
