@@ -23,7 +23,9 @@ export function enableSectionSorting(panelName, selectedPage) {
 
         sectionsUl.addEventListener("dragend", e => {
             e.target.classList.remove("dragging");
-            const newOrder = Array.from(sectionsUl.children).map(li => li.dataset.sectionName);
+            const newOrder = Array.from(sectionsUl.children)
+                .filter(li => li.dataset.sectionName != null)
+                .map(li => li.dataset.sectionName);
 
             // Update the backend with the new order
             fetch(`/api/pages/${selectedPage}/panels/${panelName}/sections/order`, {
