@@ -1,4 +1,5 @@
 import { addDeleteButton } from "./utils.js";
+import { enableSectionSorting } from "./sectionsSorting.js";
 import { renderSectionEditor } from "./sectionEditor.js";
 
 export function initializeDragAndDrop() {
@@ -37,7 +38,8 @@ export function initializeDragAndDrop() {
         const isDropPanelPlaceholder = e.target.id === "dropPanelPlaceholder";
         const isADroppablePanelArea = e.target.id === "droppablePanelsContainer" || isDropPanelPlaceholder;
         const isDropSectionPlaceholder = e.target.id === "dropSectionPlaceholder";
-        const isADroppableSectionArea = e.target.id === "droppableSectionsContainer" || isDropSectionPlaceholder;
+        const isADroppableSectionArea =
+            e.target.classList.contains("droppableSectionsContainer") || isDropSectionPlaceholder;
         if (isADroppablePanelArea) {
             const panelName = e.dataTransfer.getData("panelName");
             if (panelName && selectedPage) {
@@ -59,7 +61,7 @@ export function initializeDragAndDrop() {
                         addDeleteButton(panelDiv, "panel", panelName, selectedPage);
 
                         const sectionsUl = document.createElement("ul");
-                        sectionsUl.id = "droppableSectionsContainer";
+                        sectionsUl.classList.add("droppableSectionsContainer");
                         sectionsUl.classList.add("droppable");
                         sectionsUl.dataset.panelName = panelName;
 
@@ -74,7 +76,10 @@ export function initializeDragAndDrop() {
 
                         panelDiv.appendChild(sectionsUl);
 
-                        var dropPanelPlaceHolder = e.target.id === "dropPanelPlaceholder" ? e.target : e.target.querySelector("#dropPanelPlaceholder");
+                        var dropPanelPlaceHolder =
+                            e.target.id === "dropPanelPlaceholder"
+                                ? e.target
+                                : e.target.querySelector("#dropPanelPlaceholder");
 
                         if (dropPanelPlaceHolder) {
                             dropPanelPlaceHolder.parentElement.insertBefore(panelDiv, dropPanelPlaceHolder); // Insert before the placeholder
@@ -83,6 +88,7 @@ export function initializeDragAndDrop() {
                         console.error("Failed to add panel to page");
                     }
                 });
+                enableSectionSorting(panelName, selectedPage);
             }
         } else if (isADroppableSectionArea && e.target.dataset.panelName) {
             const sectionName = e.dataTransfer.getData("sectionName");
@@ -152,15 +158,21 @@ export function initializeDragAndDrop() {
                                 sectionLi.appendChild(editButton);
 
                                 var sectionPlaceholderFinding =
-                                    e.target.id === "dropSectionPlaceholder" ? e.target : e.target.querySelector("#dropSectionPlaceholder");
+                                    e.target.id === "dropSectionPlaceholder"
+                                        ? e.target
+                                        : e.target.querySelector("#dropSectionPlaceholder");
                                 if (sectionPlaceholderFinding) {
-                                    sectionPlaceholderFinding.parentElement.insertBefore(sectionLi, sectionPlaceholderFinding); // Insert before the placeholder
+                                    sectionPlaceholderFinding.parentElement.insertBefore(
+                                        sectionLi,
+                                        sectionPlaceholderFinding
+                                    ); // Insert before the placeholder
                                 }
                             } else {
                                 console.error("Failed to add section to panel");
                             }
                         });
                     });
+                    enableSectionSorting(panelName, selectedPage);
             }
         }
     });

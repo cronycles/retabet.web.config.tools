@@ -1,4 +1,5 @@
 import { addDeleteButton } from "./utils.js";
+import { enableSectionSorting } from "./sectionsSorting.js";
 import { renderSectionEditor } from "./sectionEditor.js"; // Reuse the section editor logic
 
 export function initializePageSelector() {
@@ -26,7 +27,9 @@ export function initializePageSelector() {
             option.textContent = page.ExclusiveContext
                 ? `${page.name} (${
                       Array.isArray(page.ExclusiveContext)
-                          ? page.ExclusiveContext.map(context => `Only ${context.charAt(0).toUpperCase() + context.slice(1)}`).join(", ")
+                          ? page.ExclusiveContext.map(
+                                context => `Only ${context.charAt(0).toUpperCase() + context.slice(1)}`
+                            ).join(", ")
                           : `Only ${page.ExclusiveContext.charAt(0).toUpperCase() + page.ExclusiveContext.slice(1)}`
                   })`
                 : page.name;
@@ -87,7 +90,7 @@ export function initializePageSelector() {
                         addDeleteButton(panelDiv, "panel", panelName, selectedPage);
 
                         const sectionsUl = document.createElement("ul");
-                        sectionsUl.id = "droppableSectionsContainer";
+                        sectionsUl.classList.add("droppableSectionsContainer");
                         sectionsUl.classList.add("droppable");
                         sectionsUl.dataset.panelName = panelName;
 
@@ -168,66 +171,11 @@ export function initializePageSelector() {
                         }
 
                         // Enable section sorting
-                        enableSectionSorting(panelDiv, panelName, selectedPage);
+                        enableSectionSorting(panelName, selectedPage);
                     });
                 }
             });
     });
 
-    function enableSectionSorting(panelDiv, panelName, selectedPage) {
-        const sectionsUl = panelDiv.querySelector("ul");
-        if (!sectionsUl) return;
-
-        sectionsUl.addEventListener("dragstart", e => {
-            e.dataTransfer.setData("text/plain", e.target.dataset.sectionName);
-            e.target.classList.add("dragging");
-        });
-
-        sectionsUl.addEventListener("dragover", e => {
-            e.preventDefault();
-            const dragging = sectionsUl.querySelector(".dragging");
-            const afterElement = getDragAfterElement(sectionsUl, e.clientY);
-            if (afterElement == null) {
-                sectionsUl.appendChild(dragging);
-            } else {
-                sectionsUl.insertBefore(dragging, afterElement);
-            }
-        });
-
-        sectionsUl.addEventListener("dragend", e => {
-            e.target.classList.remove("dragging");
-            const newOrder = Array.from(sectionsUl.children).map(li => li.dataset.sectionName);
-
-            // Update the backend with the new order
-            fetch(`/api/pages/${selectedPage}/panels/${panelName}/sections/order`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ order: newOrder }),
-            }).catch(err => console.error("Failed to update section order:", err));
-        });
-
-        function getDragAfterElement(container, y) {
-            const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
-            return draggableElements.reduce(
-                (closest, child) => {
-                    const box = child.getBoundingClientRect();
-                    const offset = y - box.top - box.height / 2;
-                    if (offset < 0 && offset > closest.offset) {
-                        return { offset, element: child };
-                    } else {
-                        return closest;
-                    }
-                },
-                { offset: Number.NEGATIVE_INFINITY }
-            ).element;
-        }
-    }
-
-    // Call enableSectionSorting for each panel
-    droppablePanelsContainer.addEventListener("DOMNodeInserted", e => {
-        if (e.target.classList.contains("droppable")) {
-            const panelName = e.target.dataset.panelName;
-            enableSectionSorting(e.target, panelName, selectedPage);
-        }
-    });
+    
 }
