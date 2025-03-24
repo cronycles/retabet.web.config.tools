@@ -68,6 +68,7 @@ export function initializeDragAndDrop() {
                         sectionPlaceHolderLi.classList.add("placeholder-text");
                         sectionPlaceHolderLi.classList.add("text-muted");
                         sectionPlaceHolderLi.textContent = "Drop sections here";
+                        sectionPlaceHolderLi.dataset.panelName = panelName;
 
                         sectionsUl.appendChild(sectionPlaceHolderLi);
 
