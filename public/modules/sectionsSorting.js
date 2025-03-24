@@ -14,10 +14,12 @@ export function enableSectionSorting(panelName, selectedPage) {
             e.preventDefault();
             const dragging = sectionsUl.querySelector(".dragging");
             const afterElement = getDragAfterElement(sectionsUl, e.clientY);
-            if (afterElement == null) {
-                sectionsUl.appendChild(dragging);
-            } else {
-                sectionsUl.insertBefore(dragging, afterElement);
+            if (dragging) {
+                if (afterElement == null) {
+                    sectionsUl.appendChild(dragging);
+                } else {
+                    sectionsUl.insertBefore(dragging, afterElement);
+                }
             }
         });
 
