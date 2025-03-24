@@ -11,14 +11,18 @@ export function initializeDragAndDrop() {
     });
 
     document.addEventListener('dragover', e => {
-        if (e.target.classList.contains('droppable')) {
+        const isPlaceholder = e.target.classList.contains('placeholder-text') && e.target.parentElement.id === 'panelsSectionContainer';
+        
+        if (e.target.classList.contains('droppable') ||isPlaceholder ) {
             e.preventDefault(); // Allow dropping
             e.target.classList.add('drag-over'); // Add visual feedback
         }
     });
 
     document.addEventListener('dragleave', e => {
-        if (e.target.classList.contains('droppable')) {
+        const isPlaceholder = e.target.classList.contains('placeholder-text') && e.target.parentElement.id === 'panelsSectionContainer';
+        
+        if (e.target.classList.contains('droppable') ||isPlaceholder) {
             e.target.classList.remove('drag-over'); // Remove visual feedback
         }
     });
@@ -29,7 +33,9 @@ export function initializeDragAndDrop() {
 
         const selectedPage = document.getElementById('pageSelector').value;
 
-        if (e.target.id === 'panelsSectionContainer') {
+        // Allow dropping panels on the placeholder text
+        const isPlaceholder = e.target.classList.contains('placeholder-text') && e.target.parentElement.id === 'panelsSectionContainer';
+        if (e.target.id === 'panelsSectionContainer' || isPlaceholder) {
             const panelName = e.dataTransfer.getData('panelName');
             if (panelName && selectedPage) {
                 // Add the panel to the pageSections.config.json
@@ -54,7 +60,10 @@ export function initializeDragAndDrop() {
                         sectionsUl.dataset.panelName = panelName;
 
                         panelDiv.appendChild(sectionsUl);
-                        e.target.appendChild(panelDiv);
+
+                        // Append to the correct container
+                        const container = isPlaceholder ? e.target.parentElement : e.target;
+                        container.appendChild(panelDiv);
                     } else {
                         console.error('Failed to add panel to page');
                     }
