@@ -4,7 +4,7 @@ import { renderSectionEditor } from './sectionEditor.js'; // Reuse the section e
 export function initializePageSelector() {
     const pageSelector = document.getElementById('pageSelector');
     const pageDropdown = document.getElementById('pageDropdown'); // Reference to the dropdown container
-    const panelsSectionContainer = document.getElementById('panelsSectionContainer');
+    const droppablePanelsContainer = document.getElementById('droppablePanelsContainer');
 
     let pages = []; // Store pages for filtering
     let currentEditingSection = null; // Track the currently open editor
@@ -78,8 +78,17 @@ export function initializePageSelector() {
                         addDeleteButton(panelDiv, 'panel', panelName, selectedPage);
 
                         const sectionsUl = document.createElement('ul');
+                        sectionsUl.id = 'droppableSectionsContainer';
                         sectionsUl.classList.add('droppable');
                         sectionsUl.dataset.panelName = panelName;
+
+                        const sectionPlaceHolderLi = document.createElement("li");
+                        sectionPlaceHolderLi.id = "dropSectionPlaceholder";
+                        sectionPlaceHolderLi.classList.add("placeholder-text");
+                        sectionPlaceHolderLi.classList.add("text-muted");
+                        sectionPlaceHolderLi.textContent = "Drop sections here";
+
+                        sectionsUl.appendChild(sectionPlaceHolderLi);
                         
                         const sections = pageData[panelName];
                         sections.forEach(section => {
@@ -136,13 +145,16 @@ export function initializePageSelector() {
                             });
 
                             sectionLi.appendChild(editButton);
-                            sectionsUl.appendChild(sectionLi);
+                            if(sectionPlaceHolderLi) {
+                                sectionPlaceHolderLi.parentElement.insertBefore(sectionLi, sectionPlaceHolderLi);
+                            }
                         });
 
                         panelDiv.appendChild(sectionsUl);
-                        var placeholderElement = document.getElementById("dropPanelPlaceholder");
-                        if (placeholderElement) {
-                            placeholderElement.parentElement.insertBefore(panelDiv, placeholderElement); // Insert before the placeholder
+                        
+                        var dropPanelPlaceHolder = droppablePanelsContainer.querySelector("#dropPanelPlaceholder");
+                        if (dropPanelPlaceHolder) {
+                            dropPanelPlaceHolder.parentElement.insertBefore(panelDiv, dropPanelPlaceHolder); // Insert before the placeholder
                         }
                         
                         // Enable section sorting
@@ -199,7 +211,7 @@ export function initializePageSelector() {
     }
 
     // Call enableSectionSorting for each panel
-    panelsSectionContainer.addEventListener('DOMNodeInserted', (e) => {
+    droppablePanelsContainer.addEventListener('DOMNodeInserted', (e) => {
         if (e.target.classList.contains('droppable')) {
             const panelName = e.target.dataset.panelName;
             enableSectionSorting(e.target, panelName, selectedPage);
