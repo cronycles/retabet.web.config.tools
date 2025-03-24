@@ -75,14 +75,16 @@ export function initializePageSelector() {
                     Object.keys(pageData).forEach(panelName => {
                         const panelDiv = document.createElement('div');
                         panelDiv.textContent = panelName;
-                        panelDiv.classList.add('droppable');
                         panelDiv.dataset.panelName = panelName;
 
                         // Add delete button for panel
                         addDeleteButton(panelDiv, 'panel', panelName, selectedPage);
 
-                        const sections = pageData[panelName];
                         const sectionsUl = document.createElement('ul');
+                        sectionsUl.classList.add('droppable');
+                        sectionsUl.dataset.panelName = panelName;
+                        
+                        const sections = pageData[panelName];
                         sections.forEach(section => {
                             const sectionName = typeof section === 'string' ? section : Object.keys(section)[0];
                             const sectionAttributes = typeof section === 'string' ? {} : section[sectionName];

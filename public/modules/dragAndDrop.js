@@ -44,7 +44,6 @@ export function initializeDragAndDrop() {
                     if (response.ok) {
                         const panelDiv = document.createElement('div');
                         panelDiv.textContent = panelName;
-                        panelDiv.classList.add('droppable');
                         panelDiv.dataset.panelName = panelName;
 
                         // Add delete button for the panel
