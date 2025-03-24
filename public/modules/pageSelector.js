@@ -5,7 +5,6 @@ export function initializePageSelector() {
     const pageSelector = document.getElementById('pageSelector');
     const pageDropdown = document.getElementById('pageDropdown'); // Reference to the dropdown container
     const panelsSectionContainer = document.getElementById('panelsSectionContainer');
-    const placeholder = document.getElementById('pagePanelsPlaceholder');
 
     let pages = []; // Store pages for filtering
     let currentEditingSection = null; // Track the currently open editor
@@ -70,7 +69,6 @@ export function initializePageSelector() {
                 const pageData = pageSections[selectedPage];
                 
                 if (pageData) {
-                    if (placeholder) placeholder.style.display = 'none'; // Hide placeholder
                     Object.keys(pageData).forEach(panelName => {
                         const panelDiv = document.createElement('div');
                         panelDiv.textContent = panelName;
@@ -147,9 +145,7 @@ export function initializePageSelector() {
                         // Enable section sorting
                         enableSectionSorting(panelDiv, panelName, selectedPage);
                     });
-                } else {
-                    if (placeholder) placeholder.style.display = 'block'; // Show placeholder
-                }
+                } 
             });
     });
 
