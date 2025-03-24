@@ -170,6 +170,7 @@ exports.addPage = (req, res) => {
 };
 
 exports.updatePage = (req, res) => {
+    var statusini = 200;
     const pages = readJSON(pagesPath); // Use updated readJSON
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
@@ -189,6 +190,9 @@ exports.updatePage = (req, res) => {
     if (action === 'addPanel') {
         if (!pageInvariantNames[pageName][panelName]) {
             pageInvariantNames[pageName][panelName] = [];
+        }
+        else {
+            statusini = 400;
         }
     } else if (action === 'removePanel') {
         delete pageInvariantNames[pageName][panelName];
@@ -215,7 +219,7 @@ exports.updatePage = (req, res) => {
     }
 
     writeJSON(pagesPath, pages);
-    res.json(pageInvariantNames[pageName]);
+    res.status(statusini).json(pageInvariantNames[pageName]);
 };
 
 exports.deletePage = (req, res) => {
