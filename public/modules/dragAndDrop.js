@@ -37,7 +37,7 @@ export function initializeDragAndDrop() {
         // Allow dropping panels on the placeholder text
         const isDropPanelPlaceholder = e.target.id === "dropPanelPlaceholder";
         const isADroppablePanelArea = e.target.id === "droppablePanelsContainer" || isDropPanelPlaceholder;
-        const isDropSectionPlaceholder = e.target.id === "dropSectionPlaceholder";
+        const isDropSectionPlaceholder = e.target.classList.contains("dropSectionPlaceholder");
         const isADroppableSectionArea =
             e.target.classList.contains("droppableSectionsContainer") || isDropSectionPlaceholder;
         if (isADroppablePanelArea) {
@@ -66,7 +66,7 @@ export function initializeDragAndDrop() {
                         sectionsUl.dataset.panelName = panelName;
 
                         const sectionPlaceHolderLi = document.createElement("li");
-                        sectionPlaceHolderLi.id = "dropSectionPlaceholder";
+                        sectionPlaceHolderLi.classList.add("dropSectionPlaceholder");
                         sectionPlaceHolderLi.classList.add("placeholder-text");
                         sectionPlaceHolderLi.classList.add("text-muted");
                         sectionPlaceHolderLi.textContent = "Drop sections here";
@@ -158,9 +158,9 @@ export function initializeDragAndDrop() {
                                 sectionLi.appendChild(editButton);
 
                                 var sectionPlaceholderFinding =
-                                    e.target.id === "dropSectionPlaceholder"
+                                    e.target.classList.contains("dropSectionPlaceholder")
                                         ? e.target
-                                        : e.target.querySelector("#dropSectionPlaceholder");
+                                        : e.target.querySelector(".dropSectionPlaceholder");
                                 if (sectionPlaceholderFinding) {
                                     sectionPlaceholderFinding.parentElement.insertBefore(
                                         sectionLi,

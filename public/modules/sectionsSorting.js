@@ -16,7 +16,12 @@ export function enableSectionSorting(panelName, selectedPage) {
             const afterElement = getDragAfterElement(sectionsUl, e.clientY);
             if (dragging) {
                 if (afterElement == null) {
-                    sectionsUl.appendChild(dragging);
+                    // var sectionPlaceholderFinding = panelDiv.querySelector(".dropSectionPlaceholder");
+                    // sectionPlaceholderFinding.parentElement.insertBefore(
+                    //     sectionLi,
+                    //     sectionPlaceholderFinding
+                    // ); // Insert before the placeholder
+                    // sectionsUl.appendChild(dragging);
                 } else {
                     sectionsUl.insertBefore(dragging, afterElement);
                 }

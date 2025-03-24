@@ -95,7 +95,7 @@ export function initializePageSelector() {
                         sectionsUl.dataset.panelName = panelName;
 
                         const sectionPlaceHolderLi = document.createElement("li");
-                        sectionPlaceHolderLi.id = "dropSectionPlaceholder";
+                        sectionPlaceHolderLi.classList.add("dropSectionPlaceholder");
                         sectionPlaceHolderLi.classList.add("placeholder-text");
                         sectionPlaceHolderLi.classList.add("text-muted");
                         sectionPlaceHolderLi.textContent = "Drop sections here";
