@@ -39,26 +39,25 @@
                         <input type="text" id="pageSelector" class="form-control" autocomplete="off" />
                         <div id="pageDropdown" class="dropdown"></div>
                     </div>
-                    <div id="panelsContainer" class="mt-4">
-                        <h2>Panels</h2>
-                        <div id="availablePanels" class="droppable border p-3">
+                    <div id="panelsContainer" class="mt-2">
+                        <div id="panelus" class="border p-3">
                             <h3>Available Panels</h3>
-                            <!-- Panels will be dynamically loaded here -->
+                            <div id="availablePanels" class="droppable border p-3">
+                                <!-- Panels will be dynamically loaded here -->
+                            </div>
                         </div>
                         <div id="pagePanels" class=" border p-3">
-                            <h3>Page Panels</h3>
+                            <h3>Page Sections</h3>
                             <div id="droppablePanelsContainer" class="droppable">
                                 <p id="dropPanelPlaceholder" class="placeholder-text text-muted">Drop panels here</p>
                                 <!-- Panels for the selected page will be displayed here -->
                             </div>
                         </div>
                     </div>
-                    <div id="sectionsContainer" class="mt-4">
-                        <h2>Sections</h2>
+                    <div id="sectionsContainer" class="border p-3">
+                        <h3>Available Sections</h3>
                         <div id="availableSections" class="droppable border p-3">
-                            <h3>Available Sections</h3>
                             <ul>
-                                <li draggable="true" data-section-name="exampleSection">Example Section</li>
                                 <!-- Sections will be dynamically added here -->
                             </ul>
                         </div>

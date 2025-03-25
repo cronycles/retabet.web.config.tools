@@ -22,7 +22,6 @@ h1 {
     border: 1px dashed #ccc;
     padding: 10px;
     min-height: 100px;
-    flex: 1;
     background-color: #f8f9fa;
 }
 
