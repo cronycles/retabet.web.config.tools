@@ -1,27 +1,29 @@
 export function initializeContextSelector(fileName) {
     const appDiv = document.getElementById("app");
 
-    const dropdown = document.createElement('select');
-    dropdown.id = 'contextDropdown';
+    const dropdown = document.createElement("select");
+    dropdown.id = "contextDropdown";
     dropdown.onchange = () => {
         const selectedValue = dropdown.value;
-        localStorage.setItem('selectedContext', selectedValue);
+        if (selectedValue != "") {
+            localStorage.setItem("selectedContext", selectedValue);
+        }
         location.reload(); // Refresh the page
     };
     appDiv.appendChild(dropdown);
 
-    const manualButton = document.createElement('button');
-    manualButton.textContent = 'Add Context Manually';
+    const manualButton = document.createElement("button");
+    manualButton.textContent = "Add Context Manually";
     manualButton.onclick = () => openManualContextModal(fileName);
     appDiv.appendChild(manualButton);
 
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete Context';
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete Context";
     deleteButton.onclick = () => deleteSelectedContext(fileName, dropdown);
     appDiv.appendChild(deleteButton);
 
     loadContextsFromFile(fileName, dropdown).then(() => {
-        const storedContext = localStorage.getItem('selectedContext');
+        const storedContext = localStorage.getItem("selectedContext");
         dropdown.value = storedContext || ""; // Set to stored value or "Default"
     });
 }
@@ -42,7 +44,7 @@ async function loadContextsFromFile(fileName, dropdown) {
                 .join(", ");
             const displayText = keysAndValues || "Default";
 
-            const option = document.createElement('option');
+            const option = document.createElement("option");
             option.textContent = displayText;
             option.value = keysAndValues; // Keep the full context as the value
             dropdown.appendChild(option);
@@ -50,25 +52,25 @@ async function loadContextsFromFile(fileName, dropdown) {
 
         // Add a "Default" option if not already present
         if (!Array.from(dropdown.options).some(option => option.textContent === "Default")) {
-            const defaultOption = document.createElement('option');
+            const defaultOption = document.createElement("option");
             defaultOption.textContent = "Default";
             defaultOption.value = "Default";
             dropdown.insertBefore(defaultOption, dropdown.firstChild);
         }
     } catch (error) {
-        console.error('Error loading contexts from file:', error);
+        console.error("Error loading contexts from file:", error);
     }
 }
 
 // Open a modal for manual context creation
 function openManualContextModal(fileName) {
     // Check if the modal already exists
-    if (document.getElementById('manualContextModal')) {
+    if (document.getElementById("manualContextModal")) {
         return; // Do nothing if the modal is already open
     }
 
-    const modal = document.createElement('div');
-    modal.id = 'manualContextModal';
+    const modal = document.createElement("div");
+    modal.id = "manualContextModal";
     modal.innerHTML = `
         <h3>Create Context</h3>
         <div id="propertiesContainer"></div>
@@ -78,50 +80,48 @@ function openManualContextModal(fileName) {
     const appDiv = document.getElementById("app");
     appDiv.appendChild(modal);
 
-    document.getElementById('addPropertyButton').onclick = addPropertyField;
-    document.getElementById('saveContextButton').onclick = () => saveManualContext(fileName);
+    document.getElementById("addPropertyButton").onclick = addPropertyField;
+    document.getElementById("saveContextButton").onclick = () => saveManualContext(fileName);
 }
 
 // Add a property field for manual context creation
 async function addPropertyField() {
     try {
-        const response = await fetch('/api/config/contextConfiguration.schema.json');
+        const response = await fetch("/api/config/contextConfiguration.schema.json");
         if (!response.ok) {
             throw new Error(`Failed to fetch schema: ${response.statusText}`);
         }
         const schema = await response.json();
-        const properties = Object.keys(schema.items.properties).filter(
-            key => key !== "Configuration"
-        );
+        const properties = Object.keys(schema.items.properties).filter(key => key !== "Configuration");
 
-        const container = document.getElementById('propertiesContainer');
-        const propertyField = document.createElement('div');
-        const select = document.createElement('select');
-        select.className = 'propertySelector';
+        const container = document.getElementById("propertiesContainer");
+        const propertyField = document.createElement("div");
+        const select = document.createElement("select");
+        select.className = "propertySelector";
 
         properties.forEach(property => {
-            const option = document.createElement('option');
+            const option = document.createElement("option");
             option.value = property;
             option.textContent = property;
             select.appendChild(option);
         });
 
-        const inputContainer = document.createElement('div');
-        inputContainer.className = 'inputContainer';
+        const inputContainer = document.createElement("div");
+        inputContainer.className = "inputContainer";
 
         select.onchange = () => {
             const selectedProperty = select.value;
             const items = getItemsForProperty(schema, selectedProperty);
-            inputContainer.innerHTML = ''; // Clear previous input
+            inputContainer.innerHTML = ""; // Clear previous input
 
             if (items.length > 0) {
                 // Create a multi-select for enum items
-                const multiSelect = document.createElement('select');
-                multiSelect.className = 'itemsMultiSelect';
+                const multiSelect = document.createElement("select");
+                multiSelect.className = "itemsMultiSelect";
                 multiSelect.multiple = true;
 
                 items.forEach(item => {
-                    const option = document.createElement('option');
+                    const option = document.createElement("option");
                     option.value = item;
                     option.textContent = item;
                     multiSelect.appendChild(option);
@@ -130,10 +130,10 @@ async function addPropertyField() {
                 inputContainer.appendChild(multiSelect);
             } else {
                 // Create a text input for non-enum items
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.className = 'itemsInput';
-                input.placeholder = 'Enter items (comma-separated)';
+                const input = document.createElement("input");
+                input.type = "text";
+                input.className = "itemsInput";
+                input.placeholder = "Enter items (comma-separated)";
                 inputContainer.appendChild(input);
             }
         };
@@ -143,9 +143,9 @@ async function addPropertyField() {
         container.appendChild(propertyField);
 
         // Trigger the onchange event to populate the input for the first property
-        select.dispatchEvent(new Event('change'));
+        select.dispatchEvent(new Event("change"));
     } catch (error) {
-        console.error('Error loading properties from schema:', error);
+        console.error("Error loading properties from schema:", error);
     }
 }
 
@@ -154,7 +154,7 @@ function getItemsForProperty(schema, property) {
     const propertySchema = schema.items.properties[property];
     if (propertySchema && propertySchema.items && propertySchema.items.$ref) {
         const ref = propertySchema.items.$ref;
-        const refKey = ref.split('/').pop(); // Extract the key from the $ref
+        const refKey = ref.split("/").pop(); // Extract the key from the $ref
         return schema.$defs[refKey]?.enum || [];
     }
     return [];
@@ -162,16 +162,16 @@ function getItemsForProperty(schema, property) {
 
 // Save the manually created context
 async function saveManualContext(fileName) {
-    const properties = Array.from(document.querySelectorAll('.propertySelector')).map((selector, index) => {
-        const inputContainer = document.querySelectorAll('.inputContainer')[index];
-        const multiSelect = inputContainer.querySelector('.itemsMultiSelect');
-        const itemsInput = inputContainer.querySelector('.itemsInput');
+    const properties = Array.from(document.querySelectorAll(".propertySelector")).map((selector, index) => {
+        const inputContainer = document.querySelectorAll(".inputContainer")[index];
+        const multiSelect = inputContainer.querySelector(".itemsMultiSelect");
+        const itemsInput = inputContainer.querySelector(".itemsInput");
 
         let selectedItems = [];
         if (multiSelect) {
             selectedItems = Array.from(multiSelect.selectedOptions).map(option => option.value);
         } else if (itemsInput) {
-            selectedItems = itemsInput.value.split(',').map(item => item.trim());
+            selectedItems = itemsInput.value.split(",").map(item => item.trim());
         }
 
         return { [selector.value]: selectedItems };
@@ -181,8 +181,8 @@ async function saveManualContext(fileName) {
     context.Configuration = {}; // Add the "Configuration" property
 
     // Add the new context to the dropdown
-    const dropdown = document.getElementById('contextDropdown');
-    const option = document.createElement('option');
+    const dropdown = document.getElementById("contextDropdown");
+    const option = document.createElement("option");
     const keysAndValues = Object.entries(context)
         .filter(([key]) => key !== "Configuration")
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
@@ -201,8 +201,8 @@ async function saveManualContext(fileName) {
         fileContent.push(context); // Add the new context to the file content
 
         const saveResponse = await fetch(`/api/config/${fileName}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(fileContent),
         });
 
@@ -210,10 +210,10 @@ async function saveManualContext(fileName) {
             throw new Error(`Failed to save context: ${saveResponse.statusText}`);
         }
     } catch (error) {
-        console.error('Error saving context to file:', error);
+        console.error("Error saving context to file:", error);
     }
 
-    document.getElementById('manualContextModal').remove();
+    document.getElementById("manualContextModal").remove();
 }
 
 // Delete the selected context
@@ -235,8 +235,8 @@ async function deleteSelectedContext(fileName, dropdown) {
         const updatedContent = fileContent.filter(context => JSON.stringify(context) !== selectedOption.value);
 
         const saveResponse = await fetch(`/api/config/${fileName}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedContent),
         });
 
@@ -248,7 +248,6 @@ async function deleteSelectedContext(fileName, dropdown) {
         dropdown.removeChild(selectedOption);
         alert("Context deleted successfully.");
     } catch (error) {
-        console.error('Error deleting context:', error);
+        console.error("Error deleting context:", error);
     }
 }
-
