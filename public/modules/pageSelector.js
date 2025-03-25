@@ -112,6 +112,7 @@ export function initializePageSelector() {
                             sectionLi.textContent = sectionName;
                             sectionLi.draggable = true;
                             sectionLi.dataset.sectionName = sectionName;
+                            sectionLi.classList.add("inserted"); 
 
                             // Add delete button for section
                             addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName);
