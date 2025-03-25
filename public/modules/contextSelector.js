@@ -57,27 +57,40 @@ function openManualContextModal() {
 }
 
 // Add a property field for manual context creation
-function addPropertyField() {
-    const container = document.getElementById('propertiesContainer');
-    const propertyField = document.createElement('div');
-    propertyField.innerHTML = `
-        <select class="propertySelector">
-            <option value="IncludedDevices">IncludedDevices</option>
-            <option value="ExcludedDevices">ExcludedDevices</option>
-            <option value="IncludedPlatforms">IncludedPlatforms</option>
-            <option value="ExcludedPlatforms">ExcludedPlatforms</option>
-            <option value="IncludedEnvironments">IncludedEnvironments</option>
-            <option value="ExcludedEnvironments">ExcludedEnvironments</option>
-            <option value="IncludedMachines">IncludedMachines</option>
-            <option value="ExcludedMachines">ExcludedMachines</option>
-            <option value="IncludedSites">IncludedSites</option>
-            <option value="ExcludedSites">ExcludedSites</option>
-            <option value="IncludedUGs">IncludedUGs</option>
-            <option value="ExcludedUGs">ExcludedUGs</option>
-        </select>
-        <input type="text" class="itemsInput" placeholder="Enter items (comma-separated)" />
-    `;
-    container.appendChild(propertyField);
+async function addPropertyField() {
+    try {
+        const response = await fetch('/api/config/contextConfiguration.schema.json');
+        if (!response.ok) {
+            throw new Error(`Failed to fetch schema: ${response.statusText}`);
+        }
+        const schema = await response.json();
+        const properties = Object.keys(schema.items.properties).filter(
+            key => key !== "Configuration"
+        );
+
+        const container = document.getElementById('propertiesContainer');
+        const propertyField = document.createElement('div');
+        const select = document.createElement('select');
+        select.className = 'propertySelector';
+
+        properties.forEach(property => {
+            const option = document.createElement('option');
+            option.value = property;
+            option.textContent = property;
+            select.appendChild(option);
+        });
+
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'itemsInput';
+        input.placeholder = 'Enter items (comma-separated)';
+
+        propertyField.appendChild(select);
+        propertyField.appendChild(input);
+        container.appendChild(propertyField);
+    } catch (error) {
+        console.error('Error loading properties from schema:', error);
+    }
 }
 
 // Save the manually created context
