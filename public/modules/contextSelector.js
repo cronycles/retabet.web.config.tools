@@ -3,6 +3,11 @@ export function initializeContextSelector(fileName) {
 
     const dropdown = document.createElement('select');
     dropdown.id = 'contextDropdown';
+    dropdown.onchange = () => {
+        const selectedValue = dropdown.value;
+        localStorage.setItem('selectedContext', selectedValue);
+        location.reload(); // Refresh the page
+    };
     appDiv.appendChild(dropdown);
 
     const manualButton = document.createElement('button');
@@ -15,7 +20,10 @@ export function initializeContextSelector(fileName) {
     deleteButton.onclick = () => deleteSelectedContext(fileName, dropdown);
     appDiv.appendChild(deleteButton);
 
-    loadContextsFromFile(fileName, dropdown);
+    loadContextsFromFile(fileName, dropdown).then(() => {
+        const storedContext = localStorage.getItem('selectedContext');
+        dropdown.value = storedContext || ""; // Set to stored value or "Default"
+    });
 }
 
 // Load contexts automatically from the file
@@ -39,6 +47,14 @@ async function loadContextsFromFile(fileName, dropdown) {
             option.value = keysAndValues; // Keep the full context as the value
             dropdown.appendChild(option);
         });
+
+        // Add a "Default" option if not already present
+        if (!Array.from(dropdown.options).some(option => option.textContent === "Default")) {
+            const defaultOption = document.createElement('option');
+            defaultOption.textContent = "Default";
+            defaultOption.value = "Default";
+            dropdown.insertBefore(defaultOption, dropdown.firstChild);
+        }
     } catch (error) {
         console.error('Error loading contexts from file:', error);
     }
@@ -166,8 +182,8 @@ async function saveManualContext(fileName) {
         .filter(([key]) => key !== "Configuration")
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
         .join(", ");
-    option.textContent = keysAndValues || "Default";
-    option.value = JSON.stringify(context); // Keep the full context as the value
+    option.textContent = keysAndValues || "ERROR";
+    option.value = keysAndValues; // Keep the full context as the value
     dropdown.appendChild(option);
 
     // Save the new context to the file
