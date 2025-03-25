@@ -126,15 +126,10 @@ exports.deletePanel = (req, res) => {
 // Handlers for pageSections.config.json
 exports.getPages = (req, res) => {
     try {
-        const pagesConfig = readJSON(pagesConfigPath); // Use updated readJSON
         const pageSections = readJSON(pagesPath); // Use updated readJSON
 
-        if (!pagesConfig[0]?.Configuration?.Pages_CONF?.Pages) {
-            throw new Error("Invalid structure in pages.config.json");
-        }
-
-        const pages = Object.keys(pagesConfig[0].Configuration.Pages_CONF.Pages).map(pageName => {
-            const panels = pageSections[0]?.Configuration?.PageSections_CONF?.PageInvariantNames[pageName] || {};
+        const pages = Object.keys(pageSections[0].Configuration.PageSections_CONF.PageInvariantNames).map(pageName => {
+            const panels = pageSections[0].Configuration.PageSections_CONF.PageInvariantNames[pageName] || {};
             return { name: pageName, panels };
         });
 
