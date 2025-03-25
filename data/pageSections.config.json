@@ -1,14 +1,175 @@
-{
-    "IncludedDevices": [
-        "mobile"
-    ],
-    "Configuration": {
-        "PageSections_CONF": {
-            "PageInvariantNames": {
-                "SportsbookHome": {
-                    "MainPanel": []
+[
+    {
+        "Configuration": {
+            "PageSections_CONF": {
+                "PageInvariantNames": {
+                    "CasinoGame": {
+                        "MainPanel": [
+                            {
+                                "BetSlip": {
+                                    "Args": {},
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "UserBets": {
+                                    "Args": {},
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ]
+                    },
+                    "CasinoGameDetail": {
+                        "TopPanel": [
+                            {
+                                "UserBets": {
+                                    "Args": {},
+                                    "Active": false,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "UserBets": {
+                                    "Args": {},
+                                    "Active": false,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "CookiesPolicy": {
+                                    "Args": {
+                                        "CookiesPolicyViewName": "_CookiesPolicy"
+                                    },
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "GameSessionTimer": {
+                                    "Args": {},
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ],
+                        "BottomPanel": [
+                            {
+                                "BetSlip": {
+                                    "Args": {},
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "UserBets": {
+                                    "Args": {},
+                                    "Active": false,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ]
+                    },
+                    "SportsbookHome": {
+                        "MainPanel": [
+                            {
+                                "BetslipUserBetsSwitcher": {
+                                    "Args": {
+                                        "ShowBack": true,
+                                        "IsUserBetsAlwaysEnabled": true
+                                    },
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            },
+                            {
+                                "CookiesPolicy": {
+                                    "Args": {
+                                        "CookiesPolicyViewName": "_CookiesPolicy"
+                                    },
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    {
+        "IncludedDevices": [
+            "mobile"
+        ],
+        "Configuration": {
+            "PageSections_CONF": {
+                "PageInvariantNames": {
+                    "SportsbookHome": {
+                        "MainPanel": []
+                    }
                 }
             }
         }
     }
-}
+]
