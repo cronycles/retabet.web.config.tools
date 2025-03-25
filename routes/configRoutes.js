@@ -14,8 +14,6 @@ router.put('/panels/:panelName', configController.updatePanel);
 router.delete('/panels/:panelName', configController.deletePanel);
 
 // Routes for pageSections.config.json
-router.get('/pages', configController.getPages);
-router.post('/pages', configController.addPage);
 router.put('/pages/:pageName', configController.updatePage);
 router.delete('/pages/:pageName', configController.deletePage);
 
@@ -30,5 +28,8 @@ router.put('/pages/:pageName/panels/:panelName/sections/order', configController
 router.get('/config/:fileName', configController.getConfigFile);
 router.get('/config/contextConfiguration.schema.json', configController.getConfigFile);
 router.put('/config/:fileName', configController.updateConfigFile);
+
+router.post("/setSelectedContext", configController.setSelectedContext);
+router.get("/getSelectedContext", configController.getSelectedContext);
 
 module.exports = router;

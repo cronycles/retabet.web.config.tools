@@ -3,12 +3,18 @@ export function initializeContextSelector(fileName) {
 
     const dropdown = document.createElement("select");
     dropdown.id = "contextDropdown";
-    dropdown.onchange = () => {
+    dropdown.onchange = async () => {
         const selectedValue = dropdown.value;
-        if (selectedValue != "") {
-            localStorage.setItem("selectedContext", selectedValue);
+        try {
+            await fetch("/api/setSelectedContext", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ selectedContext: selectedValue }),
+            });
+            location.reload(); // Reload the page to apply the new context
+        } catch (error) {
+            console.error("Failed to set selected context on server:", error);
         }
-        location.reload(); // Refresh the page
     };
     appDiv.appendChild(dropdown);
 
@@ -22,14 +28,19 @@ export function initializeContextSelector(fileName) {
     deleteButton.onclick = () => deleteSelectedContext(fileName, dropdown);
     appDiv.appendChild(deleteButton);
 
-    loadContextsFromFile(fileName, dropdown).then(() => {
-        const storedContext = localStorage.getItem("selectedContext");
-        const isValidContext = Array.from(dropdown.options).some(option => option.value === storedContext);
-        if (isValidContext) {
-            dropdown.value = storedContext; // Set to stored value if valid
-        } else {
-            dropdown.value = ""; // Set to empty if not valid
-            localStorage.removeItem("selectedContext"); // Remove invalid context from localStorage
+    loadContextsFromFile(fileName, dropdown).then(async () => {
+        try {
+            const response = await fetch("/api/getSelectedContext");
+            if (!response.ok) {
+                throw new Error(`Failed to fetch selected context: ${response.statusText}`);
+            }
+            const { selectedContext } = await response.json();
+            const isValidContext = Array.from(dropdown.options).some(option => option.value === selectedContext);
+            if (isValidContext) {
+                dropdown.value = selectedContext; // Set to fetched value if valid
+            }
+        } catch (error) {
+            console.error("Error fetching selected context:", error);
         }
     });
 }

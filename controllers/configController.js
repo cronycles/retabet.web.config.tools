@@ -5,7 +5,7 @@ const JSON5 = require("json5"); // Import the json5 library
 // File paths
 const sectionsPath = path.join(__dirname, "../data/sections.config.json");
 const panelsPath = path.join(__dirname, "../data/panels.config.json"); // Updated filename
-const pagesPath = path.join(__dirname, "../data/pageSections.config.json");
+const pagesSectionsPath = path.join(__dirname, "../data/pageSections.config.json");
 const pagesConfigPath = path.join(__dirname, "../data/pages.config.json");
 
 // Utility to read JSON files
@@ -123,59 +123,31 @@ exports.deletePanel = (req, res) => {
     res.status(204).send();
 };
 
-// Handlers for pageSections.config.json
-exports.getPages = (req, res) => {
-    try {
-        const pageSections = readJSON(pagesPath); // Use updated readJSON
+function getKeysAndValueContextStringByEntireContext(jsonContext) {
+    return Object.entries(jsonContext)
+        .filter(([key]) => key !== "Configuration")
+        .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+        .join(", ");
+}
 
-        const pages = Object.keys(pageSections[0].Configuration.PageSections_CONF.PageInvariantNames).map(pageName => {
-            const panels = pageSections[0].Configuration.PageSections_CONF.PageInvariantNames[pageName] || {};
-            return { name: pageName, panels };
-        });
-
-        res.json(pages);
-    } catch (error) {
-        console.error("Error in getPages:", error);
-        res.status(500).json({ error: "Failed to fetch pages" });
-    }
-};
-
-exports.addPage = (req, res) => {
-    const pages = readJSON(pagesPath); // Use updated readJSON
-    const newPage = req.body;
-
-    if (pages.some(page => page.Configuration.PageSections_CONF.PageInvariantNames[newPage.name])) {
-        return res.status(400).json({ error: "Duplicate page name" });
-    }
-
-    // Validate duplicate section names within the same panel
-    Object.values(newPage.Configuration.PageSections_CONF.PageInvariantNames).forEach(panel => {
-        const sectionNames = new Set();
-        panel.forEach(section => {
-            if (sectionNames.has(section.name)) {
-                return res.status(400).json({ error: `Duplicate section name: ${section.name}` });
-            }
-            sectionNames.add(section.name);
-        });
-    });
-
-    pages.push(newPage);
-    writeJSON(pagesPath, pages);
-    res.status(201).json(newPage);
-};
+function ensureNestedKeyExists(obj, keys) {
+    keys.reduce((current, key) => {
+        if (!current[key]) {
+            current[key] = {};
+        }
+        return current[key];
+    }, obj);
+}
 
 exports.updatePage = (req, res) => {
     var statusini = 200;
-    const pages = readJSON(pagesPath); // Use updated readJSON
+    const pageSectionCurrentContextJson = getEntireContextJsonFromFile(pagesSectionsPath);
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
     // Ensure the PageInvariantNames key exists
-    if (!pages[0]?.Configuration?.PageSections_CONF?.PageInvariantNames) {
-        pages[0].Configuration.PageSections_CONF.PageInvariantNames = {};
-    }
-
-    const pageInvariantNames = pages[0].Configuration.PageSections_CONF.PageInvariantNames;
+    ensureNestedKeyExists(pageSectionCurrentContextJson, ["Configuration", "PageSections_CONF", "PageInvariantNames"]);
+    const pageInvariantNames = pageSectionCurrentContextJson.Configuration.PageSections_CONF.PageInvariantNames;
 
     // If the page does not exist, create it
     if (!pageInvariantNames[pageName]) {
@@ -222,12 +194,12 @@ exports.updatePage = (req, res) => {
         }
     }
 
-    writeJSON(pagesPath, pages);
+    writeJSON(pagesSectionsPath, pageSectionCurrentContextJson);
     res.status(statusini).json(pageInvariantNames[pageName]);
 };
 
 exports.deletePage = (req, res) => {
-    const pages = readJSON(pagesPath); // Use updated readJSON
+    const pages = readJSON(pagesSectionsPath); // Use updated readJSON
     const pageName = req.params.pageName;
 
     const filteredPages = pages.filter(page => !page.Configuration.PageSections_CONF.PageInvariantNames[pageName]);
@@ -235,7 +207,7 @@ exports.deletePage = (req, res) => {
         return res.status(404).json({ error: "Page not found" });
     }
 
-    writeJSON(pagesPath, filteredPages);
+    writeJSON(pagesSectionsPath, filteredPages);
     res.status(204).send();
 };
 
@@ -289,16 +261,27 @@ exports.getPagesConfig = (req, res) => {
     }
 };
 
+function getEntireContextJsonFromFile(filePath) {
+    var jsonFile = readJSON(filePath);
+    let outcome = jsonFile[0]; // Default to the first context
+    const selectedContextString = selectedContext || "";
+    for (const context of jsonFile) {
+        const contextString = getKeysAndValueContextStringByEntireContext(context);
+        if (contextString === selectedContextString) {
+            outcome = context;
+            break;
+        }
+    }
+
+    return outcome;
+}
+
 // Handler to get page sections from pageSections.config.json
 exports.getPageSections = (req, res) => {
     try {
-        const pageSections = readJSON(pagesPath); // Use updated readJSON
+        selectedPageSection = getEntireContextJsonFromFile(pagesSectionsPath);
 
-        if (!pageSections[0]?.Configuration?.PageSections_CONF?.PageInvariantNames) {
-            throw new Error("Invalid structure in pageSections.config.json");
-        }
-
-        res.json(pageSections[0].Configuration.PageSections_CONF.PageInvariantNames);
+        res.json(selectedPageSection?.Configuration?.PageSections_CONF?.PageInvariantNames || {});
     } catch (error) {
         console.error("Error in getPageSections:", error);
         res.status(500).json({ error: "Failed to fetch page sections" });
@@ -309,7 +292,7 @@ exports.updateSectionOrder = (req, res) => {
     const { pageName, panelName } = req.params;
     const { order } = req.body;
 
-    const pagesConfig = readJSON(pagesPath); // Ensure this reads the correct file
+    const pagesConfig = readJSON(pagesSectionsPath); // Ensure this reads the correct file
     const page = pagesConfig[0]?.Configuration?.PageSections_CONF?.PageInvariantNames[pageName];
     if (!page || !page[panelName]) {
         return res.status(404).json({ error: "Page or panel not found" });
@@ -323,34 +306,47 @@ exports.updateSectionOrder = (req, res) => {
     });
 
     pagesConfig[0].Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = reorderedSections;
-    writeJSON(pagesPath, pagesConfig);
+    writeJSON(pagesSectionsPath, pagesConfig);
 
     res.json({ message: "Section order updated successfully" });
 };
 
 exports.getConfigFile = (req, res) => {
     const fileName = req.params.fileName;
-    const filePath = path.join(__dirname, '../data', fileName);
+    const filePath = path.join(__dirname, "../data", fileName);
 
     try {
         const fileContent = readJSON(filePath);
         res.json(fileContent);
     } catch (error) {
         console.error(`Error reading file ${fileName}:`, error);
-        res.status(500).json({ error: 'Failed to read file' });
+        res.status(500).json({ error: "Failed to read file" });
     }
 };
 
 exports.updateConfigFile = (req, res) => {
     const fileName = req.params.fileName;
-    const filePath = path.join(__dirname, '../data', fileName);
+    const filePath = path.join(__dirname, "../data", fileName);
 
     try {
         const updatedContent = req.body;
         writeJSON(filePath, updatedContent);
-        res.status(200).json({ message: 'File updated successfully' });
+        res.status(200).json({ message: "File updated successfully" });
     } catch (error) {
         console.error(`Error updating file ${fileName}:`, error);
-        res.status(500).json({ error: 'Failed to update file' });
+        res.status(500).json({ error: "Failed to update file" });
     }
+};
+
+let selectedContext = ""; // Variable para almacenar el contexto seleccionado
+
+exports.setSelectedContext = (req, res) => {
+    const { selectedContext: context } = req.body;
+
+    selectedContext = context;
+    res.status(200).json({ message: "Selected context set successfully" });
+};
+
+exports.getSelectedContext = (req, res) => {
+    res.json({ selectedContext });
 };
