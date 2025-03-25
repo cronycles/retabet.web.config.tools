@@ -139,14 +139,45 @@ function ensureNestedKeyExists(obj, keys) {
     }, obj);
 }
 
+function saveObjectInFile(jsonObjectToSave, filePath) {
+    // Read the entire file to update only the relevant part
+    const fullFileContent = readJSON(filePath);
+    const contextIndex = fullFileContent.findIndex(
+        context =>
+            getKeysAndValueContextStringByEntireContext(context) ===
+            getKeysAndValueContextStringByEntireContext(jsonObjectToSave)
+    );
+
+    if (contextIndex !== -1) {
+        fullFileContent[contextIndex] = jsonObjectToSave; // Update only the relevant context
+    }
+
+    writeJSON(filePath, fullFileContent);
+}
+
+function getEntireContextJsonFromFile(filePath) {
+    var jsonFile = readJSON(filePath);
+    let outcome = jsonFile[0]; // Default to the first context
+    const selectedContextString = selectedContext || "";
+    for (const context of jsonFile) {
+        const contextString = getKeysAndValueContextStringByEntireContext(context);
+        if (contextString === selectedContextString) {
+            outcome = context;
+            break;
+        }
+    }
+
+    return outcome;
+}
+
 exports.updatePage = (req, res) => {
     var statusini = 200;
     const pageSectionCurrentContextJson = getEntireContextJsonFromFile(pagesSectionsPath);
+    ensureNestedKeyExists(pageSectionCurrentContextJson, ["Configuration", "PageSections_CONF", "PageInvariantNames"]);
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
     // Ensure the PageInvariantNames key exists
-    ensureNestedKeyExists(pageSectionCurrentContextJson, ["Configuration", "PageSections_CONF", "PageInvariantNames"]);
     const pageInvariantNames = pageSectionCurrentContextJson.Configuration.PageSections_CONF.PageInvariantNames;
 
     // If the page does not exist, create it
@@ -194,7 +225,7 @@ exports.updatePage = (req, res) => {
         }
     }
 
-    writeJSON(pagesSectionsPath, pageSectionCurrentContextJson);
+    saveObjectInFile(pageSectionCurrentContextJson, pagesSectionsPath);
     res.status(statusini).json(pageInvariantNames[pageName]);
 };
 
@@ -260,21 +291,6 @@ exports.getPagesConfig = (req, res) => {
         res.status(500).json({ error: "Failed to fetch pages" });
     }
 };
-
-function getEntireContextJsonFromFile(filePath) {
-    var jsonFile = readJSON(filePath);
-    let outcome = jsonFile[0]; // Default to the first context
-    const selectedContextString = selectedContext || "";
-    for (const context of jsonFile) {
-        const contextString = getKeysAndValueContextStringByEntireContext(context);
-        if (contextString === selectedContextString) {
-            outcome = context;
-            break;
-        }
-    }
-
-    return outcome;
-}
 
 // Handler to get page sections from pageSections.config.json
 exports.getPageSections = (req, res) => {
