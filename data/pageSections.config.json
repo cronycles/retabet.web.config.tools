@@ -157,5 +157,14 @@
                 }
             }
         }
+    },
+    {
+        "IncludedDevices": [
+            "desktop"
+        ],
+        "IncludedEnvironments": [
+            "sada"
+        ],
+        "Configuration": {}
     }
 ]

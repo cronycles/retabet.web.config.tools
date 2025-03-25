@@ -7,7 +7,7 @@ export function initializeContextSelector(fileName) {
 
     const manualButton = document.createElement('button');
     manualButton.textContent = 'Add Context Manually';
-    manualButton.onclick = () => openManualContextModal();
+    manualButton.onclick = () => openManualContextModal(fileName);
     appDiv.appendChild(manualButton);
 
     loadContextsFromFile(fileName, dropdown);
@@ -40,7 +40,7 @@ async function loadContextsFromFile(fileName, dropdown) {
 }
 
 // Open a modal for manual context creation
-function openManualContextModal() {
+function openManualContextModal(fileName) {
     const modal = document.createElement('div');
     modal.id = 'manualContextModal';
     modal.innerHTML = `
@@ -53,7 +53,7 @@ function openManualContextModal() {
     appDiv.appendChild(modal);
 
     document.getElementById('addPropertyButton').onclick = addPropertyField;
-    document.getElementById('saveContextButton').onclick = saveManualContext;
+    document.getElementById('saveContextButton').onclick = () => saveManualContext(fileName);
 }
 
 // Add a property field for manual context creation
@@ -135,7 +135,7 @@ function getItemsForProperty(schema, property) {
 }
 
 // Save the manually created context
-function saveManualContext() {
+async function saveManualContext(fileName) {
     const properties = Array.from(document.querySelectorAll('.propertySelector')).map((selector, index) => {
         const inputContainer = document.querySelectorAll('.inputContainer')[index];
         const multiSelect = inputContainer.querySelector('.itemsMultiSelect');
@@ -152,14 +152,40 @@ function saveManualContext() {
     });
 
     const context = Object.assign({}, ...properties);
+    context.Configuration = {}; // Add the "Configuration" property
+
+    // Add the new context to the dropdown
     const dropdown = document.getElementById('contextDropdown');
     const option = document.createElement('option');
     const keysAndValues = Object.entries(context)
+        .filter(([key]) => key !== "Configuration")
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
         .join(", ");
     option.textContent = keysAndValues || "Default";
     option.value = JSON.stringify(context); // Keep the full context as the value
     dropdown.appendChild(option);
+
+    // Save the new context to the file
+    try {
+        const response = await fetch(`/api/config/${fileName}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch file: ${response.statusText}`);
+        }
+        const fileContent = await response.json();
+        fileContent.push(context); // Add the new context to the file content
+
+        const saveResponse = await fetch(`/api/config/${fileName}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(fileContent),
+        });
+
+        if (!saveResponse.ok) {
+            throw new Error(`Failed to save context: ${saveResponse.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error saving context to file:', error);
+    }
 
     document.getElementById('manualContextModal').remove();
 }

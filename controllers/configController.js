@@ -345,3 +345,17 @@ exports.getConfigFile = (req, res) => {
         res.status(500).json({ error: 'Failed to read file' });
     }
 };
+
+exports.updateConfigFile = (req, res) => {
+    const fileName = req.params.fileName;
+    const filePath = path.join(__dirname, '../data', fileName);
+
+    try {
+        const updatedContent = req.body;
+        writeJSON(filePath, updatedContent);
+        res.status(200).json({ message: 'File updated successfully' });
+    } catch (error) {
+        console.error(`Error updating file ${fileName}:`, error);
+        res.status(500).json({ error: 'Failed to update file' });
+    }
+};

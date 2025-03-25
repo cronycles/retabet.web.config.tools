@@ -29,5 +29,6 @@ router.put('/pages/:pageName/panels/:panelName/sections/order', configController
 
 router.get('/config/:fileName', configController.getConfigFile);
 router.get('/config/contextConfiguration.schema.json', configController.getConfigFile);
+router.put('/config/:fileName', configController.updateConfigFile);
 
 module.exports = router;
