@@ -182,7 +182,7 @@ ul.droppableSectionsContainer {
     margin: 0;
 }
 
-ul.droppableSectionsContainer li {
+ul.droppableSectionsContainer li:not(.dropSectionPlaceholder) {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -192,7 +192,7 @@ ul.droppableSectionsContainer li {
     background-color: #f9f9f9;
 }
 
-ul.droppableSectionsContainer li::before {
+ul.droppableSectionsContainer li:not(.dropSectionPlaceholder)::before {
     content: '\2195'; /* Unicode for a sorting icon (↕) */
     font-size: 1.2rem;
     color: #007bff;
