@@ -10,6 +10,11 @@ export function initializeContextSelector(fileName) {
     manualButton.onclick = () => openManualContextModal(fileName);
     appDiv.appendChild(manualButton);
 
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete Context';
+    deleteButton.onclick = () => deleteSelectedContext(fileName, dropdown);
+    appDiv.appendChild(deleteButton);
+
     loadContextsFromFile(fileName, dropdown);
 }
 
@@ -188,5 +193,41 @@ async function saveManualContext(fileName) {
     }
 
     document.getElementById('manualContextModal').remove();
+}
+
+// Delete the selected context
+async function deleteSelectedContext(fileName, dropdown) {
+    const selectedOption = dropdown.options[dropdown.selectedIndex];
+    if (!selectedOption || selectedOption.textContent === "Default") {
+        alert("Cannot delete the default context.");
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/config/${fileName}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch file: ${response.statusText}`);
+        }
+        const fileContent = await response.json();
+
+        // Find and remove the selected context
+        const updatedContent = fileContent.filter(context => JSON.stringify(context) !== selectedOption.value);
+
+        const saveResponse = await fetch(`/api/config/${fileName}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedContent),
+        });
+
+        if (!saveResponse.ok) {
+            throw new Error(`Failed to delete context: ${saveResponse.statusText}`);
+        }
+
+        // Remove the context from the dropdown
+        dropdown.removeChild(selectedOption);
+        alert("Context deleted successfully.");
+    } catch (error) {
+        console.error('Error deleting context:', error);
+    }
 }
 
