@@ -38,10 +38,7 @@ async function loadContextsFromFile(fileName, dropdown) {
         const contexts = await response.json();
 
         contexts.forEach(context => {
-            const keysAndValues = Object.entries(context)
-                .filter(([key]) => key !== "Configuration")
-                .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-                .join(", ");
+            const keysAndValues = getKeysAndValueContextStringByEntireContext(context);
             const displayText = keysAndValues || "Default";
 
             const option = document.createElement("option");
@@ -232,7 +229,10 @@ async function deleteSelectedContext(fileName, dropdown) {
         const fileContent = await response.json();
 
         // Find and remove the selected context
-        const updatedContent = fileContent.filter(context => JSON.stringify(context) !== selectedOption.value);
+        const updatedContent = fileContent.filter(context => {
+            const keysAndValues = getKeysAndValueContextStringByEntireContext(context);
+            return keysAndValues !== selectedOption.value;
+        });
 
         const saveResponse = await fetch(`/api/config/${fileName}`, {
             method: "PUT",
@@ -250,4 +250,11 @@ async function deleteSelectedContext(fileName, dropdown) {
     } catch (error) {
         console.error("Error deleting context:", error);
     }
+}
+
+function getKeysAndValueContextStringByEntireContext(jsonContext) {
+    return Object.entries(jsonContext)
+        .filter(([key]) => key !== "Configuration")
+        .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+        .join(", ");
 }
