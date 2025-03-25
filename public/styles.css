@@ -183,7 +183,6 @@ ul.droppableSectionsContainer {
 }
 
 ul.droppableSectionsContainer li:not(.dropSectionPlaceholder) {
-    display: flex;
     align-items: center;
     gap: 10px;
     padding: 8px;

@@ -114,9 +114,6 @@ export function initializePageSelector() {
                             sectionLi.dataset.sectionName = sectionName;
                             sectionLi.classList.add("inserted"); 
 
-                            // Add delete button for section
-                            addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName);
-
                             // Add edit button for section
                             const editButton = document.createElement("button");
                             editButton.textContent = "Edit";
@@ -159,6 +156,8 @@ export function initializePageSelector() {
                             });
 
                             sectionLi.appendChild(editButton);
+                             addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName);
+
                             if (sectionPlaceHolderLi) {
                                 sectionPlaceHolderLi.parentElement.insertBefore(sectionLi, sectionPlaceHolderLi);
                             }

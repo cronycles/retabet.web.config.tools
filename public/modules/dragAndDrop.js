@@ -124,8 +124,7 @@ export function initializeDragAndDrop() {
                                     sectionLi.setAttribute("draggable", "true");
                                     sectionLi.classList.add("inserted");
 
-                                    // Add delete button for the section
-                                    addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName);
+                                    
 
                                     // Add edit button for the section
                                     const editButton = document.createElement("button");
@@ -159,6 +158,7 @@ export function initializeDragAndDrop() {
                                     });
 
                                     sectionLi.appendChild(editButton);
+                                    addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName);
 
                                     var sectionPlaceholderFinding = e.target.classList.contains("dropSectionPlaceholder")
                                         ? e.target
