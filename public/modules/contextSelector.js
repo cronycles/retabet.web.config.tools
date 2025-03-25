@@ -36,7 +36,7 @@ async function loadContextsFromFile(fileName, dropdown) {
 
             const option = document.createElement('option');
             option.textContent = displayText;
-            option.value = JSON.stringify(context); // Keep the full context as the value
+            option.value = keysAndValues; // Keep the full context as the value
             dropdown.appendChild(option);
         });
     } catch (error) {
