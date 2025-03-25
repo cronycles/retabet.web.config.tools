@@ -24,7 +24,13 @@ export function initializeContextSelector(fileName) {
 
     loadContextsFromFile(fileName, dropdown).then(() => {
         const storedContext = localStorage.getItem("selectedContext");
-        dropdown.value = storedContext || ""; // Set to stored value or "Default"
+        const isValidContext = Array.from(dropdown.options).some(option => option.value === storedContext);
+        if (isValidContext) {
+            dropdown.value = storedContext; // Set to stored value if valid
+        } else {
+            dropdown.value = ""; // Set to empty if not valid
+            localStorage.removeItem("selectedContext"); // Remove invalid context from localStorage
+        }
     });
 }
 
