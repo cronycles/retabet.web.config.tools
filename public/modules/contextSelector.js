@@ -80,24 +80,75 @@ async function addPropertyField() {
             select.appendChild(option);
         });
 
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'itemsInput';
-        input.placeholder = 'Enter items (comma-separated)';
+        const inputContainer = document.createElement('div');
+        inputContainer.className = 'inputContainer';
+
+        select.onchange = () => {
+            const selectedProperty = select.value;
+            const items = getItemsForProperty(schema, selectedProperty);
+            inputContainer.innerHTML = ''; // Clear previous input
+
+            if (items.length > 0) {
+                // Create a multi-select for enum items
+                const multiSelect = document.createElement('select');
+                multiSelect.className = 'itemsMultiSelect';
+                multiSelect.multiple = true;
+
+                items.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item;
+                    option.textContent = item;
+                    multiSelect.appendChild(option);
+                });
+
+                inputContainer.appendChild(multiSelect);
+            } else {
+                // Create a text input for non-enum items
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'itemsInput';
+                input.placeholder = 'Enter items (comma-separated)';
+                inputContainer.appendChild(input);
+            }
+        };
 
         propertyField.appendChild(select);
-        propertyField.appendChild(input);
+        propertyField.appendChild(inputContainer);
         container.appendChild(propertyField);
+
+        // Trigger the onchange event to populate the input for the first property
+        select.dispatchEvent(new Event('change'));
     } catch (error) {
         console.error('Error loading properties from schema:', error);
     }
 }
 
+// Helper function to get items for a selected property
+function getItemsForProperty(schema, property) {
+    const propertySchema = schema.items.properties[property];
+    if (propertySchema && propertySchema.items && propertySchema.items.$ref) {
+        const ref = propertySchema.items.$ref;
+        const refKey = ref.split('/').pop(); // Extract the key from the $ref
+        return schema.$defs[refKey]?.enum || [];
+    }
+    return [];
+}
+
 // Save the manually created context
 function saveManualContext() {
     const properties = Array.from(document.querySelectorAll('.propertySelector')).map((selector, index) => {
-        const items = document.querySelectorAll('.itemsInput')[index].value.split(',').map(item => item.trim());
-        return { [selector.value]: items };
+        const inputContainer = document.querySelectorAll('.inputContainer')[index];
+        const multiSelect = inputContainer.querySelector('.itemsMultiSelect');
+        const itemsInput = inputContainer.querySelector('.itemsInput');
+
+        let selectedItems = [];
+        if (multiSelect) {
+            selectedItems = Array.from(multiSelect.selectedOptions).map(option => option.value);
+        } else if (itemsInput) {
+            selectedItems = itemsInput.value.split(',').map(item => item.trim());
+        }
+
+        return { [selector.value]: selectedItems };
     });
 
     const context = Object.assign({}, ...properties);
