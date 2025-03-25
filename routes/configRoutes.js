@@ -27,4 +27,6 @@ router.get('/pages/sections', configController.getPageSections);
 
 router.put('/pages/:pageName/panels/:panelName/sections/order', configController.updateSectionOrder);
 
+router.get('/config/:fileName', configController.getConfigFile);
+
 module.exports = router;

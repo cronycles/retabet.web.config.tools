@@ -332,3 +332,16 @@ exports.updateSectionOrder = (req, res) => {
 
     res.json({ message: "Section order updated successfully" });
 };
+
+exports.getConfigFile = (req, res) => {
+    const fileName = req.params.fileName;
+    const filePath = path.join(__dirname, '../data', fileName);
+
+    try {
+        const fileContent = readJSON(filePath);
+        res.json(fileContent);
+    } catch (error) {
+        console.error(`Error reading file ${fileName}:`, error);
+        res.status(500).json({ error: 'Failed to read file' });
+    }
+};

@@ -1,0 +1,144 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "contextConfiguration.schema.json",
+    "title": "RETAbet context configuration schema",
+    "$defs": {
+        "devices": { "enum": ["desktop", "mobile"] },
+        "platforms": { "enum": ["windows","linux","osx"] },
+        "environments": { "not": { "enum": ["ff2", "tarteko"] } },
+        "machines": { "pattern": "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$" },
+        "sites": {
+            "enum": [
+                "multiug1",
+                "multiug2",
+                "ff2",
+                "tarteko",
+                "apuestas",
+                "euskadi",
+                "navarra",
+                "rioja",
+                "andalucia",
+                "madrid",
+                "murcia",
+                "castillalamancha",
+                "canarias",
+                "peru",
+                "portugal",
+                "allug",
+                "RETAbet.Desktop",
+                "RETAbetMobile"
+            ]
+        },
+        "ugs": {
+            "enum": [
+                "apuestas",
+                "euskadi",
+                "navarra",
+                "rioja",
+                "andalucia",
+                "madrid",
+                "murcia",
+                "castillalamancha",
+                "canarias",
+                "peru",
+                "portugal"
+            ]
+        }
+    },
+    "type": "array",
+    "items": {
+        "type": "object",
+        "required": ["Configuration"],
+        "additionalProperties": false,
+        "properties": {
+            "IncludedDevices": {
+                "description": "Included devices that filter this configuration, e.g. desktop and mobile",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/devices" }
+            },
+            "ExcludedDevices": {
+                "description": "Excluded devices that filter this configuration, e.g. desktop and mobile",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/devices" }
+            },
+            "IncludedPlatforms": {
+                "description": "Included platforms that filter this configuration, e.g. windows, linux and osx",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/platforms" }
+            },
+            "ExcludedPlatforms": {
+                "description": "Excluded platforms that filter this configuration, e.g. windows, linux and osx",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/platforms" }
+            },
+            "IncludedEnvironments": {
+                "description": "Included environments that filter this configuration, e.g. pro, pre, dev, sql, jonatan, cro...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/environments" }
+            },
+            "ExcludedEnvironments": {
+                "description": "Excluded environments that filter this configuration, e.g. pro, pre, dev, sql, jonatan, cro...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/environments" }
+            },
+            "IncludedMachines": {
+                "description": "Included machine IPs that filter this configuration, e.g. 10.200.20.21, 10.1.12.21, 192.168.112.65, 127.0.0.1...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/machines" }
+            },
+            "ExcludedMachines": {
+                "description": "Excluded machine IPs that filter this configuration, e.g. 10.200.20.21, 10.1.12.21, 192.168.112.65, 127.0.0.1...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/machines" }
+            },
+            "IncludedSites": {
+                "description": "Included sites that filter this configuration, e.g. apuestas, peru, multiug1, multiug2, ff2, tarteko, allug, RETAbet.Desktop, RETAbetMobile...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/sites" }
+            },
+            "ExcludedSites": {
+                "description": "Excluded sites that filter this configuration, e.g. apuestas, peru, multiug1, multiug2, ff2, tarteko, allug, RETAbet.Desktop, RETAbetMobile...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/sites" }
+            },
+            "IncludedUGs": {
+                "description": "Included UGs that filter this configuration, e.g. apuestas, euskadi, navarra, rioja, andalucia, madrid, murcia, castillalamancha, canarias, peru...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/ugs" }
+            },
+            "ExcludedUGs": {
+                "description": "Exncluded UGs that filter this configuration, e.g. apuestas, euskadi, navarra, rioja, andalucia, madrid, murcia, castillalamancha, canarias, peru...",
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/ugs" }
+            },
+            "Configuration": {
+                "description": "Contains the configuration",
+                "type": "object"
+            }
+        }
+    }
+}
