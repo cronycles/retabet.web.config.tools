@@ -62,6 +62,11 @@ async function loadContextsFromFile(fileName, dropdown) {
 
 // Open a modal for manual context creation
 function openManualContextModal(fileName) {
+    // Check if the modal already exists
+    if (document.getElementById('manualContextModal')) {
+        return; // Do nothing if the modal is already open
+    }
+
     const modal = document.createElement('div');
     modal.id = 'manualContextModal';
     modal.innerHTML = `
