@@ -1,7 +1,7 @@
-import { initializePageSelector } from "./modules/pageSelector.js";
-import { initializeContextSelector } from "./modules/contextSelector.js";
-import { loadAvailablePanels, loadAvailableSections } from "./modules/loadResources.js";
-import { initializeDragAndDrop } from "./modules/dragAndDrop.js"; // Import drag-and-drop module
+import { initializePageSelector } from "./pageSelector.js";
+import { initializeContextSelector } from "../../configurationContext/contextSelector.js";
+import { loadAvailablePanels, loadAvailableSections } from "./loadResources.js";
+import { initializeDragAndDrop } from "./dragAndDrop.js"; // Import drag-and-drop module
 
 document.addEventListener("DOMContentLoaded", () => {
     initializeContextSelector("pageSections.config.json"); // Initialize the context
