@@ -1,6 +1,9 @@
 export function initializeContextSelector(fileName) {
-    const appDiv = document.getElementById("app");
+    const configurationContextPlaceholder = document.getElementById("configurationContextModulePlaceholder");
 
+    configurationContextPlaceholder.innerHTML = `
+        <h3>Configuration Context</h3>
+    `;
     const dropdown = document.createElement("select");
     dropdown.id = "contextDropdown";
     dropdown.onchange = async () => {
@@ -16,17 +19,17 @@ export function initializeContextSelector(fileName) {
             console.error("Failed to set selected context on server:", error);
         }
     };
-    appDiv.appendChild(dropdown);
+    configurationContextPlaceholder.appendChild(dropdown);
 
     const manualButton = document.createElement("button");
     manualButton.textContent = "Add Context Manually";
     manualButton.onclick = () => openManualContextModal(fileName);
-    appDiv.appendChild(manualButton);
+    configurationContextPlaceholder.appendChild(manualButton);
 
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete Context";
     deleteButton.onclick = () => deleteSelectedContext(fileName, dropdown);
-    appDiv.appendChild(deleteButton);
+    configurationContextPlaceholder.appendChild(deleteButton);
 
     loadContextsFromFile(fileName, dropdown).then(async () => {
         try {
