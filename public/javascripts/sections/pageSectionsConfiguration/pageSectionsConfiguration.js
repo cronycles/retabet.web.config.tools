@@ -1,5 +1,5 @@
 import { initializePageSelector } from "./pageSelector.js";
-import { initializeContextSelector } from "../../configurationContext/contextSelector.js";
+import { initializeContextSelector } from "../configurationContextSelectorModule/configurationContextSelectorModule.js";
 import { loadAvailablePanels, loadAvailableSections } from "./loadResources.js";
 import { initializeDragAndDrop } from "./dragAndDrop.js"; // Import drag-and-drop module
 
