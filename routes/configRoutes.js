@@ -1,6 +1,7 @@
-const express = require("express");
+import express from "express";
+import * as configController from "../controllers/configController.js"; // Use named imports
+
 const router = express.Router();
-const configController = require("../controllers/configController");
 
 // Routes for sections.config.json
 router.get("/sections", configController.getSections);
@@ -22,7 +23,6 @@ router.put("/pages/:pageName/panels/:panelName/sections/order", configController
 // Route to get pages from pages.config.json
 router.get("/pages/config", configController.getPagesConfig);
 
-
 router.get("/config/:fileName", configController.getConfigFile);
 router.get("/config/contextConfiguration.schema.json", configController.getConfigFile);
 router.put("/config/:fileName", configController.updateConfigFile);
@@ -30,4 +30,4 @@ router.put("/config/:fileName", configController.updateConfigFile);
 router.post("/setSelectedContext", configController.setSelectedContext);
 router.get("/getSelectedContext", configController.getSelectedContext);
 
-module.exports = router;
+export default router;

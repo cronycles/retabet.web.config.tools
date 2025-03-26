@@ -1,7 +1,11 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const configRoutes = require("./routes/configRoutes");
-const path = require("path");
+import express from "express";
+import bodyParser from "body-parser";
+import configRoutes from "./routes/configRoutes.js";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 app.use(bodyParser.json());

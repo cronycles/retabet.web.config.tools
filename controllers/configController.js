@@ -1,10 +1,15 @@
-const fs = require("fs");
-const path = require("path");
-const JSON5 = require("json5"); // Import the json5 library
+import fs from "fs";
+import path from "path";
+import JSON5 from "json5"; // Import the json5 library
+import { fileURLToPath } from "url"; // Importa fileURLToPath para convertir URLs a rutas de archivo
+
+// Convertir import.meta.url a una ruta de archivo válida
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // File paths
 const sectionsPath = path.join(__dirname, "../data/sections.config.json");
-const panelsPath = path.join(__dirname, "../data/panels.config.json"); // Updated filename
+const panelsPath = path.join(__dirname, "../data/panels.config.json");
 const pagesSectionsPath = path.join(__dirname, "../data/pageSections.config.json");
 const pagesConfigPath = path.join(__dirname, "../data/pages.config.json");
 
@@ -22,12 +27,12 @@ const readJSON = filePath => {
 const writeJSON = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
 
 // Handlers for sections.config.json
-exports.getSections = (req, res) => {
+const getSections = (req, res) => {
     const sections = readJSON(sectionsPath); // Use updated readJSON
     res.json(sections);
 };
 
-exports.addSection = (req, res) => {
+const addSection = (req, res) => {
     const sections = readJSON(sectionsPath); // Use updated readJSON
     const { sectionName, attributes } = req.body;
 
@@ -40,7 +45,7 @@ exports.addSection = (req, res) => {
     res.status(201).json({ message: "Section added successfully" });
 };
 
-exports.updateSection = (req, res) => {
+const updateSection = (req, res) => {
     const sections = readJSON(sectionsPath); // Use updated readJSON
     const { sectionName, attributes, oldSectionName } = req.body;
 
@@ -66,7 +71,7 @@ exports.updateSection = (req, res) => {
 };
 
 // Handlers for pagePanels.json
-exports.getPanels = (req, res) => {
+const getPanels = (req, res) => {
     const panels = readJSON(panelsPath); // Use updated readJSON
     const panelsData = panels[0].Configuration.Panels_CONF.Panels; // Extract panels
     const defaultAttributes = panels[0].Configuration.Panels_CONF.DefaultPanelAttributes; // Extract default attributes
@@ -80,7 +85,7 @@ exports.getPanels = (req, res) => {
     });
 };
 
-exports.addPanel = (req, res) => {
+const addPanel = (req, res) => {
     const panels = readJSON(panelsPath); // Use updated readJSON
     const newPanel = req.body;
 
@@ -96,7 +101,7 @@ exports.addPanel = (req, res) => {
     res.status(201).json(newPanel);
 };
 
-exports.updatePanel = (req, res) => {
+const updatePanel = (req, res) => {
     const panels = readJSON(panelsPath); // Use updated readJSON
     const panelName = req.params.panelName;
     const updatedPanel = req.body;
@@ -110,7 +115,7 @@ exports.updatePanel = (req, res) => {
     res.json(updatedPanel);
 };
 
-exports.deletePanel = (req, res) => {
+const deletePanel = (req, res) => {
     const panels = readJSON(panelsPath); // Use updated readJSON
     const panelName = req.params.panelName;
 
@@ -170,7 +175,7 @@ function getEntireContextJsonFromFile(filePath) {
     return outcome;
 }
 
-exports.updatePage = (req, res) => {
+const updatePage = (req, res) => {
     var statusini = 200;
     const pageSectionCurrentContextJson = getEntireContextJsonFromFile(pagesSectionsPath);
     ensureNestedKeyExists(pageSectionCurrentContextJson, ["Configuration", "PageSections_CONF", "PageInvariantNames"]);
@@ -229,7 +234,7 @@ exports.updatePage = (req, res) => {
     res.status(statusini).json(pageInvariantNames[pageName]);
 };
 
-exports.deletePage = (req, res) => {
+const deletePage = (req, res) => {
     const pages = readJSON(pagesSectionsPath); // Use updated readJSON
     const pageName = req.params.pageName;
 
@@ -243,7 +248,7 @@ exports.deletePage = (req, res) => {
 };
 
 // Handler to get pages from pages.config.json
-exports.getPagesConfig = (req, res) => {
+const getPagesConfig = (req, res) => {
     try {
         const pagesConfig = readJSON(pagesConfigPath); // Use updated readJSON
 
@@ -293,9 +298,9 @@ exports.getPagesConfig = (req, res) => {
 };
 
 // Handler to get page sections from pageSections.config.json
-exports.getPageSections = (req, res) => {
+const getPageSections = (req, res) => {
     try {
-        selectedPageSection = getEntireContextJsonFromFile(pagesSectionsPath);
+        var selectedPageSection = getEntireContextJsonFromFile(pagesSectionsPath);
 
         res.json(selectedPageSection?.Configuration?.PageSections_CONF?.PageInvariantNames || {});
     } catch (error) {
@@ -304,7 +309,7 @@ exports.getPageSections = (req, res) => {
     }
 };
 
-exports.updateSectionOrder = (req, res) => {
+const updateSectionOrder = (req, res) => {
     const { pageName, panelName } = req.params;
     const { order } = req.body;
 
@@ -327,7 +332,7 @@ exports.updateSectionOrder = (req, res) => {
     res.json({ message: "Section order updated successfully" });
 };
 
-exports.getConfigFile = (req, res) => {
+const getConfigFile = (req, res) => {
     const fileName = req.params.fileName;
     const filePath = path.join(__dirname, "../data", fileName);
 
@@ -340,7 +345,7 @@ exports.getConfigFile = (req, res) => {
     }
 };
 
-exports.updateConfigFile = (req, res) => {
+const updateConfigFile = (req, res) => {
     const fileName = req.params.fileName;
     const filePath = path.join(__dirname, "../data", fileName);
 
@@ -356,13 +361,32 @@ exports.updateConfigFile = (req, res) => {
 
 let selectedContext = ""; // Variable para almacenar el contexto seleccionado
 
-exports.setSelectedContext = (req, res) => {
+const setSelectedContext = (req, res) => {
     const { selectedContext: context } = req.body;
 
     selectedContext = context;
     res.status(200).json({ message: "Selected context set successfully" });
 };
 
-exports.getSelectedContext = (req, res) => {
+const getSelectedContext = (req, res) => {
     res.json({ selectedContext });
+};
+
+export {
+    getSections,
+    addSection,
+    updateSection,
+    getPanels,
+    addPanel,
+    updatePanel,
+    deletePanel,
+    updatePage,
+    deletePage,
+    getPagesConfig,
+    getPageSections,
+    updateSectionOrder,
+    getConfigFile,
+    updateConfigFile,
+    setSelectedContext,
+    getSelectedContext
 };
