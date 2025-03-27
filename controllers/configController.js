@@ -138,31 +138,6 @@ function getKeysAndValueContextStringByEntireContext(jsonContext) {
         .join(", ");
 }
 
-function ensureNestedKeyExists(obj, keys) {
-    keys.reduce((current, key) => {
-        if (!current[key]) {
-            current[key] = {};
-        }
-        return current[key];
-    }, obj);
-}
-
-function saveObjectInFile(jsonObjectToSave, filePath) {
-    // Read the entire file to update only the relevant part
-    const fullFileContent = readJSON(filePath);
-    const contextIndex = fullFileContent.findIndex(
-        context =>
-            getKeysAndValueContextStringByEntireContext(context) ===
-            getKeysAndValueContextStringByEntireContext(jsonObjectToSave)
-    );
-
-    if (contextIndex !== -1) {
-        fullFileContent[contextIndex] = jsonObjectToSave; // Update only the relevant context
-    }
-
-    writeJSON(filePath, fullFileContent);
-}
-
 function getEntireContextJsonFromFile(filePath) {
     var jsonFile = readJSON(filePath);
     let outcome = jsonFile[0]; // Default to the first context
@@ -180,50 +155,41 @@ function getEntireContextJsonFromFile(filePath) {
 
 const updatePage = (req, res) => {
     var statusini = 200;
-    const pageSectionCurrentContextObj = configurationFilesManager.getConfigurationObjectFromFileInTheCurrentContext(pagesSectionsPath);
-    ensureNestedKeyExists(pageSectionCurrentContextObj, ["Configuration", "PageSections_CONF", "PageInvariantNames"]);
+    const pageInvariantNamesObj = configurationFilesManager.getConfigurationObjectFromFileInTheCurrentContext(pagesSectionsPath, ["PageInvariantNames"]);
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
-    // Ensure the PageInvariantNames key exists
-    const pageInvariantNames = pageSectionCurrentContextObj.Configuration.PageSections_CONF.PageInvariantNames;
-
-    // If the page does not exist, create it
-    if (!pageInvariantNames[pageName]) {
-        pageInvariantNames[pageName] = {};
-    }
-
     if (action === "addPanel") {
-        if (!pageInvariantNames[pageName][panelName]) {
-            pageInvariantNames[pageName][panelName] = [];
+        if (!pageInvariantNamesObj[pageName][panelName]) {
+            pageInvariantNamesObj[pageName][panelName] = [];
         } else {
-            statusini = 400;
+            statusini = 403;
         }
     } else if (action === "removePanel") {
-        delete pageInvariantNames[pageName][panelName];
+        delete pageInvariantNamesObj[pageName][panelName];
 
         // Remove the page if it has no panels left
-        if (Object.keys(pageInvariantNames[pageName]).length === 0) {
-            delete pageInvariantNames[pageName];
+        if (Object.keys(pageInvariantNamesObj[pageName]).length === 0) {
+            delete pageInvariantNamesObj[pageName];
         }
     } else if (action === "addSection") {
         if (sectionName && attributes) {
-            const panelSections = pageInvariantNames[pageName][panelName] || [];
+            const panelSections = pageInvariantNamesObj[pageName][panelName] || [];
             panelSections.push({ [sectionName]: attributes });
-            pageInvariantNames[pageName][panelName] = panelSections;
+            pageInvariantNamesObj[pageName][panelName] = panelSections;
         } else {
             statusini = 400;
         }
     } else if (action === "removeSection") {
         if (sectionName) {
-            const panelSections = pageInvariantNames[pageName][panelName];
-            pageInvariantNames[pageName][panelName] = panelSections.filter(section => !section[sectionName]);
+            const panelSections = pageInvariantNamesObj[pageName][panelName];
+            pageInvariantNamesObj[pageName][panelName] = panelSections.filter(section => !section[sectionName]);
         } else {
             statusini = 400;
         }
     } else if (action === "updateSection") {
         if (sectionName && attributes) {
-            const panelSections = pageInvariantNames[pageName][panelName];
+            const panelSections = pageInvariantNamesObj[pageName][panelName];
             const sectionIndex = panelSections.findIndex(section => section[sectionName]);
             if (sectionIndex !== -1) {
                 panelSections[sectionIndex][sectionName] = attributes;
@@ -232,9 +198,8 @@ const updatePage = (req, res) => {
             statusini = 400;
         }
     }
-
-    saveObjectInFile(pageSectionCurrentContextObj, pagesSectionsPath);
-    res.status(statusini).json(pageInvariantNames[pageName]);
+    configurationFilesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, pagesSectionsPath, ["PageInvariantNames"]);
+    res.status(statusini).json(pageInvariantNamesObj[pageName]);
 };
 
 const deletePage = (req, res) => {

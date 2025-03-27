@@ -12,5 +12,7 @@ class ConfigurationJsonsManager {
             throw error;
         }
     }
+
+    writeJson = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
 }
 export default new ConfigurationJsonsManager();
