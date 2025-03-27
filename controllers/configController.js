@@ -2,6 +2,9 @@ import fs from "fs";
 import path from "path";
 import JSON5 from "json5"; // Import the json5 library
 import { fileURLToPath } from "url"; // Importa fileURLToPath para convertir URLs a rutas de archivo
+import ConfigurationFilesManager from "../managers/configurationFilesManager.js";
+
+const configurationFilesManager = ConfigurationFilesManager;
 
 // Convertir import.meta.url a una ruta de archivo válida
 const __filename = fileURLToPath(import.meta.url);
@@ -177,13 +180,13 @@ function getEntireContextJsonFromFile(filePath) {
 
 const updatePage = (req, res) => {
     var statusini = 200;
-    const pageSectionCurrentContextJson = getEntireContextJsonFromFile(pagesSectionsPath);
-    ensureNestedKeyExists(pageSectionCurrentContextJson, ["Configuration", "PageSections_CONF", "PageInvariantNames"]);
+    const pageSectionCurrentContextObj = configurationFilesManager.getConfigurationObjectFromFileInTheCurrentContext(pagesSectionsPath);
+    ensureNestedKeyExists(pageSectionCurrentContextObj, ["Configuration", "PageSections_CONF", "PageInvariantNames"]);
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
     // Ensure the PageInvariantNames key exists
-    const pageInvariantNames = pageSectionCurrentContextJson.Configuration.PageSections_CONF.PageInvariantNames;
+    const pageInvariantNames = pageSectionCurrentContextObj.Configuration.PageSections_CONF.PageInvariantNames;
 
     // If the page does not exist, create it
     if (!pageInvariantNames[pageName]) {
@@ -230,7 +233,7 @@ const updatePage = (req, res) => {
         }
     }
 
-    saveObjectInFile(pageSectionCurrentContextJson, pagesSectionsPath);
+    saveObjectInFile(pageSectionCurrentContextObj, pagesSectionsPath);
     res.status(statusini).json(pageInvariantNames[pageName]);
 };
 
