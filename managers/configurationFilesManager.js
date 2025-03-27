@@ -2,15 +2,22 @@ import ConfigurationContextManager from "./configurationContextManager.js";
 import ConfigurationJsonsManager from "./configurationJsonsManager.js";
 
 class ConfigurationFilesManager {
-    
     #JSON_CONFIGURATION_KEY = "Configuration";
-    
+
     #contextManager;
     #jsonManager;
 
     constructor() {
+        if (ConfigurationFilesManager.instance) {
+            return ConfigurationFilesManager.instance;
+        }
+        
         this.#contextManager = ConfigurationContextManager;
         this.#jsonManager = ConfigurationJsonsManager;
+
+        // Asigna la instancia al singleton antes de congelar
+        ConfigurationFilesManager.instance = this;
+        Object.freeze(this); // Congela solo la instancia actual
     }
 
     /**
@@ -105,6 +112,7 @@ class ConfigurationFilesManager {
     #getCurrentConfigurationContext() {
         let outcome = "";
         const currentContext = this.#contextManager.getCurrentContext();
+        console.log("currentContext", currentContext);
         if (currentContext != null) {
             outcome = currentContext;
         }
@@ -134,4 +142,6 @@ class ConfigurationFilesManager {
         }, obj);
     }
 }
-export default new ConfigurationFilesManager();
+const instance = new ConfigurationFilesManager();
+
+export default instance;

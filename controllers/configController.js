@@ -132,89 +132,7 @@ const deletePanel = (req, res) => {
     res.status(204).send();
 };
 
-function getKeysAndValueContextStringByEntireContext(jsonContext) {
-    return Object.entries(jsonContext)
-        .filter(([key]) => key !== "Configuration")
-        .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-        .join(", ");
-}
 
-function getEntireContextJsonFromFile(filePath) {
-    var jsonFile = readJSON(filePath);
-    let outcome = jsonFile[0]; // Default to the first context
-    const selectedContextString = contextManager.getCurrentContext() || "";
-    for (const context of jsonFile) {
-        const contextString = getKeysAndValueContextStringByEntireContext(context);
-        if (contextString === selectedContextString) {
-            outcome = context;
-            break;
-        }
-    }
-
-    return outcome;
-}
-
-const updatePage = (req, res) => {
-    var statusini = 200;
-    const pageInvariantNamesObj = filesManager.getConfigurationObjectFromFileInTheCurrentContext(pagesSectionsPath, ["PageInvariantNames"]);
-    const pageName = req.params.pageName;
-    const { action, panelName, sectionName, attributes } = req.body;
-
-    if (action === "addPanel") {
-        if (!pageInvariantNamesObj[pageName][panelName]) {
-            pageInvariantNamesObj[pageName][panelName] = [];
-        } else {
-            statusini = 403;
-        }
-    } else if (action === "removePanel") {
-        delete pageInvariantNamesObj[pageName][panelName];
-
-        // Remove the page if it has no panels left
-        if (Object.keys(pageInvariantNamesObj[pageName]).length === 0) {
-            delete pageInvariantNamesObj[pageName];
-        }
-    } else if (action === "addSection") {
-        if (sectionName && attributes) {
-            const panelSections = pageInvariantNamesObj[pageName][panelName] || [];
-            panelSections.push({ [sectionName]: attributes });
-            pageInvariantNamesObj[pageName][panelName] = panelSections;
-        } else {
-            statusini = 400;
-        }
-    } else if (action === "removeSection") {
-        if (sectionName) {
-            const panelSections = pageInvariantNamesObj[pageName][panelName];
-            pageInvariantNamesObj[pageName][panelName] = panelSections.filter(section => !section[sectionName]);
-        } else {
-            statusini = 400;
-        }
-    } else if (action === "updateSection") {
-        if (sectionName && attributes) {
-            const panelSections = pageInvariantNamesObj[pageName][panelName];
-            const sectionIndex = panelSections.findIndex(section => section[sectionName]);
-            if (sectionIndex !== -1) {
-                panelSections[sectionIndex][sectionName] = attributes;
-            }
-        } else {
-            statusini = 400;
-        }
-    }
-    filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, pagesSectionsPath, ["PageInvariantNames"]);
-    res.status(statusini).json(pageInvariantNamesObj[pageName]);
-};
-
-const deletePage = (req, res) => {
-    const pages = readJSON(pagesSectionsPath); // Use updated readJSON
-    const pageName = req.params.pageName;
-
-    const filteredPages = pages.filter(page => !page.Configuration.PageSections_CONF.PageInvariantNames[pageName]);
-    if (filteredPages.length === pages.length) {
-        return res.status(404).json({ error: "Page not found" });
-    }
-
-    writeJSON(pagesSectionsPath, filteredPages);
-    res.status(204).send();
-};
 
 // Handler to get pages from pages.config.json
 const getPagesConfig = (req, res) => {
@@ -263,18 +181,6 @@ const getPagesConfig = (req, res) => {
     } catch (error) {
         console.error("Error in getPagesConfig:", error);
         res.status(500).json({ error: "Failed to fetch pages" });
-    }
-};
-
-// Handler to get page sections from pageSections.config.json
-const getPageSections = (req, res) => {
-    try {
-        var selectedPageSection = getEntireContextJsonFromFile(pagesSectionsPath);
-
-        res.json(selectedPageSection?.Configuration?.PageSections_CONF?.PageInvariantNames || {});
-    } catch (error) {
-        console.error("Error in getPageSections:", error);
-        res.status(500).json({ error: "Failed to fetch page sections" });
     }
 };
 
@@ -348,10 +254,7 @@ export {
     addPanel,
     updatePanel,
     deletePanel,
-    updatePage,
-    deletePage,
     getPagesConfig,
-    getPageSections,
     updateSectionOrder,
     getConfigFile,
     updateConfigFile,

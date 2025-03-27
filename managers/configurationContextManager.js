@@ -3,10 +3,11 @@ class ConfigurationContextManager {
 
     constructor() {
         if (ConfigurationContextManager.instance) {
-            return ConfigurationContextManager.instance;
+            return ConfigurationContextManager.instance; // Reutiliza la instancia existente
         }
-        this.#currentContext = "";
-        ConfigurationContextManager.instance = this;
+        this.#currentContext = ""; // Inicializa el contexto vacío
+        ConfigurationContextManager.instance = this; // Guarda la instancia
+        Object.freeze(this); // Congela la instancia para evitar modificaciones
     }
 
     getCurrentContext() {
@@ -18,7 +19,6 @@ class ConfigurationContextManager {
     }
 }
 
+// Exporta siempre la misma instancia
 const instance = new ConfigurationContextManager();
-Object.freeze(instance);
-
 export default instance;

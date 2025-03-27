@@ -1,7 +1,9 @@
 import express from "express";
 import * as configController from "../controllers/configController.js"; // Use named imports
+import PageSectionsController from "../sections/pageSectionsConfiguration/controllers/pageSectionsController.js";
 
 const router = express.Router();
+const pageSectionsController = new PageSectionsController();
 
 // Routes for sections.config.json
 router.get("/sections", configController.getSections);
@@ -15,9 +17,9 @@ router.put("/panels/:panelName", configController.updatePanel);
 router.delete("/panels/:panelName", configController.deletePanel);
 
 // Routes for pageSections.config.json
-router.get("/pages/sections", configController.getPageSections);
-router.put("/pages/:pageName", configController.updatePage);
-router.delete("/pages/:pageName", configController.deletePage);
+router.get("/pages/sections", pageSectionsController.getPageSections);
+router.put("/pages/:pageName", pageSectionsController.updatePage);
+router.delete("/pages/:pageName", pageSectionsController.deletePage);
 router.put("/pages/:pageName/panels/:panelName/sections/order", configController.updateSectionOrder);
 
 // Route to get pages from pages.config.json
