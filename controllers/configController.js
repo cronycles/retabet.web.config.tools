@@ -3,8 +3,10 @@ import path from "path";
 import JSON5 from "json5"; // Import the json5 library
 import { fileURLToPath } from "url"; // Importa fileURLToPath para convertir URLs a rutas de archivo
 import ConfigurationFilesManager from "../managers/configurationFilesManager.js";
+import ConfigurationContextManager from "../managers/configurationContextManager.js";
 
-const configurationFilesManager = ConfigurationFilesManager;
+const filesManager = ConfigurationFilesManager;
+const contextManager = ConfigurationContextManager;
 
 // Convertir import.meta.url a una ruta de archivo válida
 const __filename = fileURLToPath(import.meta.url);
@@ -62,8 +64,7 @@ const updateSection = (req, res) => {
 
     // Rename the section if the name has changed
     if (sectionName !== oldSectionName) {
-        sections[0].Configuration.Sections_CONF.Sections[sectionName] =
-            sections[0].Configuration.Sections_CONF.Sections[oldSectionName];
+        sections[0].Configuration.Sections_CONF.Sections[sectionName] = sections[0].Configuration.Sections_CONF.Sections[oldSectionName];
         delete sections[0].Configuration.Sections_CONF.Sections[oldSectionName];
     }
 
@@ -141,7 +142,7 @@ function getKeysAndValueContextStringByEntireContext(jsonContext) {
 function getEntireContextJsonFromFile(filePath) {
     var jsonFile = readJSON(filePath);
     let outcome = jsonFile[0]; // Default to the first context
-    const selectedContextString = selectedContext || "";
+    const selectedContextString = contextManager.getCurrentContext() || "";
     for (const context of jsonFile) {
         const contextString = getKeysAndValueContextStringByEntireContext(context);
         if (contextString === selectedContextString) {
@@ -155,7 +156,7 @@ function getEntireContextJsonFromFile(filePath) {
 
 const updatePage = (req, res) => {
     var statusini = 200;
-    const pageInvariantNamesObj = configurationFilesManager.getConfigurationObjectFromFileInTheCurrentContext(pagesSectionsPath, ["PageInvariantNames"]);
+    const pageInvariantNamesObj = filesManager.getConfigurationObjectFromFileInTheCurrentContext(pagesSectionsPath, ["PageInvariantNames"]);
     const pageName = req.params.pageName;
     const { action, panelName, sectionName, attributes } = req.body;
 
@@ -198,7 +199,7 @@ const updatePage = (req, res) => {
             statusini = 400;
         }
     }
-    configurationFilesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, pagesSectionsPath, ["PageInvariantNames"]);
+    filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, pagesSectionsPath, ["PageInvariantNames"]);
     res.status(statusini).json(pageInvariantNamesObj[pageName]);
 };
 
@@ -327,17 +328,16 @@ const updateConfigFile = (req, res) => {
     }
 };
 
-let selectedContext = ""; // Variable para almacenar el contexto seleccionado
-
 const setSelectedContext = (req, res) => {
     const { selectedContext: context } = req.body;
-
-    selectedContext = context;
+    contextManager.setCurrentContext(context);
     res.status(200).json({ message: "Selected context set successfully" });
 };
 
 const getSelectedContext = (req, res) => {
-    res.json({ selectedContext });
+    let outcome = {};
+    outcome = contextManager.getCurrentContext();
+    res.json({ selectedContext: outcome });
 };
 
 export {
@@ -356,5 +356,5 @@ export {
     getConfigFile,
     updateConfigFile,
     setSelectedContext,
-    getSelectedContext
+    getSelectedContext,
 };
