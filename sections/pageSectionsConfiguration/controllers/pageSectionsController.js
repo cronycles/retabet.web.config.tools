@@ -8,8 +8,6 @@ import ConfigurationContextManager from "../../../managers/configurationContextM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const pageSectionsPath = path.join(__dirname, "../../../data/pageSections.config.json");
-
 class PageSectionsController {
     #filesManager;
     #contextManager;
@@ -19,11 +17,12 @@ class PageSectionsController {
     constructor() {
         this.#filesManager = ConfigurationFilesManager;
         this.#contextManager = ConfigurationContextManager;
+        this.#pageSectionsPath = path.join(__dirname, "../../../data/pageSections.config.json");
     }
 
     getPageSections = (req, res) => {
         try {
-            var selectedPageSection = this.#getEntireContextJsonFromFile(pageSectionsPath);
+            var selectedPageSection = this.#getEntireContextJsonFromFile(this.#pageSectionsPath);
 
             res.json(selectedPageSection?.Configuration?.PageSections_CONF?.PageInvariantNames || {});
         } catch (error) {
@@ -35,7 +34,7 @@ class PageSectionsController {
     updatePage = (req, res) => {
         var statusini = 200;
         const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(
-            pageSectionsPath,
+            this.#pageSectionsPath,
             ["PageInvariantNames"]
         );
         const pageName = req.params.pageName;
@@ -80,14 +79,14 @@ class PageSectionsController {
                 statusini = 400;
             }
         }
-        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, pageSectionsPath, [
+        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsPath, [
             "PageInvariantNames",
         ]);
         res.status(statusini).json(pageInvariantNamesObj[pageName]);
     };
 
     deletePage = (req, res) => {
-        const pages = readJSON(pageSectionsPath); // Use updated readJSON
+        const pages = readJSON(this.#pageSectionsPath); // Use updated readJSON
         const pageName = req.params.pageName;
 
         const filteredPages = pages.filter(page => !page.Configuration.PageSections_CONF.PageInvariantNames[pageName]);
@@ -95,7 +94,7 @@ class PageSectionsController {
             return res.status(404).json({ error: "Page not found" });
         }
 
-        writeJSON(pageSectionsPath, filteredPages);
+        writeJSON(this.#pageSectionsPath, filteredPages);
         res.status(204).send();
     };
 
