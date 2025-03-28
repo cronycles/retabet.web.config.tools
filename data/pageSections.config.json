@@ -166,7 +166,25 @@
             "PageSections_CONF": {
                 "PageInvariantNames": {
                     "SportsbookHome": {
-                        "MainPanel": []
+                        "MainPanel": [
+                            {
+                                "BetslipUserBetsSwitcher": {
+                                    "Args": {
+                                        "ShowBack": true,
+                                        "IsUserBetsAlwaysEnabled": true
+                                    },
+                                    "Active": true,
+                                    "Scrollable": false,
+                                    "Selected": true,
+                                    "Sortable": false,
+                                    "Removable": false,
+                                    "ViewName": "",
+                                    "Visible": true,
+                                    "WithTitle": false
+                                }
+                            }
+                        ],
+                        "SecondaryPanel": []
                     }
                 }
             }

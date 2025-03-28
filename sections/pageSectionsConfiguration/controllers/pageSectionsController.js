@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
-import JSON5 from "json5"; 
-import { fileURLToPath } from "url"; 
+import JSON5 from "json5";
+import { fileURLToPath } from "url";
 import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
 import ConfigurationContextManager from "../../../managers/configurationContextManager.js";
 
@@ -20,7 +20,7 @@ class PageSectionsController {
         this.#pageSectionsPath = path.join(__dirname, "../../../data/pageSections.config.json");
     }
 
-    getPageSections = (req, res) => {
+    getPageSections(req, res) {
         try {
             var selectedPageSection = this.#getEntireContextJsonFromFile(this.#pageSectionsPath);
 
@@ -29,14 +29,11 @@ class PageSectionsController {
             console.error("Error in getPageSections:", error);
             res.status(500).json({ error: "Failed to fetch page sections" });
         }
-    };
+    }
 
-    updatePage = (req, res) => {
+    updatePage(req, res) {
         var statusini = 200;
-        const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(
-            this.#pageSectionsPath,
-            ["PageInvariantNames"]
-        );
+        const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsPath, ["PageInvariantNames"]);
         const pageName = req.params.pageName;
         const { action, panelName, sectionName, attributes } = req.body;
 
@@ -79,13 +76,11 @@ class PageSectionsController {
                 statusini = 400;
             }
         }
-        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsPath, [
-            "PageInvariantNames",
-        ]);
+        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsPath, ["PageInvariantNames"]);
         res.status(statusini).json(pageInvariantNamesObj[pageName]);
-    };
+    }
 
-    deletePage = (req, res) => {
+    deletePage(req, res) {
         const pages = readJSON(this.#pageSectionsPath); // Use updated readJSON
         const pageName = req.params.pageName;
 
@@ -96,7 +91,7 @@ class PageSectionsController {
 
         writeJSON(this.#pageSectionsPath, filteredPages);
         res.status(204).send();
-    };
+    }
 
     #getKeysAndValueContextStringByEntireContext(jsonContext) {
         return Object.entries(jsonContext)
@@ -127,7 +122,6 @@ class PageSectionsController {
             console.error(`Error reading JSON file at ${filePath}:`, error);
             throw error;
         }
-    };
-    
+    }
 }
 export default PageSectionsController;
