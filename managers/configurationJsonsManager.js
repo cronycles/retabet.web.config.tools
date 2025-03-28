@@ -2,7 +2,14 @@ import fs from "fs";
 import JSON5 from "json5";
 
 class ConfigurationJsonsManager {
-    constructor() {}
+    static #instance = null;
+
+    static getInstance() {
+        if (!ConfigurationJsonsManager.#instance) {
+            ConfigurationJsonsManager.#instance = new ConfigurationJsonsManager();
+        }
+        return ConfigurationJsonsManager.#instance;
+    }
 
     readJson(filePath) {
         try {
@@ -13,6 +20,9 @@ class ConfigurationJsonsManager {
         }
     }
 
-    writeJson = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
+    writeJson(filePath, data) {
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
+    }
 }
-export default new ConfigurationJsonsManager();
+
+export default ConfigurationJsonsManager.getInstance();

@@ -1,13 +1,12 @@
 class ConfigurationContextManager {
-    #currentContext;
+    static #instance = null;
+    #currentContext = "";
 
-    constructor() {
-        if (ConfigurationContextManager.instance) {
-            return ConfigurationContextManager.instance; // Reutiliza la instancia existente
+    static getInstance() {
+        if (!ConfigurationContextManager.#instance) {
+            ConfigurationContextManager.#instance = new ConfigurationContextManager();
         }
-        this.#currentContext = ""; // Inicializa el contexto vacío
-        ConfigurationContextManager.instance = this; // Guarda la instancia
-        Object.freeze(this); // Congela la instancia para evitar modificaciones
+        return ConfigurationContextManager.#instance;
     }
 
     getCurrentContext() {
@@ -19,6 +18,4 @@ class ConfigurationContextManager {
     }
 }
 
-// Exporta siempre la misma instancia
-const instance = new ConfigurationContextManager();
-export default instance;
+export default ConfigurationContextManager.getInstance();
