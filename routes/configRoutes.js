@@ -17,15 +17,9 @@ router.put("/panels/:panelName", configController.updatePanel);
 router.delete("/panels/:panelName", configController.deletePanel);
 
 // Routes for pageSections.config.json
-router.get("/pages/sections", function (req, res) {
-    pageSectionsController.getPageSections(req, res);
-});
-router.put("/pages/:pageName", function (req, res) {
-    pageSectionsController.updatePage(req, res);
-});
-router.delete("/pages/:pageName", function (req, res) {
-    pageSectionsController.deletePage(req, res);
-});
+router.get("/pages/sections", (req, res) => pageSectionsController.getPageSections(req, res));
+router.put("/pages/:pageName", (req, res) => pageSectionsController.updatePage(req, res));
+router.delete("/pages/:pageName", (req, res) => pageSectionsController.deletePage(req, res));
 router.put("/pages/:pageName/panels/:panelName/sections/order", configController.updateSectionOrder);
 
 // Route to get pages from pages.config.json
