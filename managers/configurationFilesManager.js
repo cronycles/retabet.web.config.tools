@@ -27,7 +27,7 @@ class ConfigurationFilesManager {
      * @param {*} filePath
      * @returns
      */
-    getConfigurationObjectFromFileInTheCurrentContext(filePath, hierarchyArray) {
+    getConfigurationObjectFromFileInTheCurrentContext = (filePath, hierarchyArray) => {
         var jsonFile = this.#jsonManager.readJson(filePath);
         let outcome = {};
 
@@ -53,7 +53,7 @@ class ConfigurationFilesManager {
         }
 
         return outcome;
-    }
+    };
 
     /**
      * Saves the given configuration object into the correct context of the JSON file.
@@ -62,7 +62,7 @@ class ConfigurationFilesManager {
      * @param {*} filePath - The path to the JSON file.
      * @param {*} hierarchyArray - The hierarchy to locate the object in the JSON structure.
      */
-    saveConfigurationObjectInFileInTheCurrentContext(configurationObjectToSave, filePath, hierarchyArray) {
+    saveConfigurationObjectInFileInTheCurrentContext = (configurationObjectToSave, filePath, hierarchyArray) => {
         const jsonFile = this.#jsonManager.readJson(filePath);
         let foundObjectInContext = null;
 
@@ -89,9 +89,9 @@ class ConfigurationFilesManager {
 
         // Write the updated JSON back to the file
         this.#jsonManager.writeJson(filePath, jsonFile);
-    }
+    };
 
-    #isFileContextPartCorrespondingToTheCurrentContext(fileContextPartObj) {
+    #isFileContextPartCorrespondingToTheCurrentContext = (fileContextPartObj) => {
         let outcome = false;
         const currentContext = this.#getCurrentConfigurationContext();
         const contextString = this.#getKeysAndValueContextStringByEntireContext(fileContextPartObj);
@@ -100,16 +100,16 @@ class ConfigurationFilesManager {
         }
 
         return outcome;
-    }
+    };
 
-    #getKeysAndValueContextStringByEntireContext(jsonContext) {
+    #getKeysAndValueContextStringByEntireContext = (jsonContext) => {
         return Object.entries(jsonContext)
             .filter(([key]) => key !== this.#JSON_CONFIGURATION_KEY)
             .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
             .join(", ");
-    }
+    };
 
-    #getCurrentConfigurationContext() {
+    #getCurrentConfigurationContext = () => {
         let outcome = "";
         const currentContext = this.#contextManager.getCurrentContext();
         console.log("currentContext", currentContext);
@@ -117,9 +117,9 @@ class ConfigurationFilesManager {
             outcome = currentContext;
         }
         return outcome;
-    }
+    };
 
-    #getObjectFromFirstNestedKeyAfterConfigurationKey(jsonObject) {
+    #getObjectFromFirstNestedKeyAfterConfigurationKey = (jsonObject) => {
         let outcome = {};
 
         const configurationObject = jsonObject[this.#JSON_CONFIGURATION_KEY];
@@ -131,16 +131,16 @@ class ConfigurationFilesManager {
         }
 
         return outcome;
-    }
+    };
 
-    #createOrTraverseNestedKeys(obj, keys) {
+    #createOrTraverseNestedKeys = (obj, keys) => {
         return keys.reduce((current, key) => {
             if (!current[key]) {
                 current[key] = {};
             }
             return current[key];
         }, obj);
-    }
+    };
 }
 const instance = new ConfigurationFilesManager();
 
