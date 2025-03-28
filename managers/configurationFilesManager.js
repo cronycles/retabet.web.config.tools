@@ -107,7 +107,6 @@ class ConfigurationFilesManager {
     #getCurrentConfigurationContext() {
         let outcome = "";
         const currentContext = this.#contextManager.getCurrentContext();
-        console.log("currentContext", currentContext);
         if (currentContext != null) {
             outcome = currentContext;
         }
