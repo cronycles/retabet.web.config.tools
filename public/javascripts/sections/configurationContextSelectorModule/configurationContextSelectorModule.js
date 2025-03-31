@@ -94,8 +94,9 @@ function openManualContextModal(fileName) {
         <button id="addPropertyButton">Add Property</button>
         <button id="saveContextButton">Save Context</button>
     `;
-    const appDiv = document.getElementById("app");
-    appDiv.appendChild(modal);
+
+    const configurationContextPlaceholder = document.getElementById("configurationContextModulePlaceholder");
+    configurationContextPlaceholder.appendChild(modal);
 
     document.getElementById("addPropertyButton").onclick = addPropertyField;
     document.getElementById("saveContextButton").onclick = () => saveManualContext(fileName);
