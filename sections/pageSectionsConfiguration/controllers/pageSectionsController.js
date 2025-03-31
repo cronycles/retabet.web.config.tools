@@ -83,5 +83,30 @@ class PageSectionsController {
 
         res.status(statusini).json(pageInvariantNamesObj[pageName]);
     }
+
+    updateSectionsOrderInAPanelOfAPage(req, res) {
+        let outcome = {
+            status: 500,
+            error: "Unknown error occured",
+            message: "",
+        };
+
+        const { pageName, panelName } = req.params;
+        const { order } = req.body;
+
+        let updateOutput = this.#pageSectionsManager.updateSectionsOrderInAPanelOfAPage(pageName, panelName, order);
+
+        if (updateOutput.isOk) {
+            outcome.status = 200;
+            outcome.message = "Section order updated successfully";
+        } else {
+            if (updateOutput.errorType == "NOT_FOUND") {
+                outcome.status = 404;
+                outcome.error = "Page or panel not found";
+            }
+        }
+
+        return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
+    }
 }
 export default PageSectionsController;

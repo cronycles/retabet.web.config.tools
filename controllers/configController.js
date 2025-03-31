@@ -13,7 +13,6 @@ const __dirname = path.dirname(__filename);
 // File paths
 const sectionsPath = path.join(__dirname, "../data/sections.config.json");
 const panelsPath = path.join(__dirname, "../data/panels.config.json");
-const pagesSectionsPath = path.join(__dirname, "../data/pageSections.config.json");
 
 // Utility to read JSON files
 const readJSON = filePath => {
@@ -129,29 +128,6 @@ const deletePanel = (req, res) => {
     res.status(204).send();
 };
 
-const updateSectionsOrderInAPanelOfAPage = (req, res) => {
-    const { pageName, panelName } = req.params;
-    const { order } = req.body;
-
-    const pagesConfig = readJSON(pagesSectionsPath); // Ensure this reads the correct file
-    const page = pagesConfig[0]?.Configuration?.PageSections_CONF?.PageInvariantNames[pageName];
-    if (!page || !page[panelName]) {
-        return res.status(404).json({ error: "Page or panel not found" });
-    }
-
-    const panelSections = page[panelName];
-    const reorderedSections = order.map(sectionName => {
-        return panelSections.find(section => {
-            return typeof section === "string" ? section === sectionName : Object.keys(section)[0] === sectionName;
-        });
-    });
-
-    pagesConfig[0].Configuration.PageSections_CONF.PageInvariantNames[pageName][panelName] = reorderedSections;
-    writeJSON(pagesSectionsPath, pagesConfig);
-
-    res.json({ message: "Section order updated successfully" });
-};
-
 const getConfigFile = (req, res) => {
     const fileName = req.params.fileName;
     const filePath = path.join(__dirname, "../data", fileName);
@@ -199,7 +175,6 @@ export {
     addPanel,
     updatePanel,
     deletePanel,
-    updateSectionsOrderInAPanelOfAPage,
     getConfigFile,
     updateConfigFile,
     setSelectedContext,

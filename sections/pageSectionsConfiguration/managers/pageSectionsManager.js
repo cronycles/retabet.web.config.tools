@@ -26,6 +26,34 @@ class PageSectionsManager {
         return outcome;
     }
 
+    updateSectionsOrderInAPanelOfAPage (pageName, panelName, order) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN"
+        }
+        
+        const pageInvariantNamesObj = this.getPageInvariantNamesObjectFromFile();
+        const page = pageInvariantNamesObj[pageName];
+        if (!page || !page[panelName]) {
+            outcome.errorType = "NOT_FOUND";
+        }
+        else {
+            const panelSections = page[panelName];
+            const reorderedSections = order.map(sectionName => {
+                return panelSections.find(section => {
+                    return typeof section === "string" ? section === sectionName : Object.keys(section)[0] === sectionName;
+                });
+            });
+        
+            pageInvariantNamesObj[pageName][panelName] = reorderedSections;
+            this.savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
+            outcome.isOk = true;
+        
+        }
+    
+        return outcome;
+    }
+
     getPageInvariantNamesObjectFromFile() {
         return this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsFileName, this.#pageInvariantNameHierarchy);
     }
