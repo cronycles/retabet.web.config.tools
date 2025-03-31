@@ -135,7 +135,7 @@ const deletePanel = (req, res) => {
 
 
 // Handler to get pages from pages.config.json
-const getPagesConfig = (req, res) => {
+const getPages = (req, res) => {
     try {
         const pagesConfig = readJSON(pagesConfigPath); // Use updated readJSON
 
@@ -179,7 +179,7 @@ const getPagesConfig = (req, res) => {
 
         res.json(pages);
     } catch (error) {
-        console.error("Error in getPagesConfig:", error);
+        console.error("Error in getPages:", error);
         res.status(500).json({ error: "Failed to fetch pages" });
     }
 };
@@ -254,8 +254,8 @@ export {
     addPanel,
     updatePanel,
     deletePanel,
-    getPagesConfig,
-    updateSectionOrder,
+    getPages as getPages,
+    updateSectionOrder as updateSectionsOrderInAPanelOfAPage,
     getConfigFile,
     updateConfigFile,
     setSelectedContext,

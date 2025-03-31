@@ -23,7 +23,7 @@ class PageSectionsController {
         }
     }
 
-    updatePage(req, res) {
+    updatePageSectionsByPage(req, res) {
         var statusini = 200;
         const pageInvariantNamesObj = this.#getPageInvariantNamesObjectFromFile();
         const pageName = req.params.pageName;

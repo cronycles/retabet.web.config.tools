@@ -17,12 +17,10 @@ router.put("/panels/:panelName", configController.updatePanel);
 router.delete("/panels/:panelName", configController.deletePanel);
 
 // Routes for pageSections.config.json
-router.get("/pages/sections", (req, res) => pageSectionsController.getPageSections(req, res));
-router.put("/pages/:pageName", (req, res) => pageSectionsController.updatePage(req, res));
-router.put("/pages/:pageName/panels/:panelName/sections/order", configController.updateSectionOrder);
-
-// Route to get pages from pages.config.json
-router.get("/pages/config", configController.getPagesConfig);
+router.get("/pageSections", (req, res) => pageSectionsController.getPageSections(req, res));
+router.get("/pageSections/pages", configController.getPages);
+router.put("/pageSections/:pageName", (req, res) => pageSectionsController.updatePageSectionsByPage(req, res));
+router.put("/pageSections/:pageName/panels/:panelName/sections/order", configController.updateSectionsOrderInAPanelOfAPage);
 
 router.get("/config/:fileName", configController.getConfigFile);
 router.get("/config/contextConfiguration.schema.json", configController.getConfigFile);

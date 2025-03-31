@@ -49,7 +49,7 @@ export function initializeDragAndDrop() {
                 const panelName = e.dataTransfer.getData("panelName");
                 if (panelName && selectedPage) {
                     // Add the panel to the pageSections.config.json
-                    fetch(`/api/pages/${selectedPage}`, {
+                    fetch(`/api/pageSections/${selectedPage}`, {
                         method: "PUT",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -107,7 +107,7 @@ export function initializeDragAndDrop() {
                                 return;
                             }
 
-                            fetch(`/api/pages/${selectedPage}`, {
+                            fetch(`/api/pageSections/${selectedPage}`, {
                                 method: "PUT",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({
@@ -142,7 +142,7 @@ export function initializeDragAndDrop() {
                                         editorContainer,
                                         defaultAttributes,
                                         updatedAttributes => {
-                                            fetch(`/api/pages/${selectedPage}`, {
+                                            fetch(`/api/pageSections/${selectedPage}`, {
                                                 method: "PUT",
                                                 headers: { "Content-Type": "application/json" },
                                                 body: JSON.stringify({

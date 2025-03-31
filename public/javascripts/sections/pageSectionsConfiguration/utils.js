@@ -10,7 +10,7 @@ export function addDeleteButton(element, type, name, pageName, panelName = null)
             body.position = position; // Usar posición actual
         }
 
-        fetch(`/api/pages/${pageName}`, {
+        fetch(`/api/pageSections/${pageName}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)

@@ -11,7 +11,7 @@ export function initializePageSelector() {
     let currentEditingSection = null; // Track the currently open editor
 
     // Fetch pages from the backend
-    fetch("/api/pages/config")
+    fetch("/api/pageSections/pages")
         .then(res => res.json())
         .then(data => {
             pages = data; // Store pages for filtering
@@ -75,7 +75,7 @@ export function initializePageSelector() {
         panels.forEach(panel => panel.remove());
 
         // Fetch page sections from the backend
-        fetch("/api/pages/sections")
+        fetch("/api/pageSections")
             .then(res => res.json())
             .then(pageSections => {
                 const pageData = pageSections[selectedPage];
@@ -130,7 +130,7 @@ export function initializePageSelector() {
                                     editorContainer,
                                     sectionAttributes,
                                     updatedAttributes => {
-                                        fetch(`/api/pages/${selectedPage}`, {
+                                        fetch(`/api/pageSections/${selectedPage}`, {
                                             method: "PUT",
                                             headers: { "Content-Type": "application/json" },
                                             body: JSON.stringify({
