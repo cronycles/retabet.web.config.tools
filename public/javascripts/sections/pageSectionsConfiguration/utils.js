@@ -1,12 +1,13 @@
-export function addDeleteButton(element, type, name, pageName, panelName = null, position = null) {
+export function addDeleteButton(element, type, name, pageName, panelName = null) {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', () => {
+        const position = Array.from(element.parentNode.children).indexOf(element); // Calcular posición actual
         const body = { action: type === 'panel' ? 'removePanel' : 'removeSection', panelName: name };
         if (type === 'section') {
             body.sectionName = name;
             body.panelName = panelName;
-            body.position = position; // Include position in the request
+            body.position = position; // Usar posición actual
         }
 
         fetch(`/api/pages/${pageName}`, {

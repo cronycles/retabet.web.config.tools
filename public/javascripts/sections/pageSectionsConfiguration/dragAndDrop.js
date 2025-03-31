@@ -124,7 +124,6 @@ export function initializeDragAndDrop() {
                                     throw new Error("Failed to add section");
                                 }
                             }).then(data => {
-                                const sectionIndex = data.index; // Get the index from the response
                                 const sectionLi = document.createElement("li");
                                 sectionLi.textContent = sectionName;
                                 sectionLi.dataset.sectionName = sectionName;
@@ -137,6 +136,7 @@ export function initializeDragAndDrop() {
                                 editButton.addEventListener("click", () => {
                                     const editorContainer = document.createElement("div");
                                     sectionLi.appendChild(editorContainer);
+                                    const position = Array.from(sectionLi.parentNode.children).indexOf(sectionLi); // Calcular posición actual
 
                                     renderSectionEditor(
                                         editorContainer,
@@ -150,7 +150,7 @@ export function initializeDragAndDrop() {
                                                     panelName,
                                                     sectionName,
                                                     attributes: updatedAttributes,
-                                                    position: sectionIndex, // Pass the index
+                                                    position: position, // Pass the index
                                                 }),
                                             }).then(() => {
                                                 editorContainer.remove();
@@ -164,7 +164,7 @@ export function initializeDragAndDrop() {
                                 });
 
                                 sectionLi.appendChild(editButton);
-                                addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName, sectionIndex); // Pass index to deleteButton
+                                addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName); // Pass index to deleteButton
 
                                 var sectionPlaceholderFinding = e.target.classList.contains("dropSectionPlaceholder")
                                     ? e.target
