@@ -11,13 +11,15 @@ const __dirname = path.dirname(__filename);
 class PageSectionsController {
     #filesManager;
     #contextManager;
-
+    
+    #pageSectionsFileName;
     #pageSectionsPath;
 
     constructor() {
         this.#filesManager = ConfigurationFilesManager;
         this.#contextManager = ConfigurationContextManager;
         this.#pageSectionsPath = path.join(__dirname, "../../../data/pageSections.config.json");
+        this.#pageSectionsFileName = "pageSections.config.json";
     }
 
     getPageSections(req, res) {
@@ -33,7 +35,7 @@ class PageSectionsController {
 
     updatePage(req, res) {
         var statusini = 200;
-        const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsPath, ["PageInvariantNames"]);
+        const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsFileName, ["PageInvariantNames"]);
         const pageName = req.params.pageName;
         const { action, panelName, sectionName, attributes } = req.body;
 
@@ -76,7 +78,7 @@ class PageSectionsController {
                 statusini = 400;
             }
         }
-        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsPath, ["PageInvariantNames"]);
+        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsFileName, ["PageInvariantNames"]);
         res.status(statusini).json(pageInvariantNamesObj[pageName]);
     }
 

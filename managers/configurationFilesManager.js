@@ -1,9 +1,17 @@
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
 import ConfigurationContextManager from "./configurationContextManager.js";
 import ConfigurationJsonsManager from "./configurationJsonsManager.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class ConfigurationFilesManager {
     static #instance = null;
 
+    #JSONS_CONFIGURATION_PATH = "../data";
     #JSON_CONFIGURATION_KEY = "Configuration";
     #contextManager = ConfigurationContextManager;
     #jsonManager = ConfigurationJsonsManager;
@@ -19,10 +27,11 @@ class ConfigurationFilesManager {
      * ésta función te da el objeto de configuración entero con el contexto actual (contexto que esta en memoria).
      * si no le pasas el segundo parámetro, supondrá que el objeto a devolver está en el tercer puesto: "Configuracion"--> "Nombre_CONF" --> AQUI!
      * si le pasas el segundo parámetro el te devolverá el objeto que está debajo de esa jerarquía y, si no hay nada, te devolverá la jerarquía de objetos vacíos
-     * @param {*} filePath
+     * @param {*} fileName
      * @returns
      */
-    getConfigurationObjectFromFileInTheCurrentContext(filePath, hierarchyArray) {
+    getConfigurationObjectFromFileInTheCurrentContext(fileName, hierarchyArray) {
+        const filePath = this.#getConfigurationFilePathByName(fileName);
         var jsonFile = this.#jsonManager.readJson(filePath);
         let outcome = {};
 
@@ -54,10 +63,11 @@ class ConfigurationFilesManager {
      * Saves the given configuration object into the correct context of the JSON file.
      * Replaces the existing data at the specified hierarchy.
      * @param {*} configurationObjectToSave - The object to save.
-     * @param {*} filePath - The path to the JSON file.
+     * @param {*} fileName - The path to the JSON file.
      * @param {*} hierarchyArray - The hierarchy to locate the object in the JSON structure.
      */
-    saveConfigurationObjectInFileInTheCurrentContext(configurationObjectToSave, filePath, hierarchyArray) {
+    saveConfigurationObjectInFileInTheCurrentContext(configurationObjectToSave, fileName, hierarchyArray) {
+        const filePath = this.#getConfigurationFilePathByName(fileName);
         const jsonFile = this.#jsonManager.readJson(filePath);
         let foundObjectInContext = null;
 
@@ -134,6 +144,11 @@ class ConfigurationFilesManager {
             }
             return current[key];
         }, obj);
+    }
+
+    #getConfigurationFilePathByName(fileName) {
+        const filePathPart = `${this.#JSONS_CONFIGURATION_PATH}/${fileName}`;
+        return path.join(__dirname, filePathPart);
     }
 }
 
