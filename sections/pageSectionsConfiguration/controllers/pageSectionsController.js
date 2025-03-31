@@ -4,17 +4,17 @@ class PageSectionsController {
     #filesManager;
 
     #pageSectionsFileName;
+    #pageInvariantNameHierarchy;
 
     constructor() {
         this.#filesManager = ConfigurationFilesManager;
         this.#pageSectionsFileName = "pageSections.config.json";
+        this.#pageInvariantNameHierarchy = ["PageInvariantNames"];
     }
 
     getPageSections(req, res) {
         try {
-            const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsFileName, [
-                "PageInvariantNames",
-            ]);
+            const pageInvariantNamesObj = this.#getPageInvariantNamesObjectFromFile();
 
             res.json(pageInvariantNamesObj || {});
         } catch (error) {
@@ -25,7 +25,7 @@ class PageSectionsController {
 
     updatePage(req, res) {
         var statusini = 200;
-        const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsFileName, ["PageInvariantNames"]);
+        const pageInvariantNamesObj = this.#getPageInvariantNamesObjectFromFile();
         const pageName = req.params.pageName;
         const { action, panelName, sectionName, attributes } = req.body;
 
@@ -49,7 +49,8 @@ class PageSectionsController {
                 pageInvariantNamesObj[pageName][panelName] = panelSections;
 
                 const newIndex = panelSections.length - 1; // Get the index of the newly added section
-                this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsFileName, ["PageInvariantNames"]);
+
+                this.#savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
                 return res.status(statusini).json({ index: newIndex }); // Return the index
             } else {
                 statusini = 400;
@@ -78,9 +79,21 @@ class PageSectionsController {
                 statusini = 400;
             }
         }
-        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsFileName, ["PageInvariantNames"]);
+        this.#savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
+
         res.status(statusini).json(pageInvariantNamesObj[pageName]);
     }
 
+    #getPageInvariantNamesObjectFromFile() {
+        return this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsFileName, this.#pageInvariantNameHierarchy);
+    }
+
+    #savePageInvariantNamesObjectToFile(pageInvariantNamesObj) {
+        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(
+            pageInvariantNamesObj,
+            this.#pageSectionsFileName,
+            this.#pageInvariantNameHierarchy
+        );
+    }
 }
 export default PageSectionsController;
