@@ -2,10 +2,8 @@ import fs from "fs";
 import path from "path";
 import JSON5 from "json5"; // Import the json5 library
 import { fileURLToPath } from "url"; // Importa fileURLToPath para convertir URLs a rutas de archivo
-import ConfigurationFilesManager from "../managers/configurationFilesManager.js";
 import ConfigurationContextManager from "../managers/configurationContextManager.js";
 
-const filesManager = ConfigurationFilesManager;
 const contextManager = ConfigurationContextManager;
 
 // Convertir import.meta.url a una ruta de archivo válida
@@ -16,7 +14,6 @@ const __dirname = path.dirname(__filename);
 const sectionsPath = path.join(__dirname, "../data/sections.config.json");
 const panelsPath = path.join(__dirname, "../data/panels.config.json");
 const pagesSectionsPath = path.join(__dirname, "../data/pageSections.config.json");
-const pagesConfigPath = path.join(__dirname, "../data/pages.config.json");
 
 // Utility to read JSON files
 const readJSON = filePath => {
@@ -132,59 +129,7 @@ const deletePanel = (req, res) => {
     res.status(204).send();
 };
 
-
-
-// Handler to get pages from pages.config.json
-const getPages = (req, res) => {
-    try {
-        const pagesConfig = readJSON(pagesConfigPath); // Use updated readJSON
-
-        const mergedPages = {};
-        const keys = new Set();
-
-        // Collect all unique page keys from all contexts
-        pagesConfig.forEach((item, index) => {
-            if (item.Configuration && item.Configuration.Pages_CONF && item.Configuration.Pages_CONF.Pages) {
-                Object.keys(item.Configuration.Pages_CONF.Pages).forEach(key => {
-                    keys.add(key);
-
-                    // Mark pages exclusive to this context
-                    if (!mergedPages[key]) {
-                        mergedPages[key] = {
-                            ...item.Configuration.Pages_CONF.Pages[key],
-                            ExclusiveContext: item.IncludedDevices || item.IncludedUGs || null,
-                        };
-                    } else {
-                        mergedPages[key].ExclusiveContext = null; // Not exclusive if found in multiple contexts
-                    }
-                });
-            }
-        });
-
-        // Merge pages from all contexts
-        keys.forEach(key => {
-            pagesConfig.forEach(item => {
-                if (item.Configuration && item.Configuration.Pages_CONF && item.Configuration.Pages_CONF.Pages[key]) {
-                    // Merge attributes from the current context into the page
-                    Object.assign(mergedPages[key], item.Configuration.Pages_CONF.Pages[key]);
-                }
-            });
-        });
-
-        // Convert mergedPages into an array of pages
-        const pages = Object.keys(mergedPages).map(pageName => ({
-            name: pageName,
-            ...mergedPages[pageName],
-        }));
-
-        res.json(pages);
-    } catch (error) {
-        console.error("Error in getPages:", error);
-        res.status(500).json({ error: "Failed to fetch pages" });
-    }
-};
-
-const updateSectionOrder = (req, res) => {
+const updateSectionsOrderInAPanelOfAPage = (req, res) => {
     const { pageName, panelName } = req.params;
     const { order } = req.body;
 
@@ -254,8 +199,7 @@ export {
     addPanel,
     updatePanel,
     deletePanel,
-    getPages as getPages,
-    updateSectionOrder as updateSectionsOrderInAPanelOfAPage,
+    updateSectionsOrderInAPanelOfAPage,
     getConfigFile,
     updateConfigFile,
     setSelectedContext,

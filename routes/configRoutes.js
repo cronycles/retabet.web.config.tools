@@ -18,7 +18,7 @@ router.delete("/panels/:panelName", configController.deletePanel);
 
 // Routes for pageSections.config.json
 router.get("/pageSections", (req, res) => pageSectionsController.getPageSections(req, res));
-router.get("/pageSections/pages", configController.getPages);
+router.get("/pageSections/pages", (req, res) => pageSectionsController.getAllPages(req, res));
 router.put("/pageSections/:pageName", (req, res) => pageSectionsController.updatePageSectionsByPage(req, res));
 router.put("/pageSections/:pageName/panels/:panelName/sections/order", configController.updateSectionsOrderInAPanelOfAPage);
 

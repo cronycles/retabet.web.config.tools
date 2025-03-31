@@ -1,20 +1,20 @@
-import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
+import PageSectionsManager from "../managers/pageSectionsManager.js";
 
 class PageSectionsController {
-    #filesManager;
-
-    #pageSectionsFileName;
-    #pageInvariantNameHierarchy;
+    #pageSectionsManager;
 
     constructor() {
-        this.#filesManager = ConfigurationFilesManager;
-        this.#pageSectionsFileName = "pageSections.config.json";
-        this.#pageInvariantNameHierarchy = ["PageInvariantNames"];
+        this.#pageSectionsManager = PageSectionsManager;
+    }
+
+    getAllPages(req, res) {
+        const pagesObj = this.#pageSectionsManager.getAllPages();
+        res.json(pagesObj || {});
     }
 
     getPageSections(req, res) {
         try {
-            const pageInvariantNamesObj = this.#getPageInvariantNamesObjectFromFile();
+            const pageInvariantNamesObj = this.#pageSectionsManager.getPageInvariantNamesObjectFromFile();
 
             res.json(pageInvariantNamesObj || {});
         } catch (error) {
@@ -25,7 +25,7 @@ class PageSectionsController {
 
     updatePageSectionsByPage(req, res) {
         var statusini = 200;
-        const pageInvariantNamesObj = this.#getPageInvariantNamesObjectFromFile();
+        const pageInvariantNamesObj = this.#pageSectionsManager.getPageInvariantNamesObjectFromFile();
         const pageName = req.params.pageName;
         const { action, panelName, sectionName, attributes } = req.body;
 
@@ -50,7 +50,7 @@ class PageSectionsController {
 
                 const newIndex = panelSections.length - 1; // Get the index of the newly added section
 
-                this.#savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
+                this.#pageSectionsManager.savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
                 return res.status(statusini).json({ index: newIndex }); // Return the index
             } else {
                 statusini = 400;
@@ -79,21 +79,9 @@ class PageSectionsController {
                 statusini = 400;
             }
         }
-        this.#savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
+        this.#pageSectionsManager.savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
 
         res.status(statusini).json(pageInvariantNamesObj[pageName]);
-    }
-
-    #getPageInvariantNamesObjectFromFile() {
-        return this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsFileName, this.#pageInvariantNameHierarchy);
-    }
-
-    #savePageInvariantNamesObjectToFile(pageInvariantNamesObj) {
-        this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(
-            pageInvariantNamesObj,
-            this.#pageSectionsFileName,
-            this.#pageInvariantNameHierarchy
-        );
     }
 }
 export default PageSectionsController;
