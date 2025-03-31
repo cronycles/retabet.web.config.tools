@@ -1,32 +1,22 @@
-import fs from "fs";
-import path from "path";
-import JSON5 from "json5";
-import { fileURLToPath } from "url";
 import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
-import ConfigurationContextManager from "../../../managers/configurationContextManager.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 class PageSectionsController {
     #filesManager;
-    #contextManager;
-    
+
     #pageSectionsFileName;
-    #pageSectionsPath;
 
     constructor() {
         this.#filesManager = ConfigurationFilesManager;
-        this.#contextManager = ConfigurationContextManager;
-        this.#pageSectionsPath = path.join(__dirname, "../../../data/pageSections.config.json");
         this.#pageSectionsFileName = "pageSections.config.json";
     }
 
     getPageSections(req, res) {
         try {
-            var selectedPageSection = this.#getEntireContextJsonFromFile(this.#pageSectionsPath);
+            const pageInvariantNamesObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pageSectionsFileName, [
+                "PageInvariantNames",
+            ]);
 
-            res.json(selectedPageSection?.Configuration?.PageSections_CONF?.PageInvariantNames || {});
+            res.json(pageInvariantNamesObj || {});
         } catch (error) {
             console.error("Error in getPageSections:", error);
             res.status(500).json({ error: "Failed to fetch page sections" });
@@ -82,48 +72,5 @@ class PageSectionsController {
         res.status(statusini).json(pageInvariantNamesObj[pageName]);
     }
 
-    deletePage(req, res) {
-        const pages = readJSON(this.#pageSectionsPath); // Use updated readJSON
-        const pageName = req.params.pageName;
-
-        const filteredPages = pages.filter(page => !page.Configuration.PageSections_CONF.PageInvariantNames[pageName]);
-        if (filteredPages.length === pages.length) {
-            return res.status(404).json({ error: "Page not found" });
-        }
-
-        writeJSON(this.#pageSectionsPath, filteredPages);
-        res.status(204).send();
-    }
-
-    #getKeysAndValueContextStringByEntireContext(jsonContext) {
-        return Object.entries(jsonContext)
-            .filter(([key]) => key !== "Configuration")
-            .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-            .join(", ");
-    }
-
-    #getEntireContextJsonFromFile(filePath) {
-        var jsonFile = this.#readJSON(filePath);
-        let outcome = jsonFile[0]; // Default to the first context
-        const selectedContextString = this.#contextManager.getCurrentContext() || "";
-        for (const context of jsonFile) {
-            const contextString = this.#getKeysAndValueContextStringByEntireContext(context);
-            if (contextString === selectedContextString) {
-                outcome = context;
-                break;
-            }
-        }
-
-        return outcome;
-    }
-
-    #readJSON(filePath) {
-        try {
-            return JSON5.parse(fs.readFileSync(filePath, "utf8")); // Use JSON5 for parsing
-        } catch (error) {
-            console.error(`Error reading JSON file at ${filePath}:`, error);
-            throw error;
-        }
-    }
 }
 export default PageSectionsController;
