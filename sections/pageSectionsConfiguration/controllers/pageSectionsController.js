@@ -47,22 +47,32 @@ class PageSectionsController {
                 const panelSections = pageInvariantNamesObj[pageName][panelName] || [];
                 panelSections.push({ [sectionName]: attributes });
                 pageInvariantNamesObj[pageName][panelName] = panelSections;
+
+                const newIndex = panelSections.length - 1; // Get the index of the newly added section
+                this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(pageInvariantNamesObj, this.#pageSectionsFileName, ["PageInvariantNames"]);
+                return res.status(statusini).json({ index: newIndex }); // Return the index
             } else {
                 statusini = 400;
             }
         } else if (action === "removeSection") {
-            if (sectionName) {
+            if (sectionName && typeof req.body.position === "number") {
                 const panelSections = pageInvariantNamesObj[pageName][panelName];
-                pageInvariantNamesObj[pageName][panelName] = panelSections.filter(section => !section[sectionName]);
+                if (panelSections[req.body.position]?.[sectionName]) {
+                    panelSections.splice(req.body.position, 1); // Remove the section at the specified position
+                } else {
+                    statusini = 400; // Invalid position or section name
+                }
             } else {
                 statusini = 400;
             }
         } else if (action === "updateSection") {
-            if (sectionName && attributes) {
+            if (sectionName && attributes && typeof req.body.position === "number") {
                 const panelSections = pageInvariantNamesObj[pageName][panelName];
-                const sectionIndex = panelSections.findIndex(section => section[sectionName]);
-                if (sectionIndex !== -1) {
-                    panelSections[sectionIndex][sectionName] = attributes;
+                const sectionIndex = req.body.position; // Use the passed index
+                if (panelSections[sectionIndex]?.[sectionName]) {
+                    panelSections[sectionIndex][sectionName] = attributes; // Update the section at the specified index
+                } else {
+                    statusini = 400; // Invalid position or section name
                 }
             } else {
                 statusini = 400;

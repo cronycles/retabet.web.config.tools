@@ -1,4 +1,4 @@
-export function addDeleteButton(element, type, name, pageName, panelName = null) {
+export function addDeleteButton(element, type, name, pageName, panelName = null, position = null) {
     const deleteButton = document.createElement('button');
     deleteButton.textContent = 'Delete';
     deleteButton.addEventListener('click', () => {
@@ -6,6 +6,7 @@ export function addDeleteButton(element, type, name, pageName, panelName = null)
         if (type === 'section') {
             body.sectionName = name;
             body.panelName = panelName;
+            body.position = position; // Include position in the request
         }
 
         fetch(`/api/pages/${pageName}`, {

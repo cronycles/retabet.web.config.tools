@@ -104,7 +104,7 @@ export function initializePageSelector() {
                         sectionsUl.appendChild(sectionPlaceHolderLi);
 
                         const sections = pageData[panelName];
-                        sections.forEach(section => {
+                        sections.forEach((section, index) => {
                             const sectionName = typeof section === "string" ? section : Object.keys(section)[0];
                             const sectionAttributes = typeof section === "string" ? {} : section[sectionName];
 
@@ -138,6 +138,7 @@ export function initializePageSelector() {
                                                 panelName,
                                                 sectionName,
                                                 attributes: updatedAttributes,
+                                                position: index, // Pass the index
                                             }),
                                         }).then(() => {
                                             editorContainer.remove();
@@ -156,7 +157,7 @@ export function initializePageSelector() {
                             });
 
                             sectionLi.appendChild(editButton);
-                             addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName);
+                            addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName, index); // Pass index as position
 
                             if (sectionPlaceHolderLi) {
                                 sectionPlaceHolderLi.parentElement.insertBefore(sectionLi, sectionPlaceHolderLi);
