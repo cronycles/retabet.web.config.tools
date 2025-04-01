@@ -14,119 +14,123 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch('/api/sections')
         .then(res => res.json())
         .then(data => {
-            const sections = data[0].Configuration.Sections_CONF.Sections;
-            const defaultAttributes = data[0].Configuration.Sections_CONF.DefaultSectionAttributes;
+            const sections = data;
 
-            Object.keys(sections).forEach(sectionName => {
-                const li = document.createElement('li');
-                li.textContent = sectionName;
+            // Fetch default attributes from the new endpoint
+            fetch('/api/sections/defaults')
+                .then(res => res.json())
+                .then(defaultAttributes => {
+                    Object.keys(sections).forEach(sectionName => {
+                        const li = document.createElement('li');
+                        li.textContent = sectionName;
 
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Edit';
-                editButton.addEventListener('click', () => {
-                    editingSection = sectionName;
-                    formTitle.textContent = `Edit Section: ${sectionName}`;
-                    sectionNameInput.value = sectionName;
-                    sectionNameInput.disabled = false; // Allow editing the section name
-                    attributesContainer.innerHTML = '';
-                    Object.entries(sections[sectionName]).forEach(([key, value]) => {
-                        const label = document.createElement('label');
-                        label.textContent = key;
+                        const editButton = document.createElement('button');
+                        editButton.textContent = 'Edit';
+                        editButton.addEventListener('click', () => {
+                            editingSection = sectionName;
+                            formTitle.textContent = `Edit Section: ${sectionName}`;
+                            sectionNameInput.value = sectionName;
+                            sectionNameInput.disabled = false; // Allow editing the section name
+                            attributesContainer.innerHTML = '';
+                            Object.entries(sections[sectionName]).forEach(([key, value]) => {
+                                const label = document.createElement('label');
+                                label.textContent = key;
 
-                        let input;
-                        if (key === 'Args') {
-                            // Render a textarea for the Args attribute (serialized JSON)
-                            input = document.createElement('textarea');
-                            input.name = key;
-                            input.value = JSON.stringify(value, null, 2); // Serialize the object
-                            input.classList.add('args-input'); // Add a class for validation
-                        } else if (typeof value === 'boolean') {
-                            // Render dropdown for boolean attributes
-                            input = document.createElement('select');
-                            input.name = key;
+                                let input;
+                                if (key === 'Args') {
+                                    // Render a textarea for the Args attribute (serialized JSON)
+                                    input = document.createElement('textarea');
+                                    input.name = key;
+                                    input.value = JSON.stringify(value, null, 2); // Serialize the object
+                                    input.classList.add('args-input'); // Add a class for validation
+                                } else if (typeof value === 'boolean') {
+                                    // Render dropdown for boolean attributes
+                                    input = document.createElement('select');
+                                    input.name = key;
 
-                            const trueOption = document.createElement('option');
-                            trueOption.value = 'true';
-                            trueOption.textContent = 'true';
-                            trueOption.selected = value === true;
+                                    const trueOption = document.createElement('option');
+                                    trueOption.value = 'true';
+                                    trueOption.textContent = 'true';
+                                    trueOption.selected = value === true;
 
-                            const falseOption = document.createElement('option');
-                            falseOption.value = 'false';
-                            falseOption.textContent = 'false';
-                            falseOption.selected = value === false;
+                                    const falseOption = document.createElement('option');
+                                    falseOption.value = 'false';
+                                    falseOption.textContent = 'false';
+                                    falseOption.selected = value === false;
 
-                            input.appendChild(trueOption);
-                            input.appendChild(falseOption);
-                        } else {
-                            // Render text input for other types
-                            input = document.createElement('input');
-                            input.type = 'text';
-                            input.name = key;
-                            input.value = value;
-                        }
+                                    input.appendChild(trueOption);
+                                    input.appendChild(falseOption);
+                                } else {
+                                    // Render text input for other types
+                                    input = document.createElement('input');
+                                    input.type = 'text';
+                                    input.name = key;
+                                    input.value = value;
+                                }
 
-                        input.dataset.type = typeof value; // Store the original type
-                        attributesContainer.appendChild(label);
-                        attributesContainer.appendChild(input);
+                                input.dataset.type = typeof value; // Store the original type
+                                attributesContainer.appendChild(label);
+                                attributesContainer.appendChild(input);
+                            });
+                            cancelEditButton.style.display = 'inline-block'; // Show the cancel button
+                            sectionFormContainer.style.display = 'block';
+                        });
+
+                        li.appendChild(editButton);
+                        sectionsList.appendChild(li);
                     });
-                    cancelEditButton.style.display = 'inline-block'; // Show the cancel button
-                    sectionFormContainer.style.display = 'block';
+
+                    // Handle "Add New Section" button
+                    addNewSectionButton.addEventListener('click', () => {
+                        editingSection = null;
+                        formTitle.textContent = 'Add New Section';
+                        sectionNameInput.value = '';
+                        sectionNameInput.disabled = false;
+                        attributesContainer.innerHTML = '';
+                        Object.entries(defaultAttributes).forEach(([key, value]) => {
+                            const label = document.createElement('label');
+                            label.textContent = key;
+
+                            let input;
+                            if (key === 'Args') {
+                                // Render a textarea for the Args attribute (serialized JSON)
+                                input = document.createElement('textarea');
+                                input.name = key;
+                                input.value = JSON.stringify(value, null, 2); // Serialize the object
+                                input.classList.add('args-input'); // Add a class for validation
+                            } else if (typeof value === 'boolean') {
+                                // Render dropdown for boolean attributes
+                                input = document.createElement('select');
+                                input.name = key;
+
+                                const trueOption = document.createElement('option');
+                                trueOption.value = 'true';
+                                trueOption.textContent = 'true';
+                                trueOption.selected = value === true;
+
+                                const falseOption = document.createElement('option');
+                                falseOption.value = 'false';
+                                falseOption.textContent = 'false';
+                                falseOption.selected = value === false;
+
+                                input.appendChild(trueOption);
+                                input.appendChild(falseOption);
+                            } else {
+                                // Render text input for other types
+                                input = document.createElement('input');
+                                input.type = 'text';
+                                input.name = key;
+                                input.value = value;
+                            }
+
+                            input.dataset.type = typeof value; // Store the original type
+                            attributesContainer.appendChild(label);
+                            attributesContainer.appendChild(input);
+                        });
+                        cancelEditButton.style.display = 'none';
+                        sectionFormContainer.style.display = 'block';
+                    });
                 });
-
-                li.appendChild(editButton);
-                sectionsList.appendChild(li);
-            });
-
-            // Handle "Add New Section" button
-            addNewSectionButton.addEventListener('click', () => {
-                editingSection = null;
-                formTitle.textContent = 'Add New Section';
-                sectionNameInput.value = '';
-                sectionNameInput.disabled = false;
-                attributesContainer.innerHTML = '';
-                Object.entries(defaultAttributes).forEach(([key, value]) => {
-                    const label = document.createElement('label');
-                    label.textContent = key;
-
-                    let input;
-                    if (key === 'Args') {
-                        // Render a textarea for the Args attribute (serialized JSON)
-                        input = document.createElement('textarea');
-                        input.name = key;
-                        input.value = JSON.stringify(value, null, 2); // Serialize the object
-                        input.classList.add('args-input'); // Add a class for validation
-                    } else if (typeof value === 'boolean') {
-                        // Render dropdown for boolean attributes
-                        input = document.createElement('select');
-                        input.name = key;
-
-                        const trueOption = document.createElement('option');
-                        trueOption.value = 'true';
-                        trueOption.textContent = 'true';
-                        trueOption.selected = value === true;
-
-                        const falseOption = document.createElement('option');
-                        falseOption.value = 'false';
-                        falseOption.textContent = 'false';
-                        falseOption.selected = value === false;
-
-                        input.appendChild(trueOption);
-                        input.appendChild(falseOption);
-                    } else {
-                        // Render text input for other types
-                        input = document.createElement('input');
-                        input.type = 'text';
-                        input.name = key;
-                        input.value = value;
-                    }
-
-                    input.dataset.type = typeof value; // Store the original type
-                    attributesContainer.appendChild(label);
-                    attributesContainer.appendChild(input);
-                });
-                cancelEditButton.style.display = 'none';
-                sectionFormContainer.style.display = 'block';
-            });
         });
 
     // Handle form submission

@@ -64,7 +64,7 @@ export function renderSectionEditor(container, attributes, onSave, onCancel, sec
         fetch('/api/sections')
             .then(res => res.json())
             .then(data => {
-                const defaultAttributes = data[0].Configuration.Sections_CONF.Sections[sectionName];
+                const defaultAttributes = data[sectionName];
                 if (!defaultAttributes) {
                     console.error('Default attributes not found for section:', sectionName);
                     return;

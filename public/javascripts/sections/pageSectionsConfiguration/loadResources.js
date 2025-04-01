@@ -33,7 +33,7 @@ export function loadAvailableSections() {
         .then(res => res.json())
         .then(sections => {
             availableSections.innerHTML = ''; // Clear existing sections
-            Object.keys(sections[0].Configuration.Sections_CONF.Sections).forEach(sectionName => {
+            Object.keys(sections).forEach(sectionName => {
                 const div = document.createElement('div');
                 div.textContent = sectionName;
                 div.draggable = true;

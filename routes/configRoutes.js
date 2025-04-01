@@ -1,14 +1,17 @@
 import express from "express";
 import * as configController from "../controllers/configController.js"; // Use named imports
 import PageSectionsController from "../sections/pageSectionsConfiguration/controllers/pageSectionsController.js";
+import SectionsController from "../sections/sectionsConfiguration/controllers/sectionsController.js";
 
 const router = express.Router();
 const pageSectionsController = new PageSectionsController();
+const sectionsController = new SectionsController();
 
 // Routes for sections.config.json
-router.get("/sections", configController.getSections);
-router.post("/sections", configController.addSection);
-router.put("/sections", configController.updateSection);
+router.get("/sections", (req, res) => sectionsController.getSections(req, res));
+router.get("/sections/defaults", (req, res) => sectionsController.getSectionDefaultAttributes(req, res));
+router.post("/sections", (req, res) => sectionsController.addSection(req, res));
+router.put("/sections", (req, res) => sectionsController.updateSection(req, res));
 
 // Routes for pagePanels.json
 router.get("/panels", configController.getPanels);

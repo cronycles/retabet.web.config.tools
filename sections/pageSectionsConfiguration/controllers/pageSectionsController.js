@@ -8,8 +8,8 @@ class PageSectionsController {
     }
 
     getAllPages(req, res) {
-        const pagesObj = this.#pageSectionsManager.getAllPages();
-        res.json(pagesObj || {});
+        const outcome = this.#pageSectionsManager.getAllPages();
+        res.json(outcome || {});
     }
 
     getPageSections(req, res) {

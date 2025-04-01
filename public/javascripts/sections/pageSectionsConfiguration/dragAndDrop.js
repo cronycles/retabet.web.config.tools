@@ -101,7 +101,7 @@ export function initializeDragAndDrop() {
                     fetch("/api/sections")
                         .then(res => res.json())
                         .then(sections => {
-                            const defaultAttributes = sections[0].Configuration.Sections_CONF.Sections[sectionName];
+                            const defaultAttributes = sections[sectionName];
                             if (!defaultAttributes) {
                                 console.error("Invalid section name");
                                 return;

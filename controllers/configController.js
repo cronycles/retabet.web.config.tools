@@ -11,7 +11,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // File paths
-const sectionsPath = path.join(__dirname, "../data/sections.config.json");
 const panelsPath = path.join(__dirname, "../data/panels.config.json");
 
 // Utility to read JSON files
@@ -27,48 +26,7 @@ const readJSON = filePath => {
 // Utility to write JSON files
 const writeJSON = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
 
-// Handlers for sections.config.json
-const getSections = (req, res) => {
-    const sections = readJSON(sectionsPath); // Use updated readJSON
-    res.json(sections);
-};
 
-const addSection = (req, res) => {
-    const sections = readJSON(sectionsPath); // Use updated readJSON
-    const { sectionName, attributes } = req.body;
-
-    if (sections[0].Configuration.Sections_CONF.Sections[sectionName]) {
-        return res.status(400).json({ error: "Section already exists" });
-    }
-
-    sections[0].Configuration.Sections_CONF.Sections[sectionName] = attributes;
-    writeJSON(sectionsPath, sections);
-    res.status(201).json({ message: "Section added successfully" });
-};
-
-const updateSection = (req, res) => {
-    const sections = readJSON(sectionsPath); // Use updated readJSON
-    const { sectionName, attributes, oldSectionName } = req.body;
-
-    if (!sections[0].Configuration.Sections_CONF.Sections[oldSectionName]) {
-        return res.status(404).json({ error: "Section not found" });
-    }
-
-    if (sectionName !== oldSectionName && sections[0].Configuration.Sections_CONF.Sections[sectionName]) {
-        return res.status(400).json({ error: "Section name already exists" });
-    }
-
-    // Rename the section if the name has changed
-    if (sectionName !== oldSectionName) {
-        sections[0].Configuration.Sections_CONF.Sections[sectionName] = sections[0].Configuration.Sections_CONF.Sections[oldSectionName];
-        delete sections[0].Configuration.Sections_CONF.Sections[oldSectionName];
-    }
-
-    // Update the attributes
-    sections[0].Configuration.Sections_CONF.Sections[sectionName] = attributes;
-    writeJSON(sectionsPath, sections);
-    res.json({ message: "Section updated successfully" });
-};
 
 // Handlers for pagePanels.json
 const getPanels = (req, res) => {
@@ -168,9 +126,6 @@ const getSelectedContext = (req, res) => {
 };
 
 export {
-    getSections,
-    addSection,
-    updateSection,
     getPanels,
     addPanel,
     updatePanel,
