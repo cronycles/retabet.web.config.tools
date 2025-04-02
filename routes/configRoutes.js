@@ -28,11 +28,10 @@ router.get("/pageSections/pages", (req, res) => pageSectionsController.getAllPag
 router.put("/pageSections/:pageName", (req, res) => pageSectionsController.updatePageSectionsByPage(req, res));
 router.put("/pageSections/:pageName/panels/:panelName/sections/order", (req, res) => pageSectionsController.updateSectionsOrderInAPanelOfAPage(req, res));
 
-router.get("/config/:fileName", configController.getConfigFile);
-router.get("/config/contextConfiguration.schema.json", configController.getConfigFile);
-router.put("/config/:fileName", configController.updateConfigFile);
-
-router.post("/setSelectedContext", configController.setSelectedContext);
-router.get("/getSelectedContext", configController.getSelectedContext);
+router.post("/configContext/setSelectedContext", configController.setSelectedContext);
+router.get("/configContext/getSelectedContext", configController.getSelectedContext);
+router.get("/configContext/:fileName", configController.getConfigFile);
+router.get("/configContext/contextConfiguration.schema.json", configController.getConfigFile);
+router.put("/configContext/:fileName", configController.updateConfigFile);
 
 export default router;

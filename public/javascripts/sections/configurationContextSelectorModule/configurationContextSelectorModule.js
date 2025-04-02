@@ -9,7 +9,7 @@ export function initializeContextSelector(fileName) {
     dropdown.onchange = async () => {
         const selectedValue = dropdown.value;
         try {
-            await fetch("/api/setSelectedContext", {
+            await fetch("/api/configContext/setSelectedContext", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ selectedContext: selectedValue }),
@@ -33,7 +33,7 @@ export function initializeContextSelector(fileName) {
 
     loadContextsFromFile(fileName, dropdown).then(async () => {
         try {
-            const response = await fetch("/api/getSelectedContext");
+            const response = await fetch("/api/configContext/getSelectedContext");
             if (!response.ok) {
                 throw new Error(`Failed to fetch selected context: ${response.statusText}`);
             }
@@ -51,7 +51,7 @@ export function initializeContextSelector(fileName) {
 // Load contexts automatically from the file
 async function loadContextsFromFile(fileName, dropdown) {
     try {
-        const response = await fetch(`/api/config/${fileName}`);
+        const response = await fetch(`/api/configContext/${fileName}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch contexts: ${response.statusText}`);
         }
@@ -105,7 +105,7 @@ function openManualContextModal(fileName) {
 // Add a property field for manual context creation
 async function addPropertyField() {
     try {
-        const response = await fetch("/api/config/contextConfiguration.schema.json");
+        const response = await fetch("/api/configContext/contextConfiguration.schema.json");
         if (!response.ok) {
             throw new Error(`Failed to fetch schema: ${response.statusText}`);
         }
@@ -211,14 +211,14 @@ async function saveManualContext(fileName) {
 
     // Save the new context to the file
     try {
-        const response = await fetch(`/api/config/${fileName}`);
+        const response = await fetch(`/api/configContext/${fileName}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch file: ${response.statusText}`);
         }
         const fileContent = await response.json();
         fileContent.push(context); // Add the new context to the file content
 
-        const saveResponse = await fetch(`/api/config/${fileName}`, {
+        const saveResponse = await fetch(`/api/configContext/${fileName}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(fileContent),
@@ -243,7 +243,7 @@ async function deleteSelectedContext(fileName, dropdown) {
     }
 
     try {
-        const response = await fetch(`/api/config/${fileName}`);
+        const response = await fetch(`/api/configContext/${fileName}`);
         if (!response.ok) {
             throw new Error(`Failed to fetch file: ${response.statusText}`);
         }
@@ -255,7 +255,7 @@ async function deleteSelectedContext(fileName, dropdown) {
             return keysAndValues !== selectedOption.value;
         });
 
-        const saveResponse = await fetch(`/api/config/${fileName}`, {
+        const saveResponse = await fetch(`/api/configContext/${fileName}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedContent),
