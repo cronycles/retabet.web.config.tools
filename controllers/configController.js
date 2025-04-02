@@ -10,9 +10,6 @@ const contextManager = ConfigurationContextManager;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// File paths
-const panelsPath = path.join(__dirname, "../data/panels.config.json");
-
 // Utility to read JSON files
 const readJSON = filePath => {
     try {
@@ -25,66 +22,6 @@ const readJSON = filePath => {
 
 // Utility to write JSON files
 const writeJSON = (filePath, data) => fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
-
-
-
-// Handlers for pagePanels.json
-const getPanels = (req, res) => {
-    const panels = readJSON(panelsPath); // Use updated readJSON
-    const panelsData = panels[0].Configuration.Panels_CONF.Panels; // Extract panels
-    const defaultAttributes = panels[0].Configuration.Panels_CONF.DefaultPanelAttributes; // Extract default attributes
-
-    res.json({
-        DefaultPanelAttributes: defaultAttributes,
-        Panels: Object.keys(panelsData).map(panelName => ({
-            PanelName: panelName,
-            ...panelsData[panelName],
-        })),
-    });
-};
-
-const addPanel = (req, res) => {
-    const panels = readJSON(panelsPath); // Use updated readJSON
-    const newPanel = req.body;
-
-    if (panels[0].Configuration.Panels_CONF.Panels[newPanel.PanelName]) {
-        return res.status(400).json({ error: "Duplicate panel name" });
-    }
-
-    panels[0].Configuration.Panels_CONF.Panels[newPanel.PanelName] = {
-        Device: newPanel.Device || "",
-        CssSpecificClasses: newPanel.CssSpecificClasses || "",
-    };
-    writeJSON(panelsPath, panels);
-    res.status(201).json(newPanel);
-};
-
-const updatePanel = (req, res) => {
-    const panels = readJSON(panelsPath); // Use updated readJSON
-    const panelName = req.params.panelName;
-    const updatedPanel = req.body;
-
-    if (!panels[0].Configuration.Panels_CONF.Panels[panelName]) {
-        return res.status(404).json({ error: "Panel not found" });
-    }
-
-    panels[0].Configuration.Panels_CONF.Panels[panelName] = updatedPanel;
-    writeJSON(panelsPath, panels);
-    res.json(updatedPanel);
-};
-
-const deletePanel = (req, res) => {
-    const panels = readJSON(panelsPath); // Use updated readJSON
-    const panelName = req.params.panelName;
-
-    if (!panels[0].Configuration.Panels_CONF.Panels[panelName]) {
-        return res.status(404).json({ error: "Panel not found" });
-    }
-
-    delete panels[0].Configuration.Panels_CONF.Panels[panelName];
-    writeJSON(panelsPath, panels);
-    res.status(204).send();
-};
 
 const getConfigFile = (req, res) => {
     const fileName = req.params.fileName;
@@ -125,13 +62,4 @@ const getSelectedContext = (req, res) => {
     res.json({ selectedContext: outcome });
 };
 
-export {
-    getPanels,
-    addPanel,
-    updatePanel,
-    deletePanel,
-    getConfigFile,
-    updateConfigFile,
-    setSelectedContext,
-    getSelectedContext,
-};
+export { getConfigFile, updateConfigFile, setSelectedContext, getSelectedContext };

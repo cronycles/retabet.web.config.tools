@@ -2,10 +2,12 @@ import express from "express";
 import * as configController from "../controllers/configController.js"; // Use named imports
 import PageSectionsController from "../sections/pageSectionsConfiguration/controllers/pageSectionsController.js";
 import SectionsController from "../sections/sectionsConfiguration/controllers/sectionsController.js";
+import PanelsController from "../sections/panelsConfiguration/controllers/panelsController.js";
 
 const router = express.Router();
 const pageSectionsController = new PageSectionsController();
 const sectionsController = new SectionsController();
+const panelsController = new PanelsController();
 
 // Routes for sections.config.json
 router.get("/sections", (req, res) => sectionsController.getSections(req, res));
@@ -14,10 +16,11 @@ router.post("/sections", (req, res) => sectionsController.addSection(req, res));
 router.put("/sections", (req, res) => sectionsController.updateSection(req, res));
 
 // Routes for pagePanels.json
-router.get("/panels", configController.getPanels);
-router.post("/panels", configController.addPanel);
-router.put("/panels/:panelName", configController.updatePanel);
-router.delete("/panels/:panelName", configController.deletePanel);
+router.get("/panels", (req, res) => panelsController.getPanels(req, res));
+router.get("/panels/defaults", (req, res) => panelsController.getPanelDefaultAttributes(req, res));
+router.post("/panels", (req, res) => panelsController.addPanel(req, res));
+router.put("/panels/:panelName", (req, res) => panelsController.updatePanel(req, res));
+router.delete("/panels/:panelName", (req, res) => panelsController.deletePanel(req, res));
 
 // Routes for pageSections.config.json
 router.get("/pageSections", (req, res) => pageSectionsController.getPageSections(req, res));

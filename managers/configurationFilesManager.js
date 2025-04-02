@@ -89,12 +89,29 @@ class ConfigurationFilesManager {
         if (configurationObject) {
             const keys = hierarchyArray || [];
             const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
-            Object.assign(targetObject, configurationObjectToSave); // Replace the target object with the new data
+
+            Object.keys(targetObject).forEach(key => delete targetObject[key]);
+            Object.assign(targetObject, configurationObjectToSave);
         }
 
         // Write the updated JSON back to the file
         this.#jsonManager.writeJson(filePath, jsonFile);
     }
+
+    findJsonObjectByNameAndUpdateIt(allJsonObjects, newName, oldName, attributes) {
+        const entries = Object.entries(allJsonObjects);
+        const updatedSectionsObj = {};
+
+        for (const [key, value] of entries) {
+            if (key === oldName) {
+                updatedSectionsObj[newName] = { ...value, ...attributes };
+            } else {
+                updatedSectionsObj[key] = value;
+            }
+        }
+        return updatedSectionsObj;
+    }
+
 
     #isFileContextPartCorrespondingToTheCurrentContext(fileContextPartObj) {
         let outcome = false;

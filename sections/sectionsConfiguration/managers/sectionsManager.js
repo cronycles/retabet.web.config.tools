@@ -24,7 +24,10 @@ class SectionsManager {
 
     getSectionDefaultAttributes() {
         let outcome = null;
-        const sectionDefaultAttributes = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#sectionsFileName, this.#defaultAttributesHierarchy);
+        const sectionDefaultAttributes = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(
+            this.#sectionsFileName,
+            this.#defaultAttributesHierarchy
+        );
         outcome = sectionDefaultAttributes;
         return outcome;
     }
@@ -62,14 +65,8 @@ class SectionsManager {
             if (sectionName !== oldSectionName && allSectionsObj[sectionName]) {
                 outcome.errorType = "ALREADY_EXISTS";
             } else {
-                if (sectionName !== oldSectionName) {
-                    allSectionsObj[sectionName] = allSectionsObj[oldSectionName];
-                    delete allSectionsObj[oldSectionName];
-                }
-
-                // Update the attributes
-                allSectionsObj[sectionName] = attributes;
-                this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(allSectionsObj, this.#sectionsFileName, this.#sectionsHierarchy);
+                const updatedSectionsObj = this.#filesManager.findJsonObjectByNameAndUpdateIt(allSectionsObj, sectionName, oldSectionName, attributes);
+                this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(updatedSectionsObj, this.#sectionsFileName, this.#sectionsHierarchy);
                 outcome.isOk = true;
             }
         }
