@@ -9,11 +9,11 @@ export function loadAvailablePanels() {
         .then(res => res.json())
         .then(panels => {
             availablePanels.innerHTML = ''; // Clear existing panels
-            panels.Panels.forEach(panel => {
+            Object.keys(panels).forEach(panelName => {
                 const div = document.createElement('div');
-                div.textContent = panel.PanelName;
+                div.textContent = panelName;
                 div.draggable = true;
-                div.dataset.panelName = panel.PanelName;
+                div.dataset.panelName = panelName;
                 availablePanels.appendChild(div);
             });
         })
