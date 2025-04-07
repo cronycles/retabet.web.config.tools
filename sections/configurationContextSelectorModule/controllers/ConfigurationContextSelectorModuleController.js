@@ -7,6 +7,22 @@ class ConfigurationContextSelectorModuleController {
         this.#contextSelectorModuleManager = ConfigurationContextSelectorModuleManager;
     }
 
+    loadContextsFromFile(req, res) {
+        let outcome = {
+            status: 500,
+            error: "Unknown error occured",
+            data: null,
+        };
+        const fileName = req.params.fileName;
+        const localContextObject = this.#contextSelectorModuleManager.loadContextsFromFile(fileName);
+
+       if(localContextObject && localContextObject.isOk) {
+           outcome.status = 200;
+           outcome.data = localContextObject.data;
+       }
+        return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
+    }
+
     getConfigFileByName(req, res) {
         let outcome = {
             status: 500,

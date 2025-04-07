@@ -51,24 +51,18 @@ export function initializeContextSelector(fileName) {
 // Load contexts automatically from the file
 async function loadContextsFromFile(fileName, dropdown) {
     try {
-        const contexts =  await getConfigFileByName(fileName);
-
-        contexts.forEach(context => {
-            const keysAndValues = getKeysAndValueContextStringByEntireContext(context);
-            const displayText = keysAndValues || "Default";
-
-            const option = document.createElement("option");
-            option.textContent = displayText;
-            option.value = keysAndValues; // Keep the full context as the value
-            dropdown.appendChild(option);
-        });
-
-        // Add a "Default" option if not already present
-        if (!Array.from(dropdown.options).some(option => option.textContent === "Default")) {
-            const defaultOption = document.createElement("option");
-            defaultOption.textContent = "Default";
-            defaultOption.value = "Default";
-            dropdown.insertBefore(defaultOption, dropdown.firstChild);
+        const response = await fetch(`/api/configContext/loadContextsFromFile/${fileName}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch file: ${response.statusText}`);
+        } else {
+            const jsonResponse = await response.json();
+            const contexts = jsonResponse.data;
+            contexts.forEach(context => {
+                const option = document.createElement("option");
+                option.textContent = context.textContent;
+                option.value = context.value; // Keep the full context as the value
+                dropdown.appendChild(option);
+            });
         }
     } catch (error) {
         console.error("Error loading contexts from file:", error);
@@ -208,7 +202,7 @@ async function saveManualContext(fileName) {
 
     // Save the new context to the file
     try {
-        const fileContent =  await getConfigFileByName(fileName);
+        const fileContent = await getConfigFileByName(fileName);
         fileContent.push(context); // Add the new context to the file content
 
         await saveConfigFileByName(fileContent, fileName);
@@ -228,7 +222,7 @@ async function deleteSelectedContext(fileName, dropdown) {
     }
 
     try {
-        const fileContent =  await getConfigFileByName(fileName);
+        const fileContent = await getConfigFileByName(fileName);
 
         // Find and remove the selected context
         const updatedContent = fileContent.filter(context => {
@@ -237,7 +231,7 @@ async function deleteSelectedContext(fileName, dropdown) {
         });
 
         await saveConfigFileByName(updatedContent, fileName);
-        
+
         // Remove the context from the dropdown
         dropdown.removeChild(selectedOption);
         alert("Context deleted successfully.");
@@ -251,8 +245,7 @@ async function getConfigFileByName(fileName) {
     const response = await fetch(`/api/configContext/${fileName}`);
     if (!response.ok) {
         throw new Error(`Failed to fetch file: ${response.statusText}`);
-    }
-    else {
+    } else {
         const jsonResponse = await response.json();
         outcome = jsonResponse.data;
     }

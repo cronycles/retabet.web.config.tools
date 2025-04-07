@@ -23,6 +23,51 @@ class ConfigurationContextSelectorModuleManager {
         return ConfigurationContextSelectorModuleManager.#instance;
     }
 
+    loadContextsFromFile(fileName) {
+        try {
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+
+            let data = [];
+            const getConfigFileResponse = this.getConfigFileByName(fileName);
+            if(getConfigFileResponse?.isOk && getConfigFileResponse.data) {
+                const contexts = getConfigFileResponse.data;
+                contexts.forEach(context => {
+                    const keysAndValues = this.#getKeysAndValueContextStringByEntireContext(context);
+                    const displayText = keysAndValues || "Default";
+                    let contextOutput = {
+                        textContent: displayText,
+                        value: keysAndValues,
+                    };
+                    data.push(contextOutput);
+                });
+    
+                // Add a "Default" option if not already present
+                if (!data.some(contextOutput => contextOutput.textContent === "Default")) {
+                    const defaultOption = {
+                        textContent: "Default",
+                        value: "Default",
+                    };
+                    data.unshift(defaultOption);
+                }
+                outcome.isOk = true;
+                outcome.data = data;
+            }
+            return outcome;
+        } catch (error) {
+            console.error("Error loading contexts from file:", error);
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+            return outcome;
+        }
+    }
+
     setSelectedContext(context) {
         return this.#configContextManager.setCurrentContext(context);
     }
@@ -89,5 +134,13 @@ class ConfigurationContextSelectorModuleManager {
 
         return outcome;
     }
+
+    #getKeysAndValueContextStringByEntireContext(jsonContext) {
+        return Object.entries(jsonContext)
+            .filter(([key]) => key !== "Configuration")
+            .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
+            .join(", ");
+    }
+    
 }
 export default ConfigurationContextSelectorModuleManager.getInstance();
