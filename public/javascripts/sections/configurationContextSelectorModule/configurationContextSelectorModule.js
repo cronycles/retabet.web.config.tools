@@ -51,11 +51,7 @@ export function initializeContextSelector(fileName) {
 // Load contexts automatically from the file
 async function loadContextsFromFile(fileName, dropdown) {
     try {
-        const response = await fetch(`/api/configContext/${fileName}`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch contexts: ${response.statusText}`);
-        }
-        const contexts = await response.json();
+        const contexts =  await getConfigFileByName(fileName);
 
         contexts.forEach(context => {
             const keysAndValues = getKeysAndValueContextStringByEntireContext(context);
@@ -105,11 +101,12 @@ function openManualContextModal(fileName) {
 // Add a property field for manual context creation
 async function addPropertyField() {
     try {
-        const response = await fetch("/api/configContext/contextConfiguration.schema.json");
+        const response = await fetch("/api/configContext/getContextConfigProperties");
         if (!response.ok) {
             throw new Error(`Failed to fetch schema: ${response.statusText}`);
         }
-        const schema = await response.json();
+        const jsonResponse = await response.json();
+        const schema = jsonResponse.data;
         const properties = Object.keys(schema.items.properties).filter(key => key !== "Configuration");
 
         const container = document.getElementById("propertiesContainer");
@@ -211,22 +208,10 @@ async function saveManualContext(fileName) {
 
     // Save the new context to the file
     try {
-        const response = await fetch(`/api/configContext/${fileName}`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch file: ${response.statusText}`);
-        }
-        const fileContent = await response.json();
+        const fileContent =  await getConfigFileByName(fileName);
         fileContent.push(context); // Add the new context to the file content
 
-        const saveResponse = await fetch(`/api/configContext/${fileName}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(fileContent),
-        });
-
-        if (!saveResponse.ok) {
-            throw new Error(`Failed to save context: ${saveResponse.statusText}`);
-        }
+        await saveConfigFileByName(fileContent, fileName);
     } catch (error) {
         console.error("Error saving context to file:", error);
     }
@@ -243,11 +228,7 @@ async function deleteSelectedContext(fileName, dropdown) {
     }
 
     try {
-        const response = await fetch(`/api/configContext/${fileName}`);
-        if (!response.ok) {
-            throw new Error(`Failed to fetch file: ${response.statusText}`);
-        }
-        const fileContent = await response.json();
+        const fileContent =  await getConfigFileByName(fileName);
 
         // Find and remove the selected context
         const updatedContent = fileContent.filter(context => {
@@ -255,21 +236,39 @@ async function deleteSelectedContext(fileName, dropdown) {
             return keysAndValues !== selectedOption.value;
         });
 
-        const saveResponse = await fetch(`/api/configContext/${fileName}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedContent),
-        });
-
-        if (!saveResponse.ok) {
-            throw new Error(`Failed to delete context: ${saveResponse.statusText}`);
-        }
-
+        await saveConfigFileByName(updatedContent, fileName);
+        
         // Remove the context from the dropdown
         dropdown.removeChild(selectedOption);
         alert("Context deleted successfully.");
     } catch (error) {
         console.error("Error deleting context:", error);
+    }
+}
+
+async function getConfigFileByName(fileName) {
+    let outcome = null;
+    const response = await fetch(`/api/configContext/${fileName}`);
+    if (!response.ok) {
+        throw new Error(`Failed to fetch file: ${response.statusText}`);
+    }
+    else {
+        const jsonResponse = await response.json();
+        outcome = jsonResponse.data;
+    }
+
+    return outcome;
+}
+
+async function saveConfigFileByName(fileContent, fileName) {
+    const saveResponse = await fetch(`/api/configContext/${fileName}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fileContent),
+    });
+
+    if (!saveResponse.ok) {
+        throw new Error(`Failed to add new context in file: ${saveResponse.statusText}`);
     }
 }
 

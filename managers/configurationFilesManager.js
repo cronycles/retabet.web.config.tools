@@ -1,4 +1,3 @@
-import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -23,6 +22,28 @@ class ConfigurationFilesManager {
         return ConfigurationFilesManager.#instance;
     }
 
+    getConfigurationFileByName(fileName) {
+        let outcome = {};
+        const filePath = this.#getConfigurationFilePathByName(fileName);
+        var jsonFile = this.#jsonManager.readJson(filePath);
+
+        if (jsonFile) {
+            outcome = jsonFile;
+        }
+
+        return outcome;
+    }
+
+    saveConfigurationFileByName(jsoObject, fileName) {
+        let outcome = false;
+        const filePath = this.#getConfigurationFilePathByName(fileName);
+
+        this.#jsonManager.writeJson(filePath, jsoObject);
+
+        outcome = true;
+        return outcome;
+    }
+
     /**
      * ésta función te da el objeto de configuración entero con el contexto actual (contexto que esta en memoria).
      * si no le pasas el segundo parámetro, supondrá que el objeto a devolver está en el tercer puesto: "Configuracion"--> "Nombre_CONF" --> AQUI!
@@ -31,8 +52,7 @@ class ConfigurationFilesManager {
      * @returns
      */
     getConfigurationObjectFromFileInTheCurrentContext(fileName, hierarchyArray) {
-        const filePath = this.#getConfigurationFilePathByName(fileName);
-        var jsonFile = this.#jsonManager.readJson(filePath);
+        var jsonFile = this.getConfigurationFileByName(fileName);
         let outcome = {};
 
         let foundObjectInContext = null;
@@ -67,8 +87,7 @@ class ConfigurationFilesManager {
      * @param {*} hierarchyArray - The hierarchy to locate the object in the JSON structure.
      */
     saveConfigurationObjectInFileInTheCurrentContext(configurationObjectToSave, fileName, hierarchyArray) {
-        const filePath = this.#getConfigurationFilePathByName(fileName);
-        const jsonFile = this.#jsonManager.readJson(filePath);
+        var jsonFile = this.getConfigurationFileByName(fileName);
         let foundObjectInContext = null;
 
         // Find the context that matches the current configuration context
@@ -95,7 +114,7 @@ class ConfigurationFilesManager {
         }
 
         // Write the updated JSON back to the file
-        this.#jsonManager.writeJson(filePath, jsonFile);
+        this.saveConfigurationFileByName(jsonFile, filePath);
     }
 
     findJsonObjectByNameAndUpdateIt(allJsonObjects, newName, oldName, attributes) {
@@ -111,7 +130,6 @@ class ConfigurationFilesManager {
         }
         return updatedSectionsObj;
     }
-
 
     #isFileContextPartCorrespondingToTheCurrentContext(fileContextPartObj) {
         let outcome = false;

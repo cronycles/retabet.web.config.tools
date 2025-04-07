@@ -1,13 +1,14 @@
 import express from "express";
-import * as configController from "../controllers/configController.js"; // Use named imports
 import PageSectionsController from "../sections/pageSectionsConfiguration/controllers/pageSectionsController.js";
 import SectionsController from "../sections/sectionsConfiguration/controllers/sectionsController.js";
 import PanelsController from "../sections/panelsConfiguration/controllers/panelsController.js";
+import ConfigurationContextSelectorModuleController from "../sections/configurationContextSelectorModule/controllers/ConfigurationContextSelectorModuleController.js";
 
 const router = express.Router();
 const pageSectionsController = new PageSectionsController();
 const sectionsController = new SectionsController();
 const panelsController = new PanelsController();
+const configurationContextSelectorModuleController = new ConfigurationContextSelectorModuleController();
 
 // Routes for sections.config.json
 router.get("/sections", (req, res) => sectionsController.getSections(req, res));
@@ -28,10 +29,10 @@ router.get("/pageSections/pages", (req, res) => pageSectionsController.getAllPag
 router.put("/pageSections/:pageName", (req, res) => pageSectionsController.updatePageSectionsByPage(req, res));
 router.put("/pageSections/:pageName/panels/:panelName/sections/order", (req, res) => pageSectionsController.updateSectionsOrderInAPanelOfAPage(req, res));
 
-router.post("/configContext/setSelectedContext", configController.setSelectedContext);
-router.get("/configContext/getSelectedContext", configController.getSelectedContext);
-router.get("/configContext/:fileName", configController.getConfigFile);
-router.get("/configContext/contextConfiguration.schema.json", configController.getConfigFile);
-router.put("/configContext/:fileName", configController.updateConfigFile);
+router.get("/configContext/getContextConfigProperties", (req, res) => configurationContextSelectorModuleController.getContextConfigProperties(req, res));
+router.post("/configContext/setSelectedContext", (req, res) => configurationContextSelectorModuleController.setSelectedContext(req, res));
+router.get("/configContext/getSelectedContext", (req, res) => configurationContextSelectorModuleController.getSelectedContext(req, res));
+router.get("/configContext/:fileName", (req, res) => configurationContextSelectorModuleController.getConfigFileByName(req, res));
+router.put("/configContext/:fileName", (req, res) => configurationContextSelectorModuleController.saveConfigFileByName(req, res));
 
 export default router;
