@@ -1,4 +1,9 @@
+
+import { initializeContextSelector } from "../configurationContextSelectorModule/configurationContextSelectorModule.js";
+
 document.addEventListener("DOMContentLoaded", () => {
+    initializeContextSelector("panels.config.json"); // Initialize the context
+
     const panelsList = document.getElementById("panelsList");
     const panelForm = document.getElementById("panelForm");
     const panelNameInput = document.getElementById("panelName");

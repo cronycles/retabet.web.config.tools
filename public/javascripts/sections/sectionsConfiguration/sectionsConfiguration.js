@@ -1,4 +1,9 @@
+
+import { initializeContextSelector } from "../configurationContextSelectorModule/configurationContextSelectorModule.js";
+
 document.addEventListener('DOMContentLoaded', () => {
+    initializeContextSelector("sections.config.json"); // Initialize the context
+
     const sectionsList = document.getElementById('sectionsList');
     const sectionForm = document.getElementById('sectionForm');
     const sectionNameInput = document.getElementById('sectionName');
