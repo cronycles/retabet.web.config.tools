@@ -84,8 +84,8 @@ class ConfigurationContextSelectorModuleController {
     }
 
     setSelectedContext(req, res) {
-        const { selectedContext: context } = req.body;
-        this.#contextSelectorModuleManager.setSelectedContext(context);
+        const selectedStringContext = req.body.selectedContext;
+        this.#contextSelectorModuleManager.setSelectedContextFromString(selectedStringContext);
         res.status(200).json({ message: "Selected context set successfully" });
     }
 

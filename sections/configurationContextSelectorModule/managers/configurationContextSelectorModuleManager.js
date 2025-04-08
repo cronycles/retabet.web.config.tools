@@ -61,8 +61,9 @@ class ConfigurationContextSelectorModuleManager {
         }
     }
 
-    setSelectedContext(context) {
-        return this.#currentContextManager.setCurrentContext(context);
+    setSelectedContextFromString(stringContext) {
+        const jsonContext = JSON.parse(stringContext);
+        return this.#currentContextManager.setCurrentContext(jsonContext);
     }
 
     getSelectedContext() {
@@ -83,7 +84,7 @@ class ConfigurationContextSelectorModuleManager {
             }
             return outcome;
         } catch (error) {
-            console.error(`Error reading file ${fileName}:`, error);
+            console.error(`Error getContextConfigProperties:`, error);
             return {
                 isOk: false,
                 errorType: "INTERNAL_SERVICE_ERROR",
