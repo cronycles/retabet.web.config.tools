@@ -269,10 +269,3 @@ async function saveConfigFileByName(fileContent, fileName) {
         throw new Error(`Failed to add new context in file: ${saveResponse.statusText}`);
     }
 }
-
-function getKeysAndValueContextStringByEntireContext(jsonContext) {
-    return Object.entries(jsonContext)
-        .filter(([key]) => key !== "Configuration")
-        .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-        .join(", ");
-}
