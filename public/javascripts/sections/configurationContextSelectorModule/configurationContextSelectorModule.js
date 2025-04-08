@@ -13,12 +13,12 @@ export function initializeContextSelector(fileName) {
     configurationContextPlaceholder.appendChild(dropdown);
 
     const manualButton = document.createElement("button");
-    manualButton.textContent = "Add Context Manually";
+    manualButton.textContent = "Add manually a Context in this Configuration File";
     manualButton.onclick = () => openManualContextModal(fileName);
     configurationContextPlaceholder.appendChild(manualButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete Context in this Configuration";
+    deleteButton.textContent = "Delete Context in this Configuration File";
     deleteButton.onclick = () => deleteSelectedContext(fileName, dropdown);
     configurationContextPlaceholder.appendChild(deleteButton);
 
@@ -191,13 +191,12 @@ async function saveManualContext(fileName) {
         return { [selector.value]: selectedItems };
     });
 
-    const context = Object.assign({}, ...properties);
-    context.Configuration = {}; // Add the "Configuration" property
+    const newContext = Object.assign({}, ...properties);
 
     // Add the new context to the dropdown
     const dropdown = document.getElementById("contextDropdown");
     const option = document.createElement("option");
-    const keysAndValues = Object.entries(context)
+    const keysAndValues = Object.entries(newContext)
         .filter(([key]) => key !== "Configuration")
         .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
         .join(", ");
@@ -207,15 +206,21 @@ async function saveManualContext(fileName) {
 
     // Save the new context to the file
     try {
-        const fileContent = await getConfigFileByName(fileName);
-        fileContent.push(context); // Add the new context to the file content
+        const saveResponse = await fetch(`/api/configContext/saveNewContextInFile/${fileName}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newContext),
+        });
 
-        await saveConfigFileByName(fileContent, fileName);
+        if (!saveResponse.ok) {
+            throw new Error(`Failed to add new context in file ${fileName}: ${saveResponse.error}`);
+        } else {
+            alert("Context added successfully.");
+            location.reload(); // Reload the page to apply the new context
+        }
     } catch (error) {
         console.error("Error saving context to file:", error);
     }
-
-    document.getElementById("manualContextModal").remove();
 }
 
 // Delete the selected context
@@ -242,30 +247,5 @@ async function deleteSelectedContext(fileName, dropdown) {
         }
     } catch (error) {
         console.error("Error deleting context:", error);
-    }
-}
-
-async function getConfigFileByName(fileName) {
-    let outcome = null;
-    const response = await fetch(`/api/configContext/${fileName}`);
-    if (!response.ok) {
-        throw new Error(`Failed to fetch file: ${response.statusText}`);
-    } else {
-        const jsonResponse = await response.json();
-        outcome = jsonResponse.data;
-    }
-
-    return outcome;
-}
-
-async function saveConfigFileByName(fileContent, fileName) {
-    const saveResponse = await fetch(`/api/configContext/${fileName}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(fileContent),
-    });
-
-    if (!saveResponse.ok) {
-        throw new Error(`Failed to add new context in file: ${saveResponse.statusText}`);
     }
 }

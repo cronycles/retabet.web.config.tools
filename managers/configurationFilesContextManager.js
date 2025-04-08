@@ -51,7 +51,6 @@ class ConfigurationFilesContextManager {
                 data: null,
             };
 
-            let data = [];
             const configFileContent = this.#getConfigFileByName(fileName);
             if (configFileContent) {
                 // Find and remove the selected context
@@ -60,14 +59,46 @@ class ConfigurationFilesContextManager {
                     return JSON.stringify(keysAndValues) !== JSON.stringify(contextValue);
                 });
 
-                if(updatedConfigFileContent != {}) {
+                if (updatedConfigFileContent != {}) {
                     const isSaved = this.#saveConfigurationFileByName(updatedConfigFileContent, fileName);
-                    if(isSaved) {
+                    if (isSaved) {
                         outcome.isOk = true;
                         outcome.data = true;
                     }
                 }
+            }
+            return outcome;
+        } catch (error) {
+            console.error("Error loading contexts from file:", error);
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+            return outcome;
+        }
+    }
 
+    saveNewContextInFileByFileName(newContext, fileName) {
+        try {
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+
+            const configFileContent = this.#getConfigFileByName(fileName);
+            if (configFileContent) {
+                const contextWithConfiguration = { ...newContext };
+
+                contextWithConfiguration.Configuration = {}; // Add the "Configuration" property
+                configFileContent.push(contextWithConfiguration); // Add the new context to the file content
+
+                const isSaved = this.#saveConfigurationFileByName(configFileContent, fileName);
+                if (isSaved) {
+                    outcome.isOk = true;
+                    outcome.data = true;
+                }
             }
             return outcome;
         } catch (error) {

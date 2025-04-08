@@ -16,10 +16,10 @@ class ConfigurationContextSelectorModuleController {
         const fileName = req.params.fileName;
         const localContextObject = this.#contextSelectorModuleManager.loadFileContextsByFileName(fileName);
 
-       if(localContextObject && localContextObject.isOk) {
-           outcome.status = 200;
-           outcome.data = localContextObject.data;
-       }
+        if (localContextObject && localContextObject.isOk) {
+            outcome.status = 200;
+            outcome.data = localContextObject.data;
+        }
         return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
     }
 
@@ -33,39 +33,18 @@ class ConfigurationContextSelectorModuleController {
         const fileName = req.params.fileName;
         const stringContextValue = JSON.stringify(req.body);
         const deleteResponse = this.#contextSelectorModuleManager.deleteContextInFileByFileNameAndResetCurrentContext(stringContextValue, fileName);
-        if(deleteResponse && deleteResponse.isOk) {
+        if (deleteResponse && deleteResponse.isOk) {
             outcome.status = 200;
             outcome.data = deleteResponse.data;
-        }
-        else if(deleteResponse?.errorType == "BAD_REQUEST") {
+        } else if (deleteResponse?.errorType == "BAD_REQUEST") {
             outcome.status = 400;
             outcome.error = "cannot delete context. if you are trying to delete the Default Context, remember that you cannot do that";
         }
-        
-        return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
-    }
-
-    getConfigFileByName(req, res) {
-        let outcome = {
-            status: 500,
-            error: "Unknown error occured",
-            data: null,
-        };
-        const fileName = req.params.fileName;
-        const serviceResponse = this.#contextSelectorModuleManager.getConfigFileByName(fileName);
-        if (serviceResponse.isOk) {
-            outcome.status = 200;
-            outcome.data = serviceResponse.data;
-        } else {
-            if (serviceResponse.errorType == "INTERNAL_SERVICE_ERROR") {
-                outcome.error = "Internal service error occured";
-            }
-        }
 
         return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
     }
 
-    saveConfigFileByName(req, res) {
+    saveNewContextInFile(req, res) {
         let outcome = {
             status: 500,
             error: "Unknown error occured",
@@ -73,17 +52,17 @@ class ConfigurationContextSelectorModuleController {
         };
 
         const fileName = req.params.fileName;
-        const updatedContent = req.body;
-
-        const serviceResponse = this.#contextSelectorModuleManager.saveConfigFileByName(updatedContent, fileName);
-        if (serviceResponse.isOk) {
+        const stringContextValue = JSON.stringify(req.body);
+        const saveResponse = this.#contextSelectorModuleManager.saveContextInFileByFileNameAndSetNewCurrentContext(stringContextValue, fileName);
+        if (saveResponse && saveResponse.isOk) {
             outcome.status = 200;
-            outcome.data = serviceResponse.data;
-        } else {
-            if (serviceResponse.errorType == "INTERNAL_SERVICE_ERROR") {
-                outcome.error = "Internal service error occured";
-            }
+            outcome.data = saveResponse.data;
+        } else if (saveResponse?.errorType == "BAD_REQUEST") {
+            outcome.status = 400;
+            outcome.error = "cannot create new context";
         }
+
+        return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
     }
 
     getContextConfigProperties(req, res) {
@@ -107,7 +86,7 @@ class ConfigurationContextSelectorModuleController {
 
     setSelectedContext(req, res) {
         const selectedStringContext = req.body.selectedContext;
-        this.#contextSelectorModuleManager.setSelectedContextFromString(selectedStringContext);
+        this.#contextSelectorModuleManager.setSelectedContext(selectedStringContext);
         res.status(200).json({ message: "Selected context set successfully" });
     }
 
@@ -115,33 +94,6 @@ class ConfigurationContextSelectorModuleController {
         let outcome = {};
         outcome = this.#contextSelectorModuleManager.getSelectedContext();
         res.json({ selectedContext: outcome });
-    }
-
-    updateSection(req, res) {
-        let outcome = {
-            status: 500,
-            error: "Unknown error occured",
-            message: "",
-        };
-        const { sectionName, attributes, oldSectionName } = req.body;
-
-        let updateOutput = this.#contextSelectorModuleManager.updateSection(sectionName, attributes, oldSectionName);
-
-        if (updateOutput.isOk) {
-            outcome.status = 201;
-            outcome.message = "Section updated successfully";
-        } else {
-            if (updateOutput.errorType == "NOT_FOUND") {
-                outcome.status = 404;
-                outcome.error = "Section not found";
-            } else {
-                if (updateOutput.errorType == "ALREADY_EXISTS") {
-                    outcome.status = 400;
-                    outcome.error = "Section already exists";
-                }
-            }
-        }
-        return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
     }
 }
 export default ConfigurationContextSelectorModuleController;

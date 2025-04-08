@@ -2,7 +2,6 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 import ConfigurationCurrentContextManager from "../../../managers/configurationCurrentContextManager.js";
-import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
 import ConfigurationFilesContextManager from "../../../managers/configurationFilesContextManager.js";
 import ConfigurationJsonsManager from "../../../managers/configurationJsonsManager.js";
 
@@ -12,7 +11,6 @@ const __dirname = path.dirname(__filename);
 class ConfigurationContextSelectorModuleManager {
     static #instance = null;
     #jsonManager = ConfigurationJsonsManager;
-    #filesManager = ConfigurationFilesManager;
     #filesContextManager = ConfigurationFilesContextManager;
     #currentContextManager = ConfigurationCurrentContextManager;
 
@@ -71,7 +69,7 @@ class ConfigurationContextSelectorModuleManager {
             if (stringContextValue) {
                 const contextValue = JSON.parse(stringContextValue);
                 if (Object.keys(contextValue).length === 0) {
-                    outcome.errorType = "BAD_REQUEST"
+                    outcome.errorType = "BAD_REQUEST";
                 }
                 const deleteResponse = this.#filesContextManager.deleteContextInFileByFileName(contextValue, fileName);
                 if (deleteResponse?.isOk && deleteResponse.data) {
@@ -92,13 +90,36 @@ class ConfigurationContextSelectorModuleManager {
         }
     }
 
-    setSelectedContextFromString(stringContext) {
-        const jsonContext = JSON.parse(stringContext);
-        return this.#currentContextManager.setCurrentContext(jsonContext);
-    }
+    saveContextInFileByFileNameAndSetNewCurrentContext(stringContextValue, fileName) {
+        try {
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+            if (stringContextValue) {
+                const contextValue = JSON.parse(stringContextValue);
+                if (Object.keys(contextValue).length === 0) {
+                    outcome.errorType = "BAD_REQUEST";
+                }
 
-    getSelectedContext() {
-        return this.#currentContextManager.getCurrentContext();
+                const deleteResponse = this.#filesContextManager.saveNewContextInFileByFileName(contextValue, fileName);
+                if (deleteResponse?.isOk && deleteResponse.data) {
+                    this.#currentContextManager.setCurrentContext(contextValue);
+                    outcome.isOk = true;
+                    outcome.data = deleteResponse.data;
+                }
+            }
+            return outcome;
+        } catch (error) {
+            console.error("Error deleting contexts from file:", error);
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+            return outcome;
+        }
     }
 
     getContextConfigProperties() {
@@ -124,22 +145,13 @@ class ConfigurationContextSelectorModuleManager {
         }
     }
 
-    saveConfigFileByName(updatedContent, fileName) {
-        let outcome = {
-            isOk: false,
-            errorType: "UNKNOWN",
-            data: null,
-        };
+    setSelectedContext(stringContext) {
+        const jsonContext = JSON.parse(stringContext);
+        return this.#currentContextManager.setCurrentContext(jsonContext);
+    }
 
-        if (updatedContent && fileName) {
-            const fileContent = this.#filesManager.saveConfigurationFileByName(updatedContent, fileName);
-            if (fileContent) {
-                outcome.isOk = true;
-                outcome.data = fileContent;
-            }
-        }
-
-        return outcome;
+    getSelectedContext() {
+        return this.#currentContextManager.getCurrentContext();
     }
 }
 export default ConfigurationContextSelectorModuleManager.getInstance();
