@@ -34,9 +34,9 @@ class ConfigurationContextSelectorModuleManager {
             };
 
             let data = [];
-            const FileContextsResponse = this.#filesContextManager.loadFileContextsByFileName(fileName);
-            if (FileContextsResponse?.isOk && FileContextsResponse.data) {
-                const contexts = FileContextsResponse.data;
+            const fileContextsResponse = this.#filesContextManager.loadFileContextsByFileName(fileName);
+            if (fileContextsResponse?.isOk && fileContextsResponse.data) {
+                const contexts = fileContextsResponse.data;
                 contexts.forEach(context => {
                     let stringContext = JSON.stringify(context);
                     let contextOutput = {
@@ -52,6 +52,37 @@ class ConfigurationContextSelectorModuleManager {
             return outcome;
         } catch (error) {
             console.error("Error loading contexts from file:", error);
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+            return outcome;
+        }
+    }
+
+    deleteContextInFileByFileNameAndResetCurrentContext(stringContextValue, fileName) {
+        try {
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+            if (stringContextValue) {
+                const contextValue = JSON.parse(stringContextValue);
+                if (Object.keys(contextValue).length === 0) {
+                    outcome.errorType = "BAD_REQUEST"
+                }
+                const deleteResponse = this.#filesContextManager.deleteContextInFileByFileName(contextValue, fileName);
+                if (deleteResponse?.isOk && deleteResponse.data) {
+                    this.#currentContextManager.resetCurrentContext();
+                    outcome.isOk = true;
+                    outcome.data = deleteResponse.data;
+                }
+            }
+            return outcome;
+        } catch (error) {
+            console.error("Error deleting contexts from file:", error);
             let outcome = {
                 isOk: false,
                 errorType: "UNKNOWN",

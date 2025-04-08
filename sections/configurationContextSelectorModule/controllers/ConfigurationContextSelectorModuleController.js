@@ -1,4 +1,4 @@
-import ConfigurationContextSelectorModuleManager from "../managers/configurationContextSelectorModuleManager.js";
+import ConfigurationContextSelectorModuleManager from "../managers/ConfigurationContextSelectorModuleManager.js";
 
 class ConfigurationContextSelectorModuleController {
     #contextSelectorModuleManager;
@@ -20,6 +20,28 @@ class ConfigurationContextSelectorModuleController {
            outcome.status = 200;
            outcome.data = localContextObject.data;
        }
+        return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
+    }
+
+    deleteSelectedContextInFile(req, res) {
+        let outcome = {
+            status: 500,
+            error: "Unknown error occured",
+            data: null,
+        };
+
+        const fileName = req.params.fileName;
+        const stringContextValue = JSON.stringify(req.body);
+        const deleteResponse = this.#contextSelectorModuleManager.deleteContextInFileByFileNameAndResetCurrentContext(stringContextValue, fileName);
+        if(deleteResponse && deleteResponse.isOk) {
+            outcome.status = 200;
+            outcome.data = deleteResponse.data;
+        }
+        else if(deleteResponse?.errorType == "BAD_REQUEST") {
+            outcome.status = 400;
+            outcome.error = "cannot delete context. if you are trying to delete the Default Context, remember that you cannot do that";
+        }
+        
         return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
     }
 

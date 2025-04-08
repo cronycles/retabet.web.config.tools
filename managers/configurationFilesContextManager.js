@@ -43,6 +43,44 @@ class ConfigurationFilesContextManager {
         }
     }
 
+    deleteContextInFileByFileName(contextValue, fileName) {
+        try {
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+
+            let data = [];
+            const configFileContent = this.#getConfigFileByName(fileName);
+            if (configFileContent) {
+                // Find and remove the selected context
+                const updatedConfigFileContent = configFileContent.filter(context => {
+                    const keysAndValues = this.#getKeysAndValueContextJsonByEntireContext(context);
+                    return JSON.stringify(keysAndValues) !== JSON.stringify(contextValue);
+                });
+
+                if(updatedConfigFileContent != {}) {
+                    const isSaved = this.#saveConfigurationFileByName(updatedConfigFileContent, fileName);
+                    if(isSaved) {
+                        outcome.isOk = true;
+                        outcome.data = true;
+                    }
+                }
+
+            }
+            return outcome;
+        } catch (error) {
+            console.error("Error loading contexts from file:", error);
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+                data: null,
+            };
+            return outcome;
+        }
+    }
+
     #getConfigFileByName(fileName) {
         let outcome = null;
 
@@ -50,6 +88,19 @@ class ConfigurationFilesContextManager {
             const fileContent = this.#filesManager.getConfigurationFileByName(fileName);
             if (fileContent) {
                 outcome = fileContent;
+            }
+        }
+
+        return outcome;
+    }
+
+    #saveConfigurationFileByName(jsoObject, fileName) {
+        let outcome = false;
+
+        if (fileName) {
+            const saveResponse = this.#filesManager.saveConfigurationFileByName(jsoObject, fileName);
+            if (saveResponse) {
+                outcome = saveResponse;
             }
         }
 

@@ -16,6 +16,10 @@ class ConfigurationCurrentContextManager {
     setCurrentContext(newContext) {
         this.#currentContext = newContext;
     }
+
+    resetCurrentContext() {
+        this.#currentContext = {};
+    }
 }
 
 export default ConfigurationCurrentContextManager.getInstance();

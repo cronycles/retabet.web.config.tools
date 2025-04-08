@@ -8,16 +8,7 @@ export function initializeContextSelector(fileName) {
     dropdown.id = "contextDropdown";
     dropdown.onchange = async () => {
         const selectedValue = dropdown.value;
-        try {
-            await fetch("/api/configContext/setSelectedContext", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ selectedContext: selectedValue }),
-            });
-            location.reload(); // Reload the page to apply the new context
-        } catch (error) {
-            console.error("Failed to set selected context on server:", error);
-        }
+        await setSelectedContext(selectedValue);
     };
     configurationContextPlaceholder.appendChild(dropdown);
 
@@ -47,6 +38,19 @@ export function initializeContextSelector(fileName) {
             console.error("Error fetching selected context:", error);
         }
     });
+}
+
+async function setSelectedContext(contextValue = {}) {
+    try {
+        await fetch("/api/configContext/setSelectedContext", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ selectedContext: contextValue }),
+        });
+        location.reload(); // Reload the page to apply the new context
+    } catch (error) {
+        console.error("Failed to set selected context on server:", error);
+    }
 }
 
 // Load contexts automatically from the file
@@ -216,26 +220,28 @@ async function saveManualContext(fileName) {
 
 // Delete the selected context
 async function deleteSelectedContext(fileName, dropdown) {
-    const selectedOption = dropdown.options[dropdown.selectedIndex];
-    if (!selectedOption || selectedOption.value === "{}") {
-        alert("Cannot delete the default context.");
-        return;
-    }
-
     try {
-        const fileContent = await getConfigFileByName(fileName);
+        const selectedOption = dropdown.options[dropdown.selectedIndex];
+        const contextValue = selectedOption?.value;
+        if (contextValue === "{}") {
+            alert("Cannot delete the default context.");
+        } else {
+            const deleteResponse = await fetch(`/api/configContext/deleteSelectedContextInFile/${fileName}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: contextValue,
+            });
 
-        // Find and remove the selected context
-        const updatedContent = fileContent.filter(context => {
-            const keysAndValues = getKeysAndValueContextStringByEntireContext(context);
-            return keysAndValues !== selectedOption.value;
-        });
+            if (!deleteResponse.ok) {
+                throw new Error(`Failed to delete context in file ${fileName}: ${deleteResponse.error}`);
+            } else {
+                dropdown.removeChild(selectedOption);
+                alert("Context deleted successfully.");
+                location.reload(); // Reload the page to apply the new context
+            }
 
-        await saveConfigFileByName(updatedContent, fileName);
-
-        // Remove the context from the dropdown
-        dropdown.removeChild(selectedOption);
-        alert("Context deleted successfully.");
+            // Remove the context from the dropdown
+        }
     } catch (error) {
         console.error("Error deleting context:", error);
     }
