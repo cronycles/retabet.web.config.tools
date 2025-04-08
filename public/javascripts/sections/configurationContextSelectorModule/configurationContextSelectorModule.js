@@ -27,7 +27,7 @@ export function initializeContextSelector(fileName) {
     configurationContextPlaceholder.appendChild(manualButton);
 
     const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete Context";
+    deleteButton.textContent = "Delete Context in this Configuration";
     deleteButton.onclick = () => deleteSelectedContext(fileName, dropdown);
     configurationContextPlaceholder.appendChild(deleteButton);
 
@@ -217,7 +217,7 @@ async function saveManualContext(fileName) {
 // Delete the selected context
 async function deleteSelectedContext(fileName, dropdown) {
     const selectedOption = dropdown.options[dropdown.selectedIndex];
-    if (!selectedOption || selectedOption.textContent === "Default") {
+    if (!selectedOption || selectedOption.value === "{}") {
         alert("Cannot delete the default context.");
         return;
     }
