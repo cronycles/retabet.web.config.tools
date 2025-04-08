@@ -239,8 +239,6 @@ async function deleteSelectedContext(fileName, dropdown) {
                 alert("Context deleted successfully.");
                 location.reload(); // Reload the page to apply the new context
             }
-
-            // Remove the context from the dropdown
         }
     } catch (error) {
         console.error("Error deleting context:", error);
