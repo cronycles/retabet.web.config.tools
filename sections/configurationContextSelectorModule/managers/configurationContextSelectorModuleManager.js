@@ -3,6 +3,7 @@ import { fileURLToPath } from "url";
 
 import ConfigurationCurrentContextManager from "../../../managers/configurationCurrentContextManager.js";
 import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
+import ConfigurationFilesContextManager from "../../../managers/configurationFilesContextManager.js";
 import ConfigurationJsonsManager from "../../../managers/configurationJsonsManager.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,6 +13,7 @@ class ConfigurationContextSelectorModuleManager {
     static #instance = null;
     #jsonManager = ConfigurationJsonsManager;
     #filesManager = ConfigurationFilesManager;
+    #filesContextManager = ConfigurationFilesContextManager;
     #currentContextManager = ConfigurationCurrentContextManager;
 
     #contextConfigPropertiesFilePath = path.join(__dirname, "../../../data", "contextConfiguration.schema.json");
@@ -23,7 +25,7 @@ class ConfigurationContextSelectorModuleManager {
         return ConfigurationContextSelectorModuleManager.#instance;
     }
 
-    loadContextsFromFile(fileName) {
+    loadFileContextsByFileName(fileName) {
         try {
             let outcome = {
                 isOk: false,
@@ -32,12 +34,11 @@ class ConfigurationContextSelectorModuleManager {
             };
 
             let data = [];
-            const getConfigFileResponse = this.getConfigFileByName(fileName);
-            if (getConfigFileResponse?.isOk && getConfigFileResponse.data) {
-                const contexts = getConfigFileResponse.data;
+            const FileContextsResponse = this.#filesContextManager.loadFileContextsByFileName(fileName);
+            if (FileContextsResponse?.isOk && FileContextsResponse.data) {
+                const contexts = FileContextsResponse.data;
                 contexts.forEach(context => {
-                    const jsonKeysAndValues = this.#getKeysAndValueContextJsonByEntireContext(context);
-                    let stringContext = JSON.stringify(jsonKeysAndValues);
+                    let stringContext = JSON.stringify(context);
                     let contextOutput = {
                         textContent: stringContext === "{}" ? "Default" : stringContext,
                         value: stringContext,
@@ -91,24 +92,6 @@ class ConfigurationContextSelectorModuleManager {
         }
     }
 
-    getConfigFileByName(fileName) {
-        let outcome = {
-            isOk: false,
-            errorType: "UNKNOWN",
-            data: null,
-        };
-
-        if (fileName) {
-            const fileContent = this.#filesManager.getConfigurationFileByName(fileName);
-            if (fileContent) {
-                outcome.isOk = true;
-                outcome.data = fileContent;
-            }
-        }
-
-        return outcome;
-    }
-
     saveConfigFileByName(updatedContent, fileName) {
         let outcome = {
             isOk: false,
@@ -125,19 +108,6 @@ class ConfigurationContextSelectorModuleManager {
         }
 
         return outcome;
-    }
-
-    #getKeysAndValueContextStringByEntireContext(jsonFile) {
-        return Object.entries(jsonFile)
-            .filter(([key]) => key !== "Configuration")
-            .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-            .join(", ");
-    }
-
-    #getKeysAndValueContextJsonByEntireContext(jsonFile) {
-        return Object.fromEntries(
-            Object.entries(jsonFile).filter(([key]) => key !== "Configuration")
-        );
     }
 }
 export default ConfigurationContextSelectorModuleManager.getInstance();

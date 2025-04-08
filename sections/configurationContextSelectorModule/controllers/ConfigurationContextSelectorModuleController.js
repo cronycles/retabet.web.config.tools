@@ -14,7 +14,7 @@ class ConfigurationContextSelectorModuleController {
             data: null,
         };
         const fileName = req.params.fileName;
-        const localContextObject = this.#contextSelectorModuleManager.loadContextsFromFile(fileName);
+        const localContextObject = this.#contextSelectorModuleManager.loadFileContextsByFileName(fileName);
 
        if(localContextObject && localContextObject.isOk) {
            outcome.status = 200;
