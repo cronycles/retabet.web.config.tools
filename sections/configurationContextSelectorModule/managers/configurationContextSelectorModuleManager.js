@@ -1,7 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-import ConfigurationContextManager from "../../../managers/configurationContextManager.js";
+import ConfigurationCurrentContextManager from "../../../managers/configurationCurrentContextManager.js";
 import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
 import ConfigurationJsonsManager from "../../../managers/configurationJsonsManager.js";
 
@@ -11,8 +11,8 @@ const __dirname = path.dirname(__filename);
 class ConfigurationContextSelectorModuleManager {
     static #instance = null;
     #jsonManager = ConfigurationJsonsManager;
-    #configFilesManager = ConfigurationFilesManager;
-    #configContextManager = ConfigurationContextManager;
+    #filesManager = ConfigurationFilesManager;
+    #currentContextManager = ConfigurationCurrentContextManager;
 
     #contextConfigPropertiesFilePath = path.join(__dirname, "../../../data", "contextConfiguration.schema.json");
 
@@ -33,26 +33,18 @@ class ConfigurationContextSelectorModuleManager {
 
             let data = [];
             const getConfigFileResponse = this.getConfigFileByName(fileName);
-            if(getConfigFileResponse?.isOk && getConfigFileResponse.data) {
+            if (getConfigFileResponse?.isOk && getConfigFileResponse.data) {
                 const contexts = getConfigFileResponse.data;
                 contexts.forEach(context => {
-                    const keysAndValues = this.#getKeysAndValueContextStringByEntireContext(context);
-                    const displayText = keysAndValues || "Default";
+                    const jsonKeysAndValues = this.#getKeysAndValueContextJsonByEntireContext(context);
+                    let stringContext = JSON.stringify(jsonKeysAndValues);
                     let contextOutput = {
-                        textContent: displayText,
-                        value: keysAndValues,
+                        textContent: stringContext === "{}" ? "Default" : stringContext,
+                        value: stringContext,
                     };
                     data.push(contextOutput);
                 });
-    
-                // Add a "Default" option if not already present
-                if (!data.some(contextOutput => contextOutput.textContent === "Default")) {
-                    const defaultOption = {
-                        textContent: "Default",
-                        value: "Default",
-                    };
-                    data.unshift(defaultOption);
-                }
+
                 outcome.isOk = true;
                 outcome.data = data;
             }
@@ -69,11 +61,11 @@ class ConfigurationContextSelectorModuleManager {
     }
 
     setSelectedContext(context) {
-        return this.#configContextManager.setCurrentContext(context);
+        return this.#currentContextManager.setCurrentContext(context);
     }
 
     getSelectedContext() {
-        return this.#configContextManager.getCurrentContext();
+        return this.#currentContextManager.getCurrentContext();
     }
 
     getContextConfigProperties() {
@@ -107,8 +99,8 @@ class ConfigurationContextSelectorModuleManager {
         };
 
         if (fileName) {
-            const fileContent = this.#configFilesManager.getConfigurationFileByName(fileName);
-            if(fileContent) {
+            const fileContent = this.#filesManager.getConfigurationFileByName(fileName);
+            if (fileContent) {
                 outcome.isOk = true;
                 outcome.data = fileContent;
             }
@@ -117,7 +109,7 @@ class ConfigurationContextSelectorModuleManager {
         return outcome;
     }
 
-    saveConfigFileByName(updatedContent ,fileName) {
+    saveConfigFileByName(updatedContent, fileName) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
@@ -125,8 +117,8 @@ class ConfigurationContextSelectorModuleManager {
         };
 
         if (updatedContent && fileName) {
-            const fileContent = this.#configFilesManager.saveConfigurationFileByName(updatedContent, fileName);
-            if(fileContent) {
+            const fileContent = this.#filesManager.saveConfigurationFileByName(updatedContent, fileName);
+            if (fileContent) {
                 outcome.isOk = true;
                 outcome.data = fileContent;
             }
@@ -135,12 +127,17 @@ class ConfigurationContextSelectorModuleManager {
         return outcome;
     }
 
-    #getKeysAndValueContextStringByEntireContext(jsonContext) {
-        return Object.entries(jsonContext)
+    #getKeysAndValueContextStringByEntireContext(jsonFile) {
+        return Object.entries(jsonFile)
             .filter(([key]) => key !== "Configuration")
             .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
             .join(", ");
     }
-    
+
+    #getKeysAndValueContextJsonByEntireContext(jsonFile) {
+        return Object.fromEntries(
+            Object.entries(jsonFile).filter(([key]) => key !== "Configuration")
+        );
+    }
 }
 export default ConfigurationContextSelectorModuleManager.getInstance();

@@ -1,7 +1,7 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-import ConfigurationContextManager from "./configurationContextManager.js";
+import ConfigurationCurrentContextManager from "./configurationCurrentContextManager.js";
 import ConfigurationJsonsManager from "./configurationJsonsManager.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,7 +12,7 @@ class ConfigurationFilesManager {
 
     #JSONS_CONFIGURATION_PATH = "../data";
     #JSON_CONFIGURATION_KEY = "Configuration";
-    #contextManager = ConfigurationContextManager;
+    #currentContextManager = ConfigurationCurrentContextManager;
     #jsonManager = ConfigurationJsonsManager;
 
     static getInstance() {
@@ -151,7 +151,7 @@ class ConfigurationFilesManager {
 
     #getCurrentConfigurationContext() {
         let outcome = "";
-        const currentContext = this.#contextManager.getCurrentContext();
+        const currentContext = this.#currentContextManager.getCurrentContext();
         if (currentContext != null) {
             outcome = currentContext;
         }

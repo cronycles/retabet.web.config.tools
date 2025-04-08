@@ -38,9 +38,10 @@ export function initializeContextSelector(fileName) {
                 throw new Error(`Failed to fetch selected context: ${response.statusText}`);
             }
             const { selectedContext } = await response.json();
-            const isValidContext = Array.from(dropdown.options).some(option => option.value === selectedContext);
+            const stringSelectedContext = JSON.stringify(selectedContext);
+            const isValidContext = Array.from(dropdown.options).some(option => option.value === stringSelectedContext);
             if (isValidContext) {
-                dropdown.value = selectedContext; // Set to fetched value if valid
+                dropdown.value = stringSelectedContext; // Set to fetched value if valid
             }
         } catch (error) {
             console.error("Error fetching selected context:", error);
