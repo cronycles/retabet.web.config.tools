@@ -1,8 +1,8 @@
-import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
+import ConfigurationFilesContextManager from "../../../managers/configurationFilesContextManager.js";
 
 class PanelsManager {
     static #instance = null;
-    #filesManager = ConfigurationFilesManager;
+    #filesContextManager = ConfigurationFilesContextManager;
 
     #panelsFileName = "panels.config.json";
     #panelsHierarchy = ["Panels"];
@@ -17,14 +17,17 @@ class PanelsManager {
 
     getAllPanels() {
         let outcome = null;
-        const allPanels = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
+        const allPanels = this.#filesContextManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+            this.#panelsFileName,
+            this.#panelsHierarchy
+        );
         outcome = allPanels;
         return outcome;
     }
 
     getPanelDefaultAttributes() {
         let outcome = null;
-        const pabelDefaultAttributes = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(
+        const pabelDefaultAttributes = this.#filesContextManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
             this.#panelsFileName,
             this.#defaultAttributesHierarchy
         );
@@ -38,13 +41,21 @@ class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        const allPanelsObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
+        const isPresent = this.#filesContextManager.isConfigurationKeyAlreadyPresentInTheCurrentContextOfTheFile(
+            panelName,
+            this.#panelsFileName,
+            this.#panelsHierarchy
+        );
 
-        if (allPanelsObj[panelName]) {
+        if (isPresent) {
             outcome.errorType = "ALREADY_EXISTS";
         } else {
-            allPanelsObj[panelName] = attributes;
-            this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(allPanelsObj, this.#panelsFileName, this.#panelsHierarchy);
+            this.#filesContextManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
+                panelName,
+                attributes,
+                this.#panelsFileName,
+                this.#panelsHierarchy
+            );
             outcome.isOk = true;
         }
 
@@ -57,7 +68,7 @@ class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        const allPanelsObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
+        const allPanelsObj = this.#filesContextManager.getConfigurationObjectFromFileInTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
 
         if (!allPanelsObj[oldPanelName]) {
             outcome.errorType = "NOT_FOUND";
@@ -65,9 +76,9 @@ class PanelsManager {
             if (panelName !== oldPanelName && allPanelsObj[panelName]) {
                 outcome.errorType = "ALREADY_EXISTS";
             } else {
-                const updatedPanelsObj = this.#filesManager.findJsonObjectByNameAndUpdateIt(allPanelsObj, panelName, oldPanelName, attributes);
+                const updatedPanelsObj = this.#filesContextManager.findJsonObjectByNameAndUpdateIt(allPanelsObj, panelName, oldPanelName, attributes);
 
-                this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(updatedPanelsObj, this.#panelsFileName, this.#panelsHierarchy);
+                this.#filesContextManager.saveConfigurationObjectInFileInTheCurrentContext(updatedPanelsObj, this.#panelsFileName, this.#panelsHierarchy);
                 outcome.isOk = true;
             }
         }
@@ -81,13 +92,13 @@ class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        const allPanelsObj = this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
+        const allPanelsObj = this.#filesContextManager.getConfigurationObjectFromFileInTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
 
         if (!allPanelsObj[panelName]) {
             outcome.errorType = "NOT_FOUND";
         } else {
             delete allPanelsObj[panelName];
-            this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(allPanelsObj, this.#panelsFileName, this.#panelsHierarchy);
+            this.#filesContextManager.saveConfigurationObjectInFileInTheCurrentContext(allPanelsObj, this.#panelsFileName, this.#panelsHierarchy);
             outcome.isOk = true;
         }
 

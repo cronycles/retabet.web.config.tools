@@ -48,8 +48,8 @@ class ConfigurationFilesManager {
      * ésta función te da el objeto de configuración entero con el contexto actual (contexto que esta en memoria).
      * si no le pasas el segundo parámetro, supondrá que el objeto a devolver está en el tercer puesto: "Configuracion"--> "Nombre_CONF" --> AQUI!
      * si le pasas el segundo parámetro el te devolverá el objeto que está debajo de esa jerarquía y, si no hay nada, te devolverá la jerarquía de objetos vacíos
-     * @param {*} fileName
-     * @returns
+     * @param {string} fileName
+     * @returns {Object|null}
      */
     getConfigurationObjectFromFileInTheCurrentContext(fileName, hierarchyArray) {
         var jsonFile = this.getConfigurationFileByName(fileName);
@@ -79,42 +79,49 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    /**
-     * Saves the given configuration object into the correct context of the JSON file.
-     * Replaces the existing data at the specified hierarchy.
-     * @param {*} configurationObjectToSave - The object to save.
-     * @param {*} fileName - The path to the JSON file.
-     * @param {*} hierarchyArray - The hierarchy to locate the object in the JSON structure.
-     */
-    saveConfigurationObjectInFileInTheCurrentContext(configurationObjectToSave, fileName, hierarchyArray) {
-        var jsonFile = this.getConfigurationFileByName(fileName);
-        let foundObjectInContext = null;
+    getObjectPartBasedOnHierarchyArray(objectFilePart, hierarchyArray) {
+        let outcome = {};
+        if (hierarchyArray && hierarchyArray.length > 0) {
+            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectFilePart);
+            if (configurationObject) {
+                outcome = this.#createOrTraverseNestedKeys(configurationObject, hierarchyArray);
+            }
+        } else {
+            outcome = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectFilePart);
+        }
+        return outcome;
+    }
+    
+    addNewObjectIntoThePositionBasedOnHierarchyArray(newObject, objectToTraverse, hierarchyArray) {
+        let outcome = null;
+        if (objectToTraverse != null) {
+            outcome = { ...objectToTraverse };
+            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(outcome);
+            if (configurationObject) {
+                const keys = hierarchyArray || [];
+                const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
 
-        // Find the context that matches the current configuration context
-        for (const fileContextPartObj of jsonFile) {
-            if (this.#isFileContextPartCorrespondingToTheCurrentContext(fileContextPartObj)) {
-                foundObjectInContext = fileContextPartObj;
-                break;
+                // Append the newObject to the targetObject without deleting existing content
+                Object.assign(targetObject, newObject);
             }
         }
+        return outcome;
+    }
 
-        // If no matching context is found, use the entire file as the context
-        if (foundObjectInContext == null) {
-            foundObjectInContext = jsonFile[0];
+    traverseOrCreateNestedKeysBasedOnHierarchyArray(objectFilePart, hierarchyArray) {
+        let outcome = null;
+        if (objectFilePart != null) {
+            outcome = { ...objectFilePart };
+            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(outcome);
+            if (configurationObject) {
+                const keys = hierarchyArray || [];
+                const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
+
+                Object.keys(targetObject).forEach(key => delete targetObject[key]);
+                Object.assign(targetObject, objectFilePart);
+            }
         }
-
-        // Traverse or create the nested keys based on the hierarchyArray
-        const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(foundObjectInContext);
-        if (configurationObject) {
-            const keys = hierarchyArray || [];
-            const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
-
-            Object.keys(targetObject).forEach(key => delete targetObject[key]);
-            Object.assign(targetObject, configurationObjectToSave);
-        }
-
-        // Write the updated JSON back to the file
-        this.saveConfigurationFileByName(jsonFile, filePath);
+        return outcome;
     }
 
     findJsonObjectByNameAndUpdateIt(allJsonObjects, newName, oldName, attributes) {
