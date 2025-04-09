@@ -97,15 +97,14 @@ class ConfigurationFilesContextManager {
     /**
      * Guarda el objeto exactamente en el current context.
      * Sustituye los datos existentes en la expecifica gerarquia
-     * @param {string} objectKey - El key del nuevo objeto a guardar.
-     * @param {Object|null} objectAttributes - El objeto a guardar.
+     * @param {Object|null} newObject - El nuevo objeto a guardar.
      * @param {string} fileName - nombre del fichero de configuracion
      * @param {string[]} [hierarchyArray] - indica la gerarquia de que parte del objeto quiero: si no le pasas el segundo parámetro,
      * supondrá que el objeto a devolver está en el tercer puesto: "Configuracion"--> "Nombre_CONF" --> AQUI!
      * si le pasas el segundo parámetro el te devolverá el objeto que está debajo de esa jerarquía y,
      * si no hay nada, te devolverá la jerarquía de objetos vacíos
      */
-    saveConfigurationObjectInFileExtrictlyInTheCurrentContext(objectKey, objectAttributes, fileName, hierarchyArray) {
+    saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, fileName, hierarchyArray) {
         const currentContextObj = this.#extension.getConfigurationCurrentContext();
         var jsonFile = this.#extension.getConfigFileByName(fileName);
 
@@ -118,7 +117,6 @@ class ConfigurationFilesContextManager {
                 break;
             }
         }
-        let newObject = { [objectKey]: objectAttributes };
         foundObjectInContext = this.#filesManager.addNewObjectIntoThePositionBasedOnHierarchyArray(newObject, foundObjectInContext, hierarchyArray);
         this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
     }

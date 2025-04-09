@@ -50,12 +50,8 @@ class PanelsManager {
         if (isPresent) {
             outcome.errorType = "ALREADY_EXISTS";
         } else {
-            this.#filesContextManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
-                panelName,
-                attributes,
-                this.#panelsFileName,
-                this.#panelsHierarchy
-            );
+            let newObject = { [panelName]: attributes };
+            this.#filesContextManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, this.#panelsFileName, this.#panelsHierarchy);
             outcome.isOk = true;
         }
 
