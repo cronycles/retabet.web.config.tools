@@ -35,13 +35,25 @@ class ConfigurationFilesManager {
     }
 
     saveConfigurationFileByName(jsoObject, fileName) {
-        let outcome = false;
-        const filePath = this.#getConfigurationFilePathByName(fileName);
+        try {
+            let outcome = {
+                isOk: false,
+                errorType: "UNKNOWN",
+            };
+            const filePath = this.#getConfigurationFilePathByName(fileName);
 
-        this.#jsonManager.writeJson(filePath, jsoObject);
+            this.#jsonManager.writeJson(filePath, jsoObject);
 
-        outcome = true;
-        return outcome;
+            outcome.isOk = true;
+            return outcome;
+        } catch (err) {
+            let outcome = {
+                isOk: false,
+                errorType: "INTERNAL_SERVER",
+            };
+            console.error(err);
+            return outcome;
+        }
     }
 
     /**
@@ -91,9 +103,12 @@ class ConfigurationFilesManager {
         }
         return outcome;
     }
-    
+
     addNewObjectIntoThePositionBasedOnHierarchyArray(newObject, objectToTraverse, hierarchyArray) {
-        let outcome = null;
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
         if (objectToTraverse != null) {
             outcome = { ...objectToTraverse };
             const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(outcome);
@@ -101,9 +116,23 @@ class ConfigurationFilesManager {
                 const keys = hierarchyArray || [];
                 const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
 
-                // Append the newObject to the targetObject without deleting existing content
-                Object.assign(targetObject, newObject);
+                if (this.#doesNewObjectExistsIntoTheFirstLevelOfTheObject(newObject, targetObject)) {
+                    outcome.errorType = "ALREADY_EXISTS";
+                } else {
+                    // Append the newObject to the targetObject without deleting existing content
+                    Object.assign(targetObject, newObject);
+                    outcome.isOk = true;
+                }
             }
+        }
+        return outcome;
+    }
+
+    #doesNewObjectExistsIntoTheFirstLevelOfTheObject(newObject, targetObject) {
+        let outcome = false;
+        if (newObject && targetObject) {
+            const firstKey = Object.keys(newObject)[0];
+            outcome = targetObject[firstKey] ? true : false;
         }
         return outcome;
     }

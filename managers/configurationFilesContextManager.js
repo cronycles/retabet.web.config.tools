@@ -33,7 +33,11 @@ class ConfigurationFilesContextManager {
      * @returns {Object|null}
      */
     getConfigurationObjectFromFileExtrictlyCorrespondingToTheDefaultContext(fileName, hierarchyArray) {
-        return this.#getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, {}, hierarchyArray);
+        let outcome = {};
+        let foundObjectInContext = this.#extension.getConfigurationObjectFromFileExtrictlyCorrespondingToTheDefaultContext(fileName);
+        outcome = this.#filesManager.getObjectPartBasedOnHierarchyArray(foundObjectInContext, hierarchyArray);
+
+        return outcome;
     }
 
     /**
@@ -47,8 +51,11 @@ class ConfigurationFilesContextManager {
      * @returns {Object|null}
      */
     getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(fileName, hierarchyArray) {
-        const currentContextObj = this.#extension.getConfigurationCurrentContext();
-        return this.#getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, currentContextObj, hierarchyArray);
+        let outcome = {};
+        let foundObjectInContext = this.#extension.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(fileName);
+        outcome = this.#filesManager.getObjectPartBasedOnHierarchyArray(foundObjectInContext, hierarchyArray);
+
+        return outcome;
     }
 
     /**
@@ -65,32 +72,11 @@ class ConfigurationFilesContextManager {
     getConfigurationObjectFromFileBelongingToTheCurrentContext(fileName, hierarchyArray) {
         let outcome = {};
         const currentContextObj = this.#extension.getConfigurationCurrentContext();
-        var jsonFile = this.#extension.getConfigFileByName(fileName);
 
-        let foundObjectInContext = {};
-        for (const fileContextPartObj of jsonFile) {
-            if (
-                this.#isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) ||
-                this.#isFileContextPartBelongingToThePassedContext(fileContextPartObj, currentContextObj)
-            ) {
-                foundObjectInContext = { ...foundObjectInContext, ...fileContextPartObj };
-                break;
-            }
-        }
+        let foundObjectInContext = this.#getConfigurationObjectFromFileBelongingToThePassedContext(fileName, currentContextObj);
 
         outcome = this.#filesManager.getObjectPartBasedOnHierarchyArray(foundObjectInContext, hierarchyArray);
 
-        return outcome;
-    }
-
-    isConfigurationKeyAlreadyPresentInTheCurrentContextOfTheFile(configurationKey, fileName, hierarchyArray) {
-        let outcome = false;
-
-        const fileContextPartObj = this.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(fileName, hierarchyArray);
-
-        if (fileContextPartObj[configurationKey]) {
-            outcome = true;
-        }
         return outcome;
     }
 
@@ -105,69 +91,51 @@ class ConfigurationFilesContextManager {
      * si no hay nada, te devolverá la jerarquía de objetos vacíos
      */
     saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, fileName, hierarchyArray) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
         const currentContextObj = this.#extension.getConfigurationCurrentContext();
-        var jsonFile = this.#extension.getConfigFileByName(fileName);
+        var jsonFile = this.#filesManager.getConfigurationFileByName(fileName);
 
-        let foundObjectInContext = null;
+        let foundObjectInContext = this.#getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, currentContextObj);
 
-        // Find the context that matches the current configuration context
+        outcome = this.#filesManager.addNewObjectIntoThePositionBasedOnHierarchyArray(newObject, foundObjectInContext, hierarchyArray);
+        if (addResponse?.isOk) {
+            outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+        } else {
+            outcome.errorType = addResponse.errorType;
+        }
+        return outcome;
+    }
+
+    
+
+    #getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, passedContext) {
+        let outcome = null;
+        var jsonFile = this.#filesManager.getConfigurationFileByName(fileName);
+
         for (const fileContextPartObj of jsonFile) {
-            if (this.#isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, currentContextObj)) {
-                foundObjectInContext = fileContextPartObj;
+            if (this.#extension.isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, passedContext)) {
+                outcome = fileContextPartObj;
                 break;
             }
         }
-        foundObjectInContext = this.#filesManager.addNewObjectIntoThePositionBasedOnHierarchyArray(newObject, foundObjectInContext, hierarchyArray);
-        this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+
+        return outcome;
     }
 
-    #getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, passedContext, hierarchyArray) {
+    #getConfigurationObjectFromFileBelongingToThePassedContext(fileName, passedContext) {
         let outcome = {};
-        var jsonFile = this.#extension.getConfigFileByName(fileName);
-
-        let foundObjectInContext = null;
-        for (const fileContextPartObj of jsonFile) {
-            if (this.#isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, passedContext)) {
-                foundObjectInContext = fileContextPartObj;
-                break;
-            }
-        }
-        if (foundObjectInContext == null) {
-            foundObjectInContext = jsonFile;
-        }
-
-        outcome = this.#filesManager.getObjectPartBasedOnHierarchyArray(foundObjectInContext, hierarchyArray);
-
-        return outcome;
-    }
-
-    #isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) {
-        return this.#isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, {});
-    }
-
-    #isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, passedContext) {
-        let outcome = false;
-        const contextObject = this.#extension.getKeysAndValueContextJsonByFileContextPart(fileContextPartObj);
-        if (JSON.stringify(contextObject) === JSON.stringify(passedContext)) {
-            outcome = true;
-        }
-
-        return outcome;
-    }
-
-    #isFileContextPartBelongingToThePassedContext(fileContextPartObj, passedContext) {
-        let outcome = true;
-        const contextObject = this.#extension.getKeysAndValueContextJsonByFileContextPart(fileContextPartObj);
-
-        for (const [key, value] of Object.entries(contextObject)) {
-            if (passedContext.hasOwnProperty(key)) {
-                const passedContextValues = passedContext[key];
-                if (Array.isArray(value) && Array.isArray(passedContextValues)) {
-                    if (value.length != 0 && passedContextValues.length != 0) {
-                        if (!value.some(item => passedContextValues.includes(item))) {
-                            return false;
-                        }
-                    }
+        if (fileName) {
+            var jsonFile = this.#filesManager.getConfigurationFileByName(fileName);
+            for (const fileContextPartObj of jsonFile) {
+                if (
+                    this.#extension.isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) ||
+                    this.#extension.isFileContextPartBelongingToThePassedContext(fileContextPartObj, passedContext)
+                ) {
+                    outcome = { ...foundObjectInContext, ...fileContextPartObj };
+                    break;
                 }
             }
         }

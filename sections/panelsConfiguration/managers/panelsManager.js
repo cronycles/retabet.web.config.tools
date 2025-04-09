@@ -41,19 +41,8 @@ class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        const isPresent = this.#filesContextManager.isConfigurationKeyAlreadyPresentInTheCurrentContextOfTheFile(
-            panelName,
-            this.#panelsFileName,
-            this.#panelsHierarchy
-        );
-
-        if (isPresent) {
-            outcome.errorType = "ALREADY_EXISTS";
-        } else {
-            let newObject = { [panelName]: attributes };
-            this.#filesContextManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, this.#panelsFileName, this.#panelsHierarchy);
-            outcome.isOk = true;
-        }
+        let newObject = { [panelName]: attributes };
+        outcome = this.#filesContextManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, this.#panelsFileName, this.#panelsHierarchy);
 
         return outcome;
     }
