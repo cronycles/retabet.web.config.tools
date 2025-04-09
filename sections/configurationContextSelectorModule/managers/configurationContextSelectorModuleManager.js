@@ -1,20 +1,11 @@
-import path from "path";
-import { fileURLToPath } from "url";
-
-import ConfigurationCurrentContextManager from "../../../managers/configurationCurrentContextManager.js";
-import ConfigurationFilesContextManager from "../../../managers/configurationFilesContextManager.js";
-import ConfigurationJsonsManager from "../../../managers/configurationJsonsManager.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { ConfigurationContextManager } from "../../../managers/configurationContextManager.js";
+import { ConfigurationFilesContextEditorManager } from "../../../managers/configurationFilesContextEditorManager.js";
 
 class ConfigurationContextSelectorModuleManager {
     static #instance = null;
-    #jsonManager = ConfigurationJsonsManager;
-    #filesContextManager = ConfigurationFilesContextManager;
-    #currentContextManager = ConfigurationCurrentContextManager;
 
-    #contextConfigPropertiesFilePath = path.join(__dirname, "../../../data", "contextConfiguration.schema.json");
+    #filesContextEditorManager = ConfigurationFilesContextEditorManager;
+    #contextManager = ConfigurationContextManager;
 
     static getInstance() {
         if (!ConfigurationContextSelectorModuleManager.#instance) {
@@ -32,10 +23,10 @@ class ConfigurationContextSelectorModuleManager {
             };
 
             let data = [];
-            const fileContextsResponse = this.#filesContextManager.loadFileContextsByFileName(fileName);
+            const fileContextsResponse = this.#filesContextEditorManager.loadFileContextsByFileName(fileName);
             if (fileContextsResponse?.isOk && fileContextsResponse.data) {
                 const contexts = fileContextsResponse.data;
-                contexts.forEach(context => {
+                contexts.forEach((context) => {
                     let stringContext = JSON.stringify(context);
                     let contextOutput = {
                         textContent: stringContext === "{}" ? "Default" : stringContext,
@@ -71,9 +62,9 @@ class ConfigurationContextSelectorModuleManager {
                 if (Object.keys(contextValue).length === 0) {
                     outcome.errorType = "BAD_REQUEST";
                 }
-                const deleteResponse = this.#filesContextManager.deleteContextInFileByFileName(contextValue, fileName);
+                const deleteResponse = this.#filesContextEditorManager.deleteContextInFileByFileName(contextValue, fileName);
                 if (deleteResponse?.isOk && deleteResponse.data) {
-                    this.#currentContextManager.resetCurrentContext();
+                    this.#contextManager.resetCurrentContext();
                     outcome.isOk = true;
                     outcome.data = deleteResponse.data;
                 }
@@ -103,9 +94,9 @@ class ConfigurationContextSelectorModuleManager {
                     outcome.errorType = "BAD_REQUEST";
                 }
 
-                const deleteResponse = this.#filesContextManager.saveNewContextInFileByFileName(contextValue, fileName);
+                const deleteResponse = this.#filesContextEditorManager.saveNewContextInFileByFileName(contextValue, fileName);
                 if (deleteResponse?.isOk && deleteResponse.data) {
-                    this.#currentContextManager.setCurrentContext(contextValue);
+                    this.#contextManager.setCurrentContext(contextValue);
                     outcome.isOk = true;
                     outcome.data = deleteResponse.data;
                 }
@@ -129,7 +120,7 @@ class ConfigurationContextSelectorModuleManager {
                 errorType: "UNKNOWN",
                 data: null,
             };
-            const jsonFile = this.#jsonManager.readJson(this.#contextConfigPropertiesFilePath);
+            const jsonFile = this.#contextManager.getContextConfigurationAvailableProperties();
             if (jsonFile) {
                 outcome.isOk = true;
                 outcome.data = jsonFile;
@@ -147,11 +138,13 @@ class ConfigurationContextSelectorModuleManager {
 
     setSelectedContext(stringContext) {
         const jsonContext = JSON.parse(stringContext);
-        return this.#currentContextManager.setCurrentContext(jsonContext);
+        return this.#contextManager.setCurrentContext(jsonContext);
     }
 
     getSelectedContext() {
-        return this.#currentContextManager.getCurrentContext();
+        return this.#contextManager.getCurrentContext();
     }
 }
-export default ConfigurationContextSelectorModuleManager.getInstance();
+
+const instance = ConfigurationContextSelectorModuleManager.getInstance();
+export { ConfigurationContextSelectorModuleManager, instance as default };

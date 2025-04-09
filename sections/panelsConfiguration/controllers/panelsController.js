@@ -1,4 +1,4 @@
-import PanelsManager from "../managers/panelsManager.js";
+import { PanelsManager } from "../managers/panelsManager.js";
 
 class PanelsController {
     #panelsManager;

@@ -1,5 +1,5 @@
-import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
-import PagesManager from "../../pagesConfiguration/managers/pagesManager.js";
+import { ConfigurationFilesManager } from "../../../managers/configurationFilesManager.js";
+import { PagesManager } from "../../pagesConfiguration/managers/pagesManager.js";
 
 class PageSectionsManager {
     static #instance = null;
@@ -19,38 +19,36 @@ class PageSectionsManager {
     getAllPages() {
         let outcome = null;
         const allPages = this.#pagesManager.getAllPages();
-        outcome = Object.keys(allPages).map(pageName => ({
+        outcome = Object.keys(allPages).map((pageName) => ({
             name: pageName,
         }));
 
         return outcome;
     }
 
-    updateSectionsOrderInAPanelOfAPage (pageName, panelName, order) {
+    updateSectionsOrderInAPanelOfAPage(pageName, panelName, order) {
         let outcome = {
             isOk: false,
-            errorType: "UNKNOWN"
-        }
-        
+            errorType: "UNKNOWN",
+        };
+
         const pageInvariantNamesObj = this.getPageInvariantNamesObjectFromFile();
         const page = pageInvariantNamesObj[pageName];
         if (!page || !page[panelName]) {
             outcome.errorType = "NOT_FOUND";
-        }
-        else {
+        } else {
             const panelSections = page[panelName];
-            const reorderedSections = order.map(sectionName => {
-                return panelSections.find(section => {
+            const reorderedSections = order.map((sectionName) => {
+                return panelSections.find((section) => {
                     return typeof section === "string" ? section === sectionName : Object.keys(section)[0] === sectionName;
                 });
             });
-        
+
             pageInvariantNamesObj[pageName][panelName] = reorderedSections;
             this.savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
             outcome.isOk = true;
-        
         }
-    
+
         return outcome;
     }
 
@@ -66,4 +64,6 @@ class PageSectionsManager {
         );
     }
 }
-export default PageSectionsManager.getInstance();
+
+const instance = PageSectionsManager.getInstance();
+export { PageSectionsManager, instance as default };

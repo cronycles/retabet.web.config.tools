@@ -1,4 +1,4 @@
-import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
+import { ConfigurationFilesManager } from "../../../managers/configurationFilesManager.js";
 
 class SectionsManager {
     static #instance = null;
@@ -65,8 +65,17 @@ class SectionsManager {
             if (sectionName !== oldSectionName && allSectionsObj[sectionName]) {
                 outcome.errorType = "ALREADY_EXISTS";
             } else {
-                const updatedSectionsObj = this.#filesManager.findJsonObjectByNameAndUpdateIt(allSectionsObj, sectionName, oldSectionName, attributes);
-                this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(updatedSectionsObj, this.#sectionsFileName, this.#sectionsHierarchy);
+                const updatedSectionsObj = this.#filesManager.findJsonObjectByNameAndUpdateIt(
+                    allSectionsObj,
+                    sectionName,
+                    oldSectionName,
+                    attributes
+                );
+                this.#filesManager.saveConfigurationObjectInFileInTheCurrentContext(
+                    updatedSectionsObj,
+                    this.#sectionsFileName,
+                    this.#sectionsHierarchy
+                );
                 outcome.isOk = true;
             }
         }
@@ -74,4 +83,6 @@ class SectionsManager {
         return outcome;
     }
 }
-export default SectionsManager.getInstance();
+
+const instance = SectionsManager.getInstance();
+export { SectionsManager, instance as default };

@@ -1,4 +1,4 @@
-import SectionsManager from "../managers/sectionsManager.js";
+import { SectionsManager } from "../managers/sectionsManager.js";
 
 class SectionsController {
     #sectionsManager;

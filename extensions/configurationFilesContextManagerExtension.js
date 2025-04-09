@@ -1,9 +1,9 @@
-import ConfigurationCurrentContextManager from "../managers/configurationCurrentContextManager.js";
-import ConfigurationFilesManager from "../managers/configurationFilesManager.js";
+import { ConfigurationCurrentContextHandler } from "../handlers/configurationCurrentContextHandler.js";
+import { ConfigurationFilesManager } from "../managers/configurationFilesManager.js";
 
 class ConfigurationFilesContextManagerExtension {
     static #instance = null;
-    #currentContextManager = ConfigurationCurrentContextManager;
+    #currentContextHandler = ConfigurationCurrentContextHandler;
     #filesManager = ConfigurationFilesManager;
 
     static getInstance() {
@@ -11,106 +11,6 @@ class ConfigurationFilesContextManagerExtension {
             ConfigurationFilesContextManagerExtension.#instance = new ConfigurationFilesContextManagerExtension();
         }
         return ConfigurationFilesContextManagerExtension.#instance;
-    }
-
-    loadFileContextsByFileName(fileName) {
-        try {
-            let outcome = {
-                isOk: false,
-                errorType: "UNKNOWN",
-                data: null,
-            };
-
-            let data = [];
-            const configFileContent = this.getConfigFileByName(fileName);
-            if (configFileContent) {
-                configFileContent.forEach(context => {
-                    const jsonKeysAndValues = this.getKeysAndValueContextJsonByFileContextPart(context);
-                    data.push(jsonKeysAndValues);
-                });
-
-                outcome.isOk = true;
-                outcome.data = data;
-            }
-            return outcome;
-        } catch (error) {
-            console.error("Error loading contexts from file:", error);
-            let outcome = {
-                isOk: false,
-                errorType: "UNKNOWN",
-                data: null,
-            };
-            return outcome;
-        }
-    }
-
-    deleteContextInFileByFileName(contextValue, fileName) {
-        try {
-            let outcome = {
-                isOk: false,
-                errorType: "UNKNOWN",
-                data: null,
-            };
-
-            const configFileContent = this.getConfigFileByName(fileName);
-            if (configFileContent) {
-                // Find and remove the selected context
-                const updatedConfigFileContent = configFileContent.filter(context => {
-                    const keysAndValues = this.getKeysAndValueContextJsonByFileContextPart(context);
-                    return JSON.stringify(keysAndValues) !== JSON.stringify(contextValue);
-                });
-
-                if (updatedConfigFileContent != {}) {
-                    const isSaved = this.saveConfigurationFileByName(updatedConfigFileContent, fileName);
-                    if (isSaved) {
-                        outcome.isOk = true;
-                        outcome.data = true;
-                    }
-                }
-            }
-            return outcome;
-        } catch (error) {
-            console.error("Error loading contexts from file:", error);
-            let outcome = {
-                isOk: false,
-                errorType: "UNKNOWN",
-                data: null,
-            };
-            return outcome;
-        }
-    }
-
-    saveNewContextInFileByFileName(newContext, fileName) {
-        try {
-            let outcome = {
-                isOk: false,
-                errorType: "UNKNOWN",
-                data: null,
-            };
-
-            const configFileContent = this.getConfigFileByName(fileName);
-            if (configFileContent) {
-                const contextWithConfiguration = { ...newContext };
-
-                contextWithConfiguration.Configuration = {}; // Add the "Configuration" property
-                configFileContent.push(contextWithConfiguration); // Add the new context to the file content
-
-                const isSaved = this.saveConfigurationFileByName(configFileContent, fileName);
-                if (isSaved) {
-                    outcome.isOk = true;
-                    outcome.data = true;
-                }
-            }
-            return outcome;
-        } catch (error) {
-            console.error("Error loading contexts from file:", error);
-            let outcome = {
-                isOk: false,
-                errorType: "UNKNOWN",
-                data: null,
-            };
-            return outcome;
-        }
     }
 
     getConfigurationObjectFromFileExtrictlyCorrespondingToTheDefaultContext(fileName) {
@@ -150,7 +50,7 @@ class ConfigurationFilesContextManagerExtension {
                 const passedContextValues = passedContext[key];
                 if (Array.isArray(value) && Array.isArray(passedContextValues)) {
                     if (value.length != 0 && passedContextValues.length != 0) {
-                        if (!value.some(item => passedContextValues.includes(item))) {
+                        if (!value.some((item) => passedContextValues.includes(item))) {
                             return false;
                         }
                     }
@@ -163,7 +63,7 @@ class ConfigurationFilesContextManagerExtension {
 
     getConfigurationCurrentContext() {
         let outcome = {};
-        const currentContext = this.#currentContextManager.getCurrentContext();
+        const currentContext = this.#currentContextHandler.getCurrentContext();
         if (currentContext != null) {
             outcome = currentContext;
         }
@@ -189,4 +89,5 @@ class ConfigurationFilesContextManagerExtension {
     }
 }
 
-export default ConfigurationFilesContextManagerExtension.getInstance();
+const instance = ConfigurationFilesContextManagerExtension.getInstance();
+export { ConfigurationFilesContextManagerExtension, instance as default };

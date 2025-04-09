@@ -14,18 +14,6 @@ class ConfigurationFilesContextManager {
         return ConfigurationFilesContextManager.#instance;
     }
 
-    loadFileContextsByFileName(fileName) {
-        return this.#extension.loadFileContextsByFileName(fileName);
-    }
-
-    deleteContextInFileByFileName(contextValue, fileName) {
-        return this.#extension.deleteContextInFileByFileName(contextValue, fileName);
-    }
-
-    saveNewContextInFileByFileName(newContext, fileName) {
-        return this.#extension.deleteContextInFileByFileNamesaveNewContextInFileByFileName(newContext, fileName);
-    }
-
     /**
      * @param {string} fileName - nombre del fichero de configuracion
      * @param {string[]} [hierarchyArray] - indica la gerarquia de que parte del objeto quiero: si no le pasas el segundo parámetro, supondrá que el objeto a devolver está en el tercer puesto: "Configuracion"--> "Nombre_CONF" --> AQUI!
@@ -109,8 +97,6 @@ class ConfigurationFilesContextManager {
         return outcome;
     }
 
-    
-
     #getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, passedContext) {
         let outcome = null;
         var jsonFile = this.#filesManager.getConfigurationFileByName(fileName);
@@ -144,4 +130,5 @@ class ConfigurationFilesContextManager {
     }
 }
 
-export default ConfigurationFilesContextManager.getInstance();
+const instance = ConfigurationFilesContextManager.getInstance();
+export { ConfigurationFilesContextManager, instance as default };

@@ -1,8 +1,8 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-import ConfigurationCurrentContextManager from "./configurationCurrentContextManager.js";
-import ConfigurationJsonsManager from "./configurationJsonsManager.js";
+import ConfigurationCurrentContextHandler from "../handlers/configurationCurrentContextHandler.js";
+import ConfigurationJsonsHelper from "../helpers/configurationJsonsHelper.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,8 +12,8 @@ class ConfigurationFilesManager {
 
     #JSONS_CONFIGURATION_PATH = "../data";
     #JSON_CONFIGURATION_KEY = "Configuration";
-    #currentContextManager = ConfigurationCurrentContextManager;
-    #jsonManager = ConfigurationJsonsManager;
+    #currentContextHandler = ConfigurationCurrentContextHandler;
+    #jsonsHelper = ConfigurationJsonsHelper;
 
     static getInstance() {
         if (!ConfigurationFilesManager.#instance) {
@@ -25,7 +25,7 @@ class ConfigurationFilesManager {
     getConfigurationFileByName(fileName) {
         let outcome = {};
         const filePath = this.#getConfigurationFilePathByName(fileName);
-        var jsonFile = this.#jsonManager.readJson(filePath);
+        var jsonFile = this.#jsonsHelper.readJson(filePath);
 
         if (jsonFile) {
             outcome = jsonFile;
@@ -42,7 +42,7 @@ class ConfigurationFilesManager {
             };
             const filePath = this.#getConfigurationFilePathByName(fileName);
 
-            this.#jsonManager.writeJson(filePath, jsoObject);
+            this.#jsonsHelper.writeJson(filePath, jsoObject);
 
             outcome.isOk = true;
             return outcome;
@@ -104,23 +104,22 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    addNewObjectIntoThePositionBasedOnHierarchyArray(newObject, objectToTraverse, hierarchyArray) {
+    addNewObjectIntoThePositionBasedOnHierarchyArray(newObjectToBeAdded, objectToTraverse, hierarchyArray) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
         };
         if (objectToTraverse != null) {
-            outcome = { ...objectToTraverse };
-            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(outcome);
+            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectToTraverse);
             if (configurationObject) {
                 const keys = hierarchyArray || [];
                 const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
 
-                if (this.#doesNewObjectExistsIntoTheFirstLevelOfTheObject(newObject, targetObject)) {
+                if (this.#doesObjectExistsIntoTheFirstLevelOfTheObject(newObjectToBeAdded, targetObject)) {
                     outcome.errorType = "ALREADY_EXISTS";
                 } else {
                     // Append the newObject to the targetObject without deleting existing content
-                    Object.assign(targetObject, newObject);
+                    Object.assign(targetObject, newObjectToBeAdded);
                     outcome.isOk = true;
                 }
             }
@@ -128,7 +127,34 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    #doesNewObjectExistsIntoTheFirstLevelOfTheObject(newObject, targetObject) {
+    updateObjectIntoThePositionBasedOnHierarchyArray(objectToUpdate, oldKeyName, objectToTraverse, hierarchyArray) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+        if (objectToTraverse != null) {
+            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectToTraverse);
+            if (configurationObject) {
+                const keys = hierarchyArray || [];
+                const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
+                if (!targetObject[oldKeyName]) {
+                    outcome.errorType = "NOT_FOUND";
+                } else {
+                    //significa que el objeto tiene un nombre nuevo pero ya existe un objeto con el mismo nombre nuevo que quiero poner
+                    if (firstKey !== oldKeyName && this.#doesObjectExistsIntoTheFirstLevelOfTheObject(objectToUpdate, targetObject)) {
+                        outcome.errorType = "ALREADY_EXISTS";
+                    } else {
+                        this.findJsonObjectByNameAndUpdateIt(objectToUpdate, oldKeyName, targetObject);
+
+                        outcome.isOk = true;
+                    }
+                }
+            }
+        }
+        return outcome;
+    }
+
+    #doesObjectExistsIntoTheFirstLevelOfTheObject(newObject, targetObject) {
         let outcome = false;
         if (newObject && targetObject) {
             const firstKey = Object.keys(newObject)[0];
@@ -146,25 +172,27 @@ class ConfigurationFilesManager {
                 const keys = hierarchyArray || [];
                 const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
 
-                Object.keys(targetObject).forEach(key => delete targetObject[key]);
+                Object.keys(targetObject).forEach((key) => delete targetObject[key]);
                 Object.assign(targetObject, objectFilePart);
             }
         }
         return outcome;
     }
 
-    findJsonObjectByNameAndUpdateIt(allJsonObjects, newName, oldName, attributes) {
-        const entries = Object.entries(allJsonObjects);
+    findJsonObjectByNameAndUpdateIt(objectToUpdate, oldKeyName, targetObject) {
+        const entries = Object.entries(targetObject);
         const updatedSectionsObj = {};
-
+        const firstKey = Object.keys(objectToUpdate)[0];
+        objectValues = objectToUpdate[firstKey];
         for (const [key, value] of entries) {
-            if (key === oldName) {
-                updatedSectionsObj[newName] = { ...value, ...attributes };
+            if (key === oldKeyName) {
+                updatedSectionsObj[firstKey] = { ...value, ...objectValues };
             } else {
                 updatedSectionsObj[key] = value;
             }
         }
-        return updatedSectionsObj;
+        targetObject = updatedSectionsObj;
+        return targetObject;
     }
 
     #isFileContextPartCorrespondingToTheCurrentContext(fileContextPartObj) {
@@ -187,7 +215,7 @@ class ConfigurationFilesManager {
 
     #getCurrentConfigurationContext() {
         let outcome = "";
-        const currentContext = this.#currentContextManager.getCurrentContext();
+        const currentContext = this.#currentContextHandler.getCurrentContext();
         if (currentContext != null) {
             outcome = currentContext;
         }
@@ -223,4 +251,5 @@ class ConfigurationFilesManager {
     }
 }
 
-export default ConfigurationFilesManager.getInstance();
+const instance = ConfigurationFilesManager.getInstance();
+export { ConfigurationFilesManager, instance as default };

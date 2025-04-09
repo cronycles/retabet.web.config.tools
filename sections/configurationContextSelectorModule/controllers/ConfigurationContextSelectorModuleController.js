@@ -1,4 +1,4 @@
-import ConfigurationContextSelectorModuleManager from "../managers/ConfigurationContextSelectorModuleManager.js";
+import { ConfigurationContextSelectorModuleManager } from "../managers/ConfigurationContextSelectorModuleManager.js";
 
 class ConfigurationContextSelectorModuleController {
     #contextSelectorModuleManager;

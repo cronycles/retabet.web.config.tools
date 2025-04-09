@@ -1,4 +1,4 @@
-import ConfigurationFilesManager from "../../../managers/configurationFilesManager.js";
+import { ConfigurationFilesManager } from "../../../managers/configurationFilesManager.js";
 
 class PagesManager {
     static #instance = null;
@@ -19,7 +19,7 @@ class PagesManager {
         try {
             let outcome = null;
             outcome = this.#getPagesObjectFromFile(); // Use updated readJSON
-           
+
             return outcome;
         } catch (error) {
             console.error("Error in getAllPages:", error);
@@ -31,4 +31,6 @@ class PagesManager {
         return this.#filesManager.getConfigurationObjectFromFileInTheCurrentContext(this.#pagesFileName, this.#pagesHierarchy);
     }
 }
-export default PagesManager.getInstance();
+
+const instance = PagesManager.getInstance();
+export { PagesManager, instance as default };

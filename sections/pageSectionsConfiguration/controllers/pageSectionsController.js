@@ -1,4 +1,4 @@
-import PageSectionsManager from "../managers/pageSectionsManager.js";
+import { PageSectionsManager } from "../managers/pageSectionsManager.js";
 
 class PageSectionsController {
     #pageSectionsManager;

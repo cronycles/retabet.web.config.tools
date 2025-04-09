@@ -1,14 +1,14 @@
 import fs from "fs";
 import JSON5 from "json5";
 
-class ConfigurationJsonsManager {
+class ConfigurationJsonsHelper {
     static #instance = null;
 
     static getInstance() {
-        if (!ConfigurationJsonsManager.#instance) {
-            ConfigurationJsonsManager.#instance = new ConfigurationJsonsManager();
+        if (!ConfigurationJsonsHelper.#instance) {
+            ConfigurationJsonsHelper.#instance = new ConfigurationJsonsHelper();
         }
-        return ConfigurationJsonsManager.#instance;
+        return ConfigurationJsonsHelper.#instance;
     }
 
     readJson(filePath) {
@@ -25,4 +25,5 @@ class ConfigurationJsonsManager {
     }
 }
 
-export default ConfigurationJsonsManager.getInstance();
+const instance = ConfigurationJsonsHelper.getInstance();
+export { ConfigurationJsonsHelper, instance as default };
