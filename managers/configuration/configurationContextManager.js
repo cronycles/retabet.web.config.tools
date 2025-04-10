@@ -1,5 +1,5 @@
 import ConfigurationCurrentContextHandler from "../../handlers/configuration/configurationCurrentContextHandler.js";
-import ConfigurationFilesCrudHandler from "../../handlers/configuration/ConfigurationFilesCrudHandler.js";
+import ConfigurationFilesCrudHandler from "../../handlers/configuration/configurationFilesCrudHandler.js";
 
 /**
  * @class ConfigurationContextManager
@@ -9,7 +9,7 @@ export default class ConfigurationContextManager {
     #contextConfigPropertiesFileName = "contextConfiguration.schema.json";
     #currentContextHandler;
     #filesCrudHandler;
-    
+
     constructor() {
         if (ConfigurationContextManager.instance) {
             return ConfigurationContextManager.instance;
