@@ -1,19 +1,7 @@
-import path from "path";
-import { fileURLToPath } from "url";
-
-import ConfigurationCurrentContextHandler from "../handlers/configurationCurrentContextHandler.js";
-import ConfigurationJsonsHelper from "../helpers/configurationJsonsHelper.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 class ConfigurationFilesManager {
     static #instance = null;
 
-    #JSONS_CONFIGURATION_PATH = "../data";
     #JSON_CONFIGURATION_KEY = "Configuration";
-    #currentContextHandler = ConfigurationCurrentContextHandler;
-    #jsonsHelper = ConfigurationJsonsHelper;
 
     static getInstance() {
         if (!ConfigurationFilesManager.#instance) {
@@ -22,202 +10,94 @@ class ConfigurationFilesManager {
         return ConfigurationFilesManager.#instance;
     }
 
-    getConfigurationFileByName(fileName) {
+    extractNestedObjectInHierarchy(jsonObject, hierarchyArray) {
         let outcome = {};
-        const filePath = this.#getConfigurationFilePathByName(fileName);
-        var jsonFile = this.#jsonsHelper.readJson(filePath);
-
-        if (jsonFile) {
-            outcome = jsonFile;
+        if (hierarchyArray && hierarchyArray.length > 0) {
+            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(jsonObject);
+            if (configurationObject) {
+                outcome = this.#createOrTraverseNestedKeys(configurationObject, hierarchyArray);
+            }
+        } else {
+            outcome = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(jsonObject);
         }
-
         return outcome;
     }
 
-    saveConfigurationFileByName(jsoObject, fileName) {
-        try {
-            let outcome = {
-                isOk: false,
-                errorType: "UNKNOWN",
-            };
-            const filePath = this.#getConfigurationFilePathByName(fileName);
-
-            this.#jsonsHelper.writeJson(filePath, jsoObject);
-
-            outcome.isOk = true;
-            return outcome;
-        } catch (err) {
-            let outcome = {
-                isOk: false,
-                errorType: "INTERNAL_SERVER",
-            };
-            console.error(err);
-            return outcome;
+    addNewObjectIntoTheTargetObjectIfNotExists(newObjectToBeAdded, targetObject) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+        if (newObjectToBeAdded && targetObject) {
+            if (this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(newObjectToBeAdded, targetObject)) {
+                outcome.errorType = "ALREADY_EXISTS";
+            } else {
+                // Append the newObject to the targetObject without deleting existing content
+                Object.assign(targetObject, newObjectToBeAdded);
+                outcome.isOk = true;
+            }
         }
+        return outcome;
     }
 
-    /**
-     * ésta función te da el objeto de configuración entero con el contexto actual (contexto que esta en memoria).
-     * si no le pasas el segundo parámetro, supondrá que el objeto a devolver está en el tercer puesto: "Configuracion"--> "Nombre_CONF" --> AQUI!
-     * si le pasas el segundo parámetro el te devolverá el objeto que está debajo de esa jerarquía y, si no hay nada, te devolverá la jerarquía de objetos vacíos
-     * @param {string} fileName
-     * @returns {Object|null}
-     */
-    getConfigurationObjectFromFileInTheCurrentContext(fileName, hierarchyArray) {
-        var jsonFile = this.getConfigurationFileByName(fileName);
-        let outcome = {};
+    updateObjectIntoTheTargetObjectIfExists(objectToUpdate, targetObject) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+        if (targetObject && objectToUpdate) {
+            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToUpdate, targetObject)) {
+                outcome.errorType = "NOT_FOUND";
+            } else {
+                this.#updateObjectIntoTheTargetObject(objectToUpdate, targetObject);
 
-        let foundObjectInContext = null;
-        for (const fileContextPartObj of jsonFile) {
-            if (this.#isFileContextPartCorrespondingToTheCurrentContext(fileContextPartObj)) {
-                foundObjectInContext = fileContextPartObj;
+                outcome.isOk = true;
+            }
+        }
+        return outcome;
+    }
+
+    deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+        if (targetObject && objectKeyToDelete) {
+            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToUpdate, targetObject)) {
+                outcome.errorType = "NOT_FOUND";
+            } else {
+                this.#deleteObjectFromTheTargetObject(objectToUpdate, targetObject);
+
+                outcome.isOk = true;
+            }
+        }
+        return outcome;
+    }
+
+    #updateObjectIntoTheTargetObject(objectToUpdate, targetObject) {
+        const targetObjectEntries = Object.entries(targetObject);
+        const objectKey = Object.keys(objectToUpdate)[0];
+        objectValues = objectToUpdate[objectKey];
+        for (const [key, value] of targetObjectEntries) {
+            if (key === objectKey) {
+                targetObject[objectKey] = { ...value, ...objectValues };
                 break;
             }
         }
-        if (foundObjectInContext == null) {
-            foundObjectInContext = jsonFile;
-        }
-
-        // Determine the outcome based on hierarchyArray
-        if (!hierarchyArray || hierarchyArray.length == 0) {
-            outcome = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(foundObjectInContext);
-        } else {
-            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(foundObjectInContext);
-            if (configurationObject) {
-                outcome = this.#createOrTraverseNestedKeys(configurationObject, hierarchyArray);
-            }
-        }
-
-        return outcome;
-    }
-
-    getObjectPartBasedOnHierarchyArray(objectFilePart, hierarchyArray) {
-        let outcome = {};
-        if (hierarchyArray && hierarchyArray.length > 0) {
-            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectFilePart);
-            if (configurationObject) {
-                outcome = this.#createOrTraverseNestedKeys(configurationObject, hierarchyArray);
-            }
-        } else {
-            outcome = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectFilePart);
-        }
-        return outcome;
-    }
-
-    addNewObjectIntoThePositionBasedOnHierarchyArray(newObjectToBeAdded, objectToTraverse, hierarchyArray) {
-        let outcome = {
-            isOk: false,
-            errorType: "UNKNOWN",
-        };
-        if (objectToTraverse != null) {
-            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectToTraverse);
-            if (configurationObject) {
-                const keys = hierarchyArray || [];
-                const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
-
-                if (this.#doesObjectExistsIntoTheFirstLevelOfTheObject(newObjectToBeAdded, targetObject)) {
-                    outcome.errorType = "ALREADY_EXISTS";
-                } else {
-                    // Append the newObject to the targetObject without deleting existing content
-                    Object.assign(targetObject, newObjectToBeAdded);
-                    outcome.isOk = true;
-                }
-            }
-        }
-        return outcome;
-    }
-
-    updateObjectIntoThePositionBasedOnHierarchyArray(objectToUpdate, oldKeyName, objectToTraverse, hierarchyArray) {
-        let outcome = {
-            isOk: false,
-            errorType: "UNKNOWN",
-        };
-        if (objectToTraverse != null) {
-            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(objectToTraverse);
-            if (configurationObject) {
-                const keys = hierarchyArray || [];
-                const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
-                if (!targetObject[oldKeyName]) {
-                    outcome.errorType = "NOT_FOUND";
-                } else {
-                    //significa que el objeto tiene un nombre nuevo pero ya existe un objeto con el mismo nombre nuevo que quiero poner
-                    if (firstKey !== oldKeyName && this.#doesObjectExistsIntoTheFirstLevelOfTheObject(objectToUpdate, targetObject)) {
-                        outcome.errorType = "ALREADY_EXISTS";
-                    } else {
-                        this.findJsonObjectByNameAndUpdateIt(objectToUpdate, oldKeyName, targetObject);
-
-                        outcome.isOk = true;
-                    }
-                }
-            }
-        }
-        return outcome;
-    }
-
-    #doesObjectExistsIntoTheFirstLevelOfTheObject(newObject, targetObject) {
-        let outcome = false;
-        if (newObject && targetObject) {
-            const firstKey = Object.keys(newObject)[0];
-            outcome = targetObject[firstKey] ? true : false;
-        }
-        return outcome;
-    }
-
-    traverseOrCreateNestedKeysBasedOnHierarchyArray(objectFilePart, hierarchyArray) {
-        let outcome = null;
-        if (objectFilePart != null) {
-            outcome = { ...objectFilePart };
-            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(outcome);
-            if (configurationObject) {
-                const keys = hierarchyArray || [];
-                const targetObject = this.#createOrTraverseNestedKeys(configurationObject, keys);
-
-                Object.keys(targetObject).forEach((key) => delete targetObject[key]);
-                Object.assign(targetObject, objectFilePart);
-            }
-        }
-        return outcome;
-    }
-
-    findJsonObjectByNameAndUpdateIt(objectToUpdate, oldKeyName, targetObject) {
-        const entries = Object.entries(targetObject);
-        const updatedSectionsObj = {};
-        const firstKey = Object.keys(objectToUpdate)[0];
-        objectValues = objectToUpdate[firstKey];
-        for (const [key, value] of entries) {
-            if (key === oldKeyName) {
-                updatedSectionsObj[firstKey] = { ...value, ...objectValues };
-            } else {
-                updatedSectionsObj[key] = value;
-            }
-        }
-        targetObject = updatedSectionsObj;
         return targetObject;
     }
 
-    #isFileContextPartCorrespondingToTheCurrentContext(fileContextPartObj) {
+    #deleteObjectFromTheTargetObject(objectToUpdate, targetObject) {
+        
+        delete targetObject[objectToUpdate];
+        return targetObject;
+    }
+
+    #doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToCheck, targetObject) {
         let outcome = false;
-        const currentContext = this.#getCurrentConfigurationContext();
-        const contextString = this.#getKeysAndValueContextStringByEntireContext(fileContextPartObj);
-        if (contextString === currentContext) {
-            outcome = true;
-        }
-
-        return outcome;
-    }
-
-    #getKeysAndValueContextStringByEntireContext(jsonContext) {
-        return Object.entries(jsonContext)
-            .filter(([key]) => key !== this.#JSON_CONFIGURATION_KEY)
-            .map(([key, value]) => `${key}: ${JSON.stringify(value)}`)
-            .join(", ");
-    }
-
-    #getCurrentConfigurationContext() {
-        let outcome = "";
-        const currentContext = this.#currentContextHandler.getCurrentContext();
-        if (currentContext != null) {
-            outcome = currentContext;
+        if (objectToCheck && targetObject) {
+            const firstKey = Object.keys(objectToCheck)[0];
+            outcome = targetObject[firstKey] ? true : false;
         }
         return outcome;
     }
@@ -243,11 +123,6 @@ class ConfigurationFilesManager {
             }
             return current[key];
         }, obj);
-    }
-
-    #getConfigurationFilePathByName(fileName) {
-        const filePathPart = `${this.#JSONS_CONFIGURATION_PATH}/${fileName}`;
-        return path.join(__dirname, filePathPart);
     }
 }
 

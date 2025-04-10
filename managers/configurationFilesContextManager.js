@@ -15,20 +15,6 @@ class ConfigurationFilesContextManager {
     }
 
     /**
-     * @param {string} fileName - nombre del fichero de configuracion
-     * @param {string[]} [hierarchyArray] - indica la gerarquia de que parte del objeto quiero: si no le pasas el segundo parámetro, supondrá que el objeto a devolver está en el tercer puesto: "Configuracion"--> "Nombre_CONF" --> AQUI!
-     * si le pasas el segundo parámetro el te devolverá el objeto que está debajo de esa jerarquía y, si no hay nada, te devolverá la jerarquía de objetos vacíos
-     * @returns {Object|null}
-     */
-    getConfigurationObjectFromFileExtrictlyCorrespondingToTheDefaultContext(fileName, hierarchyArray) {
-        let outcome = {};
-        let foundObjectInContext = this.#extension.getConfigurationObjectFromFileExtrictlyCorrespondingToTheDefaultContext(fileName);
-        outcome = this.#filesManager.getObjectPartBasedOnHierarchyArray(foundObjectInContext, hierarchyArray);
-
-        return outcome;
-    }
-
-    /**
      * ésta función se utiliza principalmente para editar cosas de un solo fichero de configuración
      * ésta función te da el objeto de configuración que se corresponde extrictamente al contexto actual (contexto que esta en memoria).
      * corresponder extrictamente significa que solo te devuelve el objeto si está fisicamente puesta una linea dentro del contexto actual.

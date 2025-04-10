@@ -1,10 +1,12 @@
-import ConfigurationFilesManager from "./configurationFilesManager.js";
-import ConfigurationFilesContextManagerExtension from "../extensions/configurationFilesContextManagerExtension.js";
+import { ConfigurationFilesManager } from "./configurationFilesManager.js";
+import { ConfigurationFilesCrudHelper } from "../helpers/configurationFilesCrudHelper.js";
+import { ConfigurationFilesContextManagerExtension } from "../extensions/configurationFilesContextManagerExtension.js";
 
 class ConfigurationFilesManagerInTheCurrentContext {
     static #instance = null;
 
     #filesManager = ConfigurationFilesManager;
+    #filesCrudHelper = ConfigurationFilesCrudHelper;
     #extension = ConfigurationFilesContextManagerExtension;
 
     static getInstance() {
@@ -27,8 +29,10 @@ class ConfigurationFilesManagerInTheCurrentContext {
      */
     getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(fileName, hierarchyArray) {
         let outcome = {};
-        let foundObjectInContext = this.#extension.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(fileName);
-        outcome = this.#filesManager.getObjectPartBasedOnHierarchyArray(foundObjectInContext, hierarchyArray);
+
+        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#extension.extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile);
+        outcome = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
         return outcome;
     }
@@ -45,11 +49,9 @@ class ConfigurationFilesManagerInTheCurrentContext {
      */
     getConfigurationObjectFromFileBelongingToTheCurrentContext(fileName, hierarchyArray) {
         let outcome = {};
-        const currentContextObj = this.#extension.getConfigurationCurrentContext();
-
-        let foundObjectInContext = this.#getConfigurationObjectFromFileBelongingToThePassedContext(fileName, currentContextObj);
-
-        outcome = this.#filesManager.getObjectPartBasedOnHierarchyArray(foundObjectInContext, hierarchyArray);
+        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(jsonFile);
+        outcome = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
         return outcome;
     }
@@ -58,23 +60,25 @@ class ConfigurationFilesManagerInTheCurrentContext {
      * Guarda el objeto exactamente en el contexto actual.
      * Si ya existe uno, no lo sustituye.
      * @param {Object|null} newObject - El nuevo objeto a guardar.
+     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica donde guardar el objeto.
+     * Si no se pasa, o la jerarquía pasada no se encuentra, se asume que el objeto se guardará en la tercera posición:
+     * "Configuracion" → "Nombre_CONF" → Aquí.
+     * Si se pasa y se encuentra, el objeto se guardará en la jerarquía especificada.
      * @param {string} fileName - Nombre del fichero de configuración.
-     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para recuperar el objeto deseado.
-     * Si no se pasa, se asume que el objeto está en la tercera posición: "Configuracion" → "Nombre_CONF" → Aquí,
-     * o si se pasa, devuelve el objeto en la jerarquía especificada o una jerarquía vacía si no se encuentra.
      */
-    saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, fileName, hierarchyArray) {
+    saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, hierarchyArray, fileName) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        const currentContextObj = this.#extension.getConfigurationCurrentContext();
 
-        let foundObjectInContext = this.#getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, currentContextObj);
+        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
-        const addResponse = this.#filesManager.addNewObjectIntoThePositionBasedOnHierarchyArray(newObject, foundObjectInContext, hierarchyArray);
+        const addResponse = this.#filesManager.addNewObjectIntoTheTargetObjectIfNotExists(newObject, targetObject);
         if (addResponse?.isOk) {
-            outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesCrudHelper.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = addResponse.errorType;
         }
@@ -82,32 +86,24 @@ class ConfigurationFilesManagerInTheCurrentContext {
     }
 
     /**
-     * Guarda el objeto exactamente en el contexto actual.
-     * Si ya existe uno, no lo sustituye.
-     * @param {Object|null} objectToUpdate - El nuevo objeto a guardar.
-     * @param {string} oldKeyName - Es posible que el objeto tenga un nuevo nombre de clave.
-     * Si este valor es diferente de la clave del objectUpdated, significa que el nombre ha cambiado.
+     * Actualiza el objeto exactamente en el contexto actual.
+     * @param {Object|null} objectToUpdate - El objecto a actualizar.
      * @param {string} fileName - Nombre del fichero de configuración.
-     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para recuperar el objeto deseado.
-     * Si no se pasa, se asume que el objeto está en la tercera posición: "Configuracion" → "Nombre_CONF" → Aquí,
-     * o si se pasa, devuelve el objeto en la jerarquía especificada o una jerarquía vacía si no se encuentra.
+     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para actualizar el objeto deseado.
+     * Si no se pasa, o la jerarquía pasada no se encuentra, se asume que el objeto se actualizará en la tercera posición:
+     * "Configuracion" → "Nombre_CONF" → Aquí.
+     * Si se pasa y se encuentra, el objeto se actualizará en la jerarquía especificada.
      */
-    updateConfigurationObjectInFileExtrictlyInTheCurrentContext(objectToUpdate, oldKeyName, fileName, hierarchyArray) {
+    updateConfigurationObjectInFileExtrictlyInTheCurrentContext(objectToUpdate, fileName, hierarchyArray) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
         };
 
-        const currentContextObj = this.#extension.getConfigurationCurrentContext();
-
-        let foundObjectInContext = this.#getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, currentContextObj);
-
-        const updateResponse = this.#filesManager.updateObjectIntoThePositionBasedOnHierarchyArray(
-            objectToUpdate,
-            oldKeyName,
-            foundObjectInContext,
-            hierarchyArray
-        );
+        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        const updateResponse = this.#filesManager.updateObjectIntoTheTargetObjectIfExists(objectToUpdate, targetObject);
         if (updateResponse?.isOk) {
             outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
         } else {
@@ -116,35 +112,30 @@ class ConfigurationFilesManagerInTheCurrentContext {
         return outcome;
     }
 
-    #getConfigurationObjectFromFileExtrictlyCorrespondingToThePassedContext(fileName, passedContext) {
-        let outcome = null;
-        var jsonFile = this.#filesManager.getConfigurationFileByName(fileName);
+    /**
+     * Elimina el objeto exactamente en el contexto actual.
+     * @param {string} objectKeyToDelete - La key del objecto a eliminar.
+     * @param {string} fileName - Nombre del fichero de configuración.
+     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para actualizar el objeto deseado.
+     * Si no se pasa, o la jerarquía pasada no se encuentra, se asume que el objeto se actualizará en la tercera posición:
+     * "Configuracion" → "Nombre_CONF" → Aquí.
+     * Si se pasa y se encuentra, el objeto se actualizará en la jerarquía especificada.
+     */
+    deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(objectKeyToDelete, fileName, hierarchyArray) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
 
-        for (const fileContextPartObj of jsonFile) {
-            if (this.#extension.isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, passedContext)) {
-                outcome = fileContextPartObj;
-                break;
-            }
+        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        const updateResponse = this.#filesManager.deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject);
+        if (updateResponse?.isOk) {
+            outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+        } else {
+            outcome.errorType = updateResponse.errorType;
         }
-
-        return outcome;
-    }
-
-    #getConfigurationObjectFromFileBelongingToThePassedContext(fileName, passedContext) {
-        let outcome = {};
-        if (fileName) {
-            var jsonFile = this.#filesManager.getConfigurationFileByName(fileName);
-            for (const fileContextPartObj of jsonFile) {
-                if (
-                    this.#extension.isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) ||
-                    this.#extension.isFileContextPartBelongingToThePassedContext(fileContextPartObj, passedContext)
-                ) {
-                    outcome = { ...foundObjectInContext, ...fileContextPartObj };
-                    break;
-                }
-            }
-        }
-
         return outcome;
     }
 }

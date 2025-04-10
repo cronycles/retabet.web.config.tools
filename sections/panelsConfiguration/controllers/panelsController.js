@@ -1,19 +1,19 @@
-import { PanelsManager } from "../managers/panelsManager.js";
+import { PanelsViewManager } from "../managers/panelsViewManager.js";
 
 class PanelsController {
-    #panelsManager;
+    #panelsViewManager;
 
     constructor() {
-        this.#panelsManager = PanelsManager;
+        this.#panelsViewManager = PanelsViewManager;
     }
 
     getPanels(req, res) {
-        const outcome = this.#panelsManager.getAllPanels();
+        const outcome = this.#panelsViewManager.getAllPanels();
         res.json(outcome || {});
     }
 
     getPanelDefaultAttributes(req, res) {
-        const outcome = this.#panelsManager.getPanelDefaultAttributes();
+        const outcome = this.#panelsViewManager.getPanelDefaultAttributes();
         res.json(outcome || {});
     }
 
@@ -26,7 +26,7 @@ class PanelsController {
 
         const { panelName, attributes } = req.body;
 
-        let updateOutput = this.#panelsManager.addPanel(panelName, attributes);
+        let updateOutput = this.#panelsViewManager.addPanel(panelName, attributes);
 
         if (updateOutput.isOk) {
             outcome.status = 201;
@@ -49,7 +49,7 @@ class PanelsController {
         };
         const { panelName, attributes, oldPanelName } = req.body;
 
-        let updateOutput = this.#panelsManager.updatePanel(panelName, attributes, oldPanelName);
+        let updateOutput = this.#panelsViewManager.updatePanel(panelName, attributes, oldPanelName);
 
         if (updateOutput.isOk) {
             outcome.status = 201;
@@ -76,7 +76,7 @@ class PanelsController {
         };
 
         const panelName = req.params.panelName;
-        let updateOutput = this.#panelsManager.deletePanel(panelName);
+        let updateOutput = this.#panelsViewManager.deletePanel(panelName);
 
         if (updateOutput.isOk) {
             outcome.status = 204;
