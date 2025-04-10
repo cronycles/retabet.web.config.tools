@@ -23,33 +23,32 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    addNewObjectIntoTheTargetObjectIfNotExists(newObjectToBeAdded, targetObject) {
+    addNewObjectIntoTheTargetObjectIfNotExists(newObjectKey, newObjectAttributes, targetObject) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        if (newObjectToBeAdded && targetObject) {
-            if (this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(newObjectToBeAdded, targetObject)) {
+        if (newObjectKey && newObjectAttributes && targetObject) {
+            if (this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(newObjectKey, targetObject)) {
                 outcome.errorType = "ALREADY_EXISTS";
             } else {
-                // Append the newObject to the targetObject without deleting existing content
-                Object.assign(targetObject, newObjectToBeAdded);
+                Object.assign(targetObject, { [newObjectKey]: newObjectAttributes });
                 outcome.isOk = true;
             }
         }
         return outcome;
     }
 
-    updateObjectIntoTheTargetObjectIfExists(objectToUpdate, targetObject) {
+    updateObjectIntoTheTargetObjectIfExists(objectToUpdateKey, newObjectAttributes, targetObject) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        if (targetObject && objectToUpdate) {
-            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToUpdate, targetObject)) {
+        if (objectToUpdateKey && newObjectAttributes && targetObject) {
+            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToUpdateKey, targetObject)) {
                 outcome.errorType = "NOT_FOUND";
             } else {
-                this.#updateObjectIntoTheTargetObject(objectToUpdate, targetObject);
+                this.#updateObjectIntoTheTargetObject(objectToUpdateKey, newObjectAttributes, targetObject);
 
                 outcome.isOk = true;
             }
@@ -63,10 +62,10 @@ class ConfigurationFilesManager {
             errorType: "UNKNOWN",
         };
         if (targetObject && objectKeyToDelete) {
-            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToUpdate, targetObject)) {
+            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectKeyToDelete, targetObject)) {
                 outcome.errorType = "NOT_FOUND";
             } else {
-                this.#deleteObjectFromTheTargetObject(objectToUpdate, targetObject);
+                this.#deleteObjectFromTheTargetObject(objectKeyToDelete, targetObject);
 
                 outcome.isOk = true;
             }
@@ -74,30 +73,26 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    #updateObjectIntoTheTargetObject(objectToUpdate, targetObject) {
+    #updateObjectIntoTheTargetObject(objectToUpdateKey, newObjectAttributes, targetObject) {
         const targetObjectEntries = Object.entries(targetObject);
-        const objectKey = Object.keys(objectToUpdate)[0];
-        objectValues = objectToUpdate[objectKey];
         for (const [key, value] of targetObjectEntries) {
-            if (key === objectKey) {
-                targetObject[objectKey] = { ...value, ...objectValues };
+            if (key === objectToUpdateKey) {
+                targetObject[objectToUpdateKey] = { ...value, ...newObjectAttributes };
                 break;
             }
         }
         return targetObject;
     }
 
-    #deleteObjectFromTheTargetObject(objectToUpdate, targetObject) {
-        
-        delete targetObject[objectToUpdate];
+    #deleteObjectFromTheTargetObject(objectKeyToDelete, targetObject) {
+        delete targetObject[objectKeyToDelete];
         return targetObject;
     }
 
-    #doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToCheck, targetObject) {
+    #doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectKeyToCheck, targetObject) {
         let outcome = false;
-        if (objectToCheck && targetObject) {
-            const firstKey = Object.keys(objectToCheck)[0];
-            outcome = targetObject[firstKey] ? true : false;
+        if (objectKeyToCheck && targetObject) {
+            outcome = targetObject[objectKeyToCheck] ? true : false;
         }
         return outcome;
     }

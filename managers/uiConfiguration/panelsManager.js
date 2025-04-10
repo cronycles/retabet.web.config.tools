@@ -41,10 +41,9 @@ class PanelsManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-
-        let newObject = { [panelName]: attributes };
         outcome = this.#filesManagerInTheCurrentContext.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            newObject,
+            panelName,
+            attributes,
             this.#panelsHierarchy,
             this.#panelsFileName
         );
@@ -58,10 +57,9 @@ class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        let newObject = { [panelName]: attributes };
-
         outcome = this.#filesManagerInTheCurrentContext.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            newObject,
+            panelName,
+            attributes,
             this.#panelsFileName,
             this.#panelsHierarchy
         );

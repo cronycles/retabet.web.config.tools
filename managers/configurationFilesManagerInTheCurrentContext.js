@@ -59,14 +59,15 @@ class ConfigurationFilesManagerInTheCurrentContext {
     /**
      * Guarda el objeto exactamente en el contexto actual.
      * Si ya existe uno, no lo sustituye.
-     * @param {Object|null} newObject - El nuevo objeto a guardar.
+     * @param {string} newObjectKey - El key del nuevo objeto a guardar.
+     * @param {Object|null} newObjectAttributes - los atributos del nuevo objeto a guardar.
      * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica donde guardar el objeto.
      * Si no se pasa, o la jerarquía pasada no se encuentra, se asume que el objeto se guardará en la tercera posición:
      * "Configuracion" → "Nombre_CONF" → Aquí.
      * Si se pasa y se encuentra, el objeto se guardará en la jerarquía especificada.
      * @param {string} fileName - Nombre del fichero de configuración.
      */
-    saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObject, hierarchyArray, fileName) {
+    saveConfigurationObjectInFileExtrictlyInTheCurrentContext(newObjectKey, newObjectAttributes, hierarchyArray, fileName) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
@@ -76,7 +77,7 @@ class ConfigurationFilesManagerInTheCurrentContext {
         let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
         let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
-        const addResponse = this.#filesManager.addNewObjectIntoTheTargetObjectIfNotExists(newObject, targetObject);
+        const addResponse = this.#filesManager.addNewObjectIntoTheTargetObjectIfNotExists(newObjectKey, newObjectAttributes, targetObject);
         if (addResponse?.isOk) {
             outcome = this.#filesCrudHelper.saveConfigurationFileByName(jsonFile, fileName);
         } else {
@@ -87,14 +88,15 @@ class ConfigurationFilesManagerInTheCurrentContext {
 
     /**
      * Actualiza el objeto exactamente en el contexto actual.
-     * @param {Object|null} objectToUpdate - El objecto a actualizar.
+     * @param {string} objectToUpdateKey - El key del objeto a modificar.
+     * @param {Object|null} newObjectAttributes - los atributos del objeto a modificar.
      * @param {string} fileName - Nombre del fichero de configuración.
      * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para actualizar el objeto deseado.
      * Si no se pasa, o la jerarquía pasada no se encuentra, se asume que el objeto se actualizará en la tercera posición:
      * "Configuracion" → "Nombre_CONF" → Aquí.
      * Si se pasa y se encuentra, el objeto se actualizará en la jerarquía especificada.
      */
-    updateConfigurationObjectInFileExtrictlyInTheCurrentContext(objectToUpdate, fileName, hierarchyArray) {
+    updateConfigurationObjectInFileExtrictlyInTheCurrentContext(objectToUpdateKey, newObjectAttributes, fileName, hierarchyArray) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
@@ -103,7 +105,7 @@ class ConfigurationFilesManagerInTheCurrentContext {
         var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
         let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
         let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
-        const updateResponse = this.#filesManager.updateObjectIntoTheTargetObjectIfExists(objectToUpdate, targetObject);
+        const updateResponse = this.#filesManager.updateObjectIntoTheTargetObjectIfExists(objectToUpdateKey, newObjectAttributes, targetObject);
         if (updateResponse?.isOk) {
             outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
         } else {
