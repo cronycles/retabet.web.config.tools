@@ -1,17 +1,17 @@
-import { ConfigurationContextManager } from "../../../managers/configurationContextManager.js";
-import { ConfigurationFilesContextEditorManager } from "../../../managers/configurationFilesContextEditorManager.js";
+import { ConfigurationFileContextsManager } from "../../../managers/configuration/configurationFileContextsManager.js";
+import { ConfigurationContextManager } from "../../../managers/configuration/configurationContextManager.js";
 
-class ConfigurationContextSelectorModuleManager {
+class ConfigurationContextSelectorModuleViewManager {
     static #instance = null;
 
-    #filesContextEditorManager = ConfigurationFilesContextEditorManager;
+    #fileContextsManager = ConfigurationFileContextsManager;
     #contextManager = ConfigurationContextManager;
 
     static getInstance() {
-        if (!ConfigurationContextSelectorModuleManager.#instance) {
-            ConfigurationContextSelectorModuleManager.#instance = new ConfigurationContextSelectorModuleManager();
+        if (!ConfigurationContextSelectorModuleViewManager.#instance) {
+            ConfigurationContextSelectorModuleViewManager.#instance = new ConfigurationContextSelectorModuleViewManager();
         }
-        return ConfigurationContextSelectorModuleManager.#instance;
+        return ConfigurationContextSelectorModuleViewManager.#instance;
     }
 
     loadFileContextsByFileName(fileName) {
@@ -23,10 +23,10 @@ class ConfigurationContextSelectorModuleManager {
             };
 
             let data = [];
-            const fileContextsResponse = this.#filesContextEditorManager.loadFileContextsByFileName(fileName);
+            const fileContextsResponse = this.#fileContextsManager.loadFileContextsByFileName(fileName);
             if (fileContextsResponse?.isOk && fileContextsResponse.data) {
                 const contexts = fileContextsResponse.data;
-                contexts.forEach((context) => {
+                contexts.forEach(context => {
                     let stringContext = JSON.stringify(context);
                     let contextOutput = {
                         textContent: stringContext === "{}" ? "Default" : stringContext,
@@ -55,18 +55,15 @@ class ConfigurationContextSelectorModuleManager {
             let outcome = {
                 isOk: false,
                 errorType: "UNKNOWN",
-                data: null,
             };
             if (stringContextValue) {
                 const contextValue = JSON.parse(stringContextValue);
                 if (Object.keys(contextValue).length === 0) {
                     outcome.errorType = "BAD_REQUEST";
                 }
-                const deleteResponse = this.#filesContextEditorManager.deleteContextInFileByFileName(contextValue, fileName);
-                if (deleteResponse?.isOk && deleteResponse.data) {
-                    this.#contextManager.resetCurrentContext();
+                const deleteResponse = this.#fileContextsManager.deleteContextInFileByFileName(contextValue, fileName);
+                if (deleteResponse?.isOk) {
                     outcome.isOk = true;
-                    outcome.data = deleteResponse.data;
                 }
             }
             return outcome;
@@ -75,7 +72,6 @@ class ConfigurationContextSelectorModuleManager {
             let outcome = {
                 isOk: false,
                 errorType: "UNKNOWN",
-                data: null,
             };
             return outcome;
         }
@@ -86,7 +82,6 @@ class ConfigurationContextSelectorModuleManager {
             let outcome = {
                 isOk: false,
                 errorType: "UNKNOWN",
-                data: null,
             };
             if (stringContextValue) {
                 const contextValue = JSON.parse(stringContextValue);
@@ -94,11 +89,9 @@ class ConfigurationContextSelectorModuleManager {
                     outcome.errorType = "BAD_REQUEST";
                 }
 
-                const deleteResponse = this.#filesContextEditorManager.saveNewContextInFileByFileName(contextValue, fileName);
-                if (deleteResponse?.isOk && deleteResponse.data) {
-                    this.#contextManager.setCurrentContext(contextValue);
+                const deleteResponse = this.#fileContextsManager.saveNewContextInFileByFileName(contextValue, fileName);
+                if (deleteResponse?.isOk) {
                     outcome.isOk = true;
-                    outcome.data = deleteResponse.data;
                 }
             }
             return outcome;
@@ -107,7 +100,6 @@ class ConfigurationContextSelectorModuleManager {
             let outcome = {
                 isOk: false,
                 errorType: "UNKNOWN",
-                data: null,
             };
             return outcome;
         }
@@ -146,5 +138,5 @@ class ConfigurationContextSelectorModuleManager {
     }
 }
 
-const instance = ConfigurationContextSelectorModuleManager.getInstance();
-export { ConfigurationContextSelectorModuleManager, instance as default };
+const instance = ConfigurationContextSelectorModuleViewManager.getInstance();
+export { ConfigurationContextSelectorModuleViewManager, instance as default };

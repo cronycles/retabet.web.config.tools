@@ -1,5 +1,6 @@
 import { ConfigurationFilesManager } from "./configurationFilesManager.js";
 import { ConfigurationFilesCrudHelper } from "../helpers/configurationFilesCrudHelper.js";
+import { ConfigurationFilesContextHelper } from "../helpers/configurationFilesContextHelper.js";
 import { ConfigurationFilesContextManagerExtension } from "../extensions/configurationFilesContextManagerExtension.js";
 
 class ConfigurationFilesManagerInTheCurrentContext {
@@ -7,6 +8,7 @@ class ConfigurationFilesManagerInTheCurrentContext {
 
     #filesManager = ConfigurationFilesManager;
     #filesCrudHelper = ConfigurationFilesCrudHelper;
+    #filesContextHelper = ConfigurationFilesContextHelper;
     #extension = ConfigurationFilesContextManagerExtension;
 
     static getInstance() {
@@ -14,6 +16,43 @@ class ConfigurationFilesManagerInTheCurrentContext {
             ConfigurationFilesManagerInTheCurrentContext.#instance = new ConfigurationFilesManagerInTheCurrentContext();
         }
         return ConfigurationFilesManagerInTheCurrentContext.#instance;
+    }
+
+    loadAllContextsByFileName(fileName) {
+        const jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        return this.#filesContextHelper.getKeysAndValuesContextJsonByFileContent(jsonFile);
+    }
+
+    deleteEntireContextInFile(contextValue, fileName) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+        const jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+
+        const isDeleted = this.#filesContextHelper.deleteContextInFileContent(contextValue, jsonFile);
+        if (isDeleted) {
+            outcome = this.#filesCrudHelper.saveConfigurationFileByName(jsonFile, fileName);
+        } else {
+            outcome.errorType = addResponse.errorType;
+        }
+        return outcome;
+    }
+
+    saveNewContextInFile(contextValue, fileName) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+        const jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+
+        const isAdded = this.#filesContextHelper.addNewContextInFileContent(contextValue, jsonFile);
+        if (isAdded) {
+            outcome = this.#filesCrudHelper.saveConfigurationFileByName(jsonFile, fileName);
+        } else {
+            outcome.errorType = addResponse.errorType;
+        }
+        return outcome;
     }
 
     /**

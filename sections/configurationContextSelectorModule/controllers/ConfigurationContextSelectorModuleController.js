@@ -1,10 +1,10 @@
-import { ConfigurationContextSelectorModuleManager } from "../managers/ConfigurationContextSelectorModuleManager.js";
+import { ConfigurationContextSelectorModuleViewManager } from "../viewManagers/configurationContextSelectorModuleViewManager.js";
 
 class ConfigurationContextSelectorModuleController {
-    #contextSelectorModuleManager;
+    #contextSelectorModuleViewManager;
 
     constructor() {
-        this.#contextSelectorModuleManager = ConfigurationContextSelectorModuleManager;
+        this.#contextSelectorModuleViewManager = ConfigurationContextSelectorModuleViewManager;
     }
 
     loadContextsFromFile(req, res) {
@@ -14,7 +14,7 @@ class ConfigurationContextSelectorModuleController {
             data: null,
         };
         const fileName = req.params.fileName;
-        const localContextObject = this.#contextSelectorModuleManager.loadFileContextsByFileName(fileName);
+        const localContextObject = this.#contextSelectorModuleViewManager.loadFileContextsByFileName(fileName);
 
         if (localContextObject && localContextObject.isOk) {
             outcome.status = 200;
@@ -32,7 +32,7 @@ class ConfigurationContextSelectorModuleController {
 
         const fileName = req.params.fileName;
         const stringContextValue = JSON.stringify(req.body);
-        const deleteResponse = this.#contextSelectorModuleManager.deleteContextInFileByFileNameAndResetCurrentContext(stringContextValue, fileName);
+        const deleteResponse = this.#contextSelectorModuleViewManager.deleteContextInFileByFileNameAndResetCurrentContext(stringContextValue, fileName);
         if (deleteResponse && deleteResponse.isOk) {
             outcome.status = 200;
             outcome.data = deleteResponse.data;
@@ -53,7 +53,7 @@ class ConfigurationContextSelectorModuleController {
 
         const fileName = req.params.fileName;
         const stringContextValue = JSON.stringify(req.body);
-        const saveResponse = this.#contextSelectorModuleManager.saveContextInFileByFileNameAndSetNewCurrentContext(stringContextValue, fileName);
+        const saveResponse = this.#contextSelectorModuleViewManager.saveContextInFileByFileNameAndSetNewCurrentContext(stringContextValue, fileName);
         if (saveResponse && saveResponse.isOk) {
             outcome.status = 200;
             outcome.data = saveResponse.data;
@@ -71,7 +71,7 @@ class ConfigurationContextSelectorModuleController {
             error: "Unknown error occured",
             data: null,
         };
-        const serviceResponse = this.#contextSelectorModuleManager.getContextConfigProperties();
+        const serviceResponse = this.#contextSelectorModuleViewManager.getContextConfigProperties();
         if (serviceResponse.isOk) {
             outcome.status = 200;
             outcome.data = serviceResponse.data;
@@ -86,13 +86,13 @@ class ConfigurationContextSelectorModuleController {
 
     setSelectedContext(req, res) {
         const selectedStringContext = req.body.selectedContext;
-        this.#contextSelectorModuleManager.setSelectedContext(selectedStringContext);
+        this.#contextSelectorModuleViewManager.setSelectedContext(selectedStringContext);
         res.status(200).json({ message: "Selected context set successfully" });
     }
 
     getSelectedContext(req, res) {
         let outcome = {};
-        outcome = this.#contextSelectorModuleManager.getSelectedContext();
+        outcome = this.#contextSelectorModuleViewManager.getSelectedContext();
         res.json({ selectedContext: outcome });
     }
 }

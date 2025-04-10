@@ -2,6 +2,22 @@
     {
         "Configuration": {
             "Pages_CONF": {
+                "DefaultPageAttributes": {
+                    "Categories": ["Public", "Sportsbook"],
+                    "TitleResourcekey": "PageTitle",
+                    "TooltipResourcekey": "PageTooltip",
+                    "DescriptionResourcekey": "PageDescription",
+                    "KeywordsResourcekey": "PageKeywords",
+                    "ShortDescriptionResourcekey": "PageShortDescription",
+                    "Url": "",
+                    "IsEnabled": true,
+                    "IsIncludedInSitemap": true,
+                    "AnalyticsTrackValues": {
+                        "Category": "Deportes",
+                        "Action": "Deportes (Home)",
+                        "Tags": ""
+                    }
+                },
                 "Pages": {
                     "SportsbookHome": {
                         "Categories": ["Public", "Sportsbook"],

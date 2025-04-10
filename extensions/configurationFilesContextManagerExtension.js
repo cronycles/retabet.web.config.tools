@@ -1,4 +1,4 @@
-import { ConfigurationContextManager } from "../managers/configurationContextManager.js";
+import { ConfigurationContextManager } from "../managers/configuration/configurationContextManager.js";
 
 class ConfigurationFilesContextManagerExtension {
     static #instance = null;
@@ -32,6 +32,18 @@ class ConfigurationFilesContextManagerExtension {
         const currentContext = this.#contextManager.getCurrentContext();
         if (currentContext != null) {
             outcome = currentContext;
+        }
+        return outcome;
+    }
+
+    getKeysAndValuesContextJsonByFileContent(configFileContent) {
+        let outcome = null;
+        if (configFileContent) {
+            outcome = [];
+            configFileContent.forEach(context => {
+                const jsonKeysAndValues = this.#getKeysAndValueContextJsonByFileContextPart(context);
+                outcome.push(jsonKeysAndValues);
+            });
         }
         return outcome;
     }
