@@ -1,87 +1,59 @@
-import { PageSectionsManager } from "../managers/pageSectionsManager.js";
+import { PageSectionsViewManager } from "../viewManagers/pageSectionsViewManager.js";
 
 class PageSectionsController {
-    #pageSectionsManager;
+    #pageSectionsViewManager;
 
     constructor() {
-        this.#pageSectionsManager = PageSectionsManager;
+        this.#pageSectionsViewManager = PageSectionsViewManager;
     }
 
     getAllPages(req, res) {
-        const outcome = this.#pageSectionsManager.getAllPages();
-        res.json(outcome || {});
+        const outcome = this.#pageSectionsViewManager.getAvailablePages();
+        res.json(outcome);
+    }
+
+    getAllPanels(req, res) {
+        const outcome = this.#pageSectionsViewManager.getAvailablePanels();
+        res.json(outcome);
+    }
+
+    getAllSections(req, res) {
+        const outcome = this.#pageSectionsViewManager.getAvailableSections();
+        res.json(outcome);
     }
 
     getPageSections(req, res) {
-        try {
-            const pageInvariantNamesObj = this.#pageSectionsManager.getPageInvariantNamesObjectFromFile();
-
-            res.json(pageInvariantNamesObj || {});
-        } catch (error) {
-            console.error("Error in getPageSections:", error);
-            res.status(500).json({ error: "Failed to fetch page sections" });
-        }
+        const pageSectionsObj = this.#pageSectionsViewManager.getPageSections();
+        res.json(pageSectionsObj);
     }
 
     updatePageSectionsByPage(req, res) {
         var statusini = 200;
-        const pageInvariantNamesObj = this.#pageSectionsManager.getPageInvariantNamesObjectFromFile();
         const pageName = req.params.pageName;
-        const { action, panelName, sectionName, attributes } = req.body;
+        const { action, panelName, sectionName, attributes, position } = req.body;
 
         if (action === "addPanel") {
-            if (!pageInvariantNamesObj[pageName][panelName]) {
-                pageInvariantNamesObj[pageName][panelName] = [];
-            } else {
+            if (!this.#pageSectionsViewManager.addPanelInPage(panelName, pageName)) {
                 statusini = 403;
             }
         } else if (action === "removePanel") {
-            delete pageInvariantNamesObj[pageName][panelName];
-
-            // Remove the page if it has no panels left
-            if (Object.keys(pageInvariantNamesObj[pageName]).length === 0) {
-                delete pageInvariantNamesObj[pageName];
+            if (!this.#pageSectionsViewManager.deletePanelFromPage(panelName, pageName)) {
+                statusini = 403;
             }
         } else if (action === "addSection") {
-            if (sectionName && attributes) {
-                const panelSections = pageInvariantNamesObj[pageName][panelName] || [];
-                panelSections.push({ [sectionName]: attributes });
-                pageInvariantNamesObj[pageName][panelName] = panelSections;
-
-                const newIndex = panelSections.length - 1; // Get the index of the newly added section
-
-                this.#pageSectionsManager.savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
-                return res.status(statusini).json({ index: newIndex }); // Return the index
-            } else {
-                statusini = 400;
+            if (!this.#pageSectionsViewManager.addSectionToPanelOfPage(sectionName, attributes, panelName, pageName)) {
+                statusini = 403;
             }
         } else if (action === "removeSection") {
-            if (sectionName && typeof req.body.position === "number") {
-                const panelSections = pageInvariantNamesObj[pageName][panelName];
-                if (panelSections[req.body.position]?.[sectionName]) {
-                    panelSections.splice(req.body.position, 1); // Remove the section at the specified position
-                } else {
-                    statusini = 400; // Invalid position or section name
-                }
-            } else {
-                statusini = 400;
+            if (!this.#pageSectionsViewManager.deleteExistingSectionFromPanelOfPage(sectionName, position, panelName, pageName)) {
+                statusini = 403;
             }
         } else if (action === "updateSection") {
-            if (sectionName && attributes && typeof req.body.position === "number") {
-                const panelSections = pageInvariantNamesObj[pageName][panelName];
-                const sectionIndex = req.body.position; // Use the passed index
-                if (panelSections[sectionIndex]?.[sectionName]) {
-                    panelSections[sectionIndex][sectionName] = attributes; // Update the section at the specified index
-                } else {
-                    statusini = 400; // Invalid position or section name
-                }
-            } else {
-                statusini = 400;
+            if (!this.#pageSectionsViewManager.updateExistingSectionFromPanelOfPage(sectionName, attributes, position, panelName, pageName)) {
+                statusini = 403;
             }
         }
-        this.#pageSectionsManager.savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
-
-        res.status(statusini).json(pageInvariantNamesObj[pageName]);
+        res.status(statusini);
     }
 
     updateSectionsOrderInAPanelOfAPage(req, res) {
@@ -94,7 +66,7 @@ class PageSectionsController {
         const { pageName, panelName } = req.params;
         const { order } = req.body;
 
-        let updateOutput = this.#pageSectionsManager.updateSectionsOrderInAPanelOfAPage(pageName, panelName, order);
+        let updateOutput = this.#pageSectionsViewManager.updateSectionsOrderInAPanelOfAPage(pageName, panelName, order);
 
         if (updateOutput.isOk) {
             outcome.status = 200;

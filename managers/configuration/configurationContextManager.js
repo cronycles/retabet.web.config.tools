@@ -1,6 +1,10 @@
 import { ConfigurationCurrentContextHandler } from "../handlers/configurationCurrentContextHandler.js";
 import { ConfigurationFilesCrudHelper } from "../helpers/configurationFilesCrudHelper.js";
 
+/**
+ * @class ConfigurationContextManager
+ * @description Clase para gestionar el contexto de toda la configuración.
+ */
 class ConfigurationContextManager {
     static #instance = null;
 

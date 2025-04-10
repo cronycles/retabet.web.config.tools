@@ -1,9 +1,9 @@
-import { ConfigurationFilesManagerInTheCurrentContext } from "../configurationFilesManagerInTheCurrentContext.js";
+import { ConfigurationFilesService } from "../configurationFilesService.js";
 
 class SectionsManager {
     static #instance = null;
 
-    #filesManagerInTheCurrentContext = ConfigurationFilesManagerInTheCurrentContext;
+    #filesService = ConfigurationFilesService;
 
     #sectionsFileName = "sections.config.json";
     #sectionsHierarchy = ["Sections"];
@@ -18,7 +18,17 @@ class SectionsManager {
 
     getAllSectionsInTheCurrentContextForEditingPurpose() {
         let outcome = null;
-        const allSections = this.#filesManagerInTheCurrentContext.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+        const allSections = this.#filesService.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+            this.#sectionsFileName,
+            this.#sectionsHierarchy
+        );
+        outcome = allSections;
+        return outcome;
+    }
+
+    getAllPanelsAvailablesForTheCurrentContext() {
+        let outcome = null;
+        const allSections = this.#filesService.getConfigurationObjectFromFileBelongingToTheCurrentContext(
             this.#sectionsFileName,
             this.#sectionsHierarchy
         );
@@ -28,7 +38,7 @@ class SectionsManager {
 
     getSectionsDefaultAttributesInTheCurrentContext() {
         let outcome = null;
-        const pabelDefaultAttributes = this.#filesManagerInTheCurrentContext.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+        const pabelDefaultAttributes = this.#filesService.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
             this.#sectionsFileName,
             this.#defaultAttributesHierarchy
         );
@@ -41,7 +51,7 @@ class SectionsManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        outcome = this.#filesManagerInTheCurrentContext.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesService.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
             sectionName,
             attributes,
             this.#sectionsHierarchy,
@@ -57,7 +67,7 @@ class SectionsManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesManagerInTheCurrentContext.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesService.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
             sectionName,
             attributes,
             this.#sectionsFileName,
@@ -73,7 +83,7 @@ class SectionsManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesManagerInTheCurrentContext.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesService.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
             sectionName,
             this.#sectionsFileName,
             this.#sectionsHierarchy

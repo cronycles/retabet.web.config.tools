@@ -39,16 +39,16 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    updateObjectIntoTheTargetObjectIfExists(objectToUpdateKey, newObjectAttributes, targetObject) {
+    updateObjectIntoTheTargetObjectIfExists(objectToUpdateKey, newObjectAttributes, targetObject, position = null) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
         };
         if (objectToUpdateKey && newObjectAttributes && targetObject) {
-            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToUpdateKey, targetObject)) {
+            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectToUpdateKey, targetObject, position)) {
                 outcome.errorType = "NOT_FOUND";
             } else {
-                this.#updateObjectIntoTheTargetObject(objectToUpdateKey, newObjectAttributes, targetObject);
+                this.#updateObjectIntoTheTargetObject(objectToUpdateKey, newObjectAttributes, targetObject, position);
 
                 outcome.isOk = true;
             }
@@ -56,16 +56,16 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject) {
+    deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject, position = null) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
         };
         if (targetObject && objectKeyToDelete) {
-            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectKeyToDelete, targetObject)) {
+            if (!this.#doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectKeyToDelete, targetObject, position)) {
                 outcome.errorType = "NOT_FOUND";
             } else {
-                this.#deleteObjectFromTheTargetObject(objectKeyToDelete, targetObject);
+                this.#deleteObjectFromTheTargetObject(objectKeyToDelete, targetObject, position);
 
                 outcome.isOk = true;
             }
@@ -73,26 +73,35 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
-    #updateObjectIntoTheTargetObject(objectToUpdateKey, newObjectAttributes, targetObject) {
-        const targetObjectEntries = Object.entries(targetObject);
-        for (const [key, value] of targetObjectEntries) {
-            if (key === objectToUpdateKey) {
-                targetObject[objectToUpdateKey] = { ...value, ...newObjectAttributes };
-                break;
+    #updateObjectIntoTheTargetObject(objectToUpdateKey, newObjectAttributes, targetObject, position = null) {
+        if (position) {
+            if (targetObject[position]?.[objectToUpdateKey]) {
+                targetObject[position][objectToUpdateKey] = newObjectAttributes;
             }
+        } else {
+            targetObject[objectToUpdateKey] = newObjectAttributes;
+        }
+
+        return targetObject;
+    }
+
+    #deleteObjectFromTheTargetObject(objectKeyToDelete, targetObject, position = null) {
+        if (position) {
+            targetObject.splice(position, 1);
+        } else {
+            delete targetObject[objectKeyToDelete];
         }
         return targetObject;
     }
 
-    #deleteObjectFromTheTargetObject(objectKeyToDelete, targetObject) {
-        delete targetObject[objectKeyToDelete];
-        return targetObject;
-    }
-
-    #doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectKeyToCheck, targetObject) {
+    #doesObjectExistsIntoTheFirstLevelOfTheTargetObject(objectKeyToCheck, targetObject, position = null) {
         let outcome = false;
         if (objectKeyToCheck && targetObject) {
-            outcome = targetObject[objectKeyToCheck] ? true : false;
+            if (position) {
+                outcome = targetObject[position]?.[objectKeyToCheck] ? true : false;
+            } else {
+                outcome = targetObject[objectKeyToCheck] ? true : false;
+            }
         }
         return outcome;
     }

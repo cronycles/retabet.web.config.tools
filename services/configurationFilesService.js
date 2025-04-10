@@ -1,9 +1,13 @@
-import { ConfigurationFilesManager } from "./configurationFilesManager.js";
+import { ConfigurationFilesManager } from "../helpers/configurationFilesManager.js";
 import { ConfigurationFilesCrudHelper } from "../helpers/configurationFilesCrudHelper.js";
 import { ConfigurationFilesContextHelper } from "../helpers/configurationFilesContextHelper.js";
 import { ConfigurationFilesContextManagerExtension } from "../extensions/configurationFilesContextManagerExtension.js";
 
-class ConfigurationFilesManagerInTheCurrentContext {
+/**
+ * @class ConfigurationFilesService
+ * @description Clase Que todos los managers de configuración llaman para hacer sus funciones principales con los ficheros de configuración
+ */
+class ConfigurationFilesService {
     static #instance = null;
 
     #filesManager = ConfigurationFilesManager;
@@ -12,10 +16,10 @@ class ConfigurationFilesManagerInTheCurrentContext {
     #extension = ConfigurationFilesContextManagerExtension;
 
     static getInstance() {
-        if (!ConfigurationFilesManagerInTheCurrentContext.#instance) {
-            ConfigurationFilesManagerInTheCurrentContext.#instance = new ConfigurationFilesManagerInTheCurrentContext();
+        if (!ConfigurationFilesService.#instance) {
+            ConfigurationFilesService.#instance = new ConfigurationFilesService();
         }
-        return ConfigurationFilesManagerInTheCurrentContext.#instance;
+        return ConfigurationFilesService.#instance;
     }
 
     loadAllContextsByFileName(fileName) {
@@ -135,7 +139,7 @@ class ConfigurationFilesManagerInTheCurrentContext {
      * "Configuracion" → "Nombre_CONF" → Aquí.
      * Si se pasa y se encuentra, el objeto se actualizará en la jerarquía especificada.
      */
-    updateConfigurationObjectInFileExtrictlyInTheCurrentContext(objectToUpdateKey, newObjectAttributes, fileName, hierarchyArray) {
+    updateConfigurationObjectInFileExtrictlyInTheCurrentContext(objectToUpdateKey, newObjectAttributes, fileName, hierarchyArray, position = null) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
@@ -144,7 +148,7 @@ class ConfigurationFilesManagerInTheCurrentContext {
         var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
         let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
         let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
-        const updateResponse = this.#filesManager.updateObjectIntoTheTargetObjectIfExists(objectToUpdateKey, newObjectAttributes, targetObject);
+        const updateResponse = this.#filesManager.updateObjectIntoTheTargetObjectIfExists(objectToUpdateKey, newObjectAttributes, targetObject, position = null);
         if (updateResponse?.isOk) {
             outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
         } else {
@@ -155,14 +159,13 @@ class ConfigurationFilesManagerInTheCurrentContext {
 
     /**
      * Elimina el objeto exactamente en el contexto actual.
-     * @param {string} objectKeyToDelete - La key del objecto a eliminar.
+     * @param {string} objectKeyToDelete - La key del objeto a eliminar.
      * @param {string} fileName - Nombre del fichero de configuración.
-     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para actualizar el objeto deseado.
-     * Si no se pasa, o la jerarquía pasada no se encuentra, se asume que el objeto se actualizará en la tercera posición:
-     * "Configuracion" → "Nombre_CONF" → Aquí.
-     * Si se pasa y se encuentra, el objeto se actualizará en la jerarquía especificada.
+     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para encontrar el objeto deseado.
+     * @param {number|null} [position=null] - Especifica la posición del objeto a eliminar si hay múltiples objetos con la misma key.
+     * Si no se pasa, se eliminará el primer objeto encontrado con la key especificada.
      */
-    deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(objectKeyToDelete, fileName, hierarchyArray) {
+    deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(objectKeyToDelete, fileName, hierarchyArray, position = null) {
         let outcome = {
             isOk: false,
             errorType: "UNKNOWN",
@@ -171,7 +174,7 @@ class ConfigurationFilesManagerInTheCurrentContext {
         var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
         let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
         let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
-        const updateResponse = this.#filesManager.deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject);
+        const updateResponse = this.#filesManager.deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject, position = null);
         if (updateResponse?.isOk) {
             outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
         } else {
@@ -181,5 +184,5 @@ class ConfigurationFilesManagerInTheCurrentContext {
     }
 }
 
-const instance = ConfigurationFilesManagerInTheCurrentContext.getInstance();
-export { ConfigurationFilesManagerInTheCurrentContext, instance as default };
+const instance = ConfigurationFilesService.getInstance();
+export { ConfigurationFilesService, instance as default };

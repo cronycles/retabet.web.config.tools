@@ -1,4 +1,4 @@
-import { ConfigurationFilesManagerInTheCurrentContext } from "../configurationFilesManagerInTheCurrentContext.js";
+import { ConfigurationFilesService } from "../../services/configurationFilesService.js";
 import { ConfigurationContextManager } from "./configurationContextManager.js";
 
 /**
@@ -8,7 +8,7 @@ import { ConfigurationContextManager } from "./configurationContextManager.js";
 class ConfigurationFileContextsManager {
     static #instance = null;
 
-    #filesManagerInTheCurrentContext = ConfigurationFilesManagerInTheCurrentContext;
+    #filesService = ConfigurationFilesService;
     #contextManager = ConfigurationContextManager;
 
     static getInstance() {
@@ -26,7 +26,7 @@ class ConfigurationFileContextsManager {
                 data: null,
             };
 
-            const data = this.#filesManagerInTheCurrentContext.loadAllContextsByFileName(fileName);
+            const data = this.#filesService.loadAllContextsByFileName(fileName);
             if (data) {
                 outcome.isOk = true;
                 outcome.data = data;
@@ -49,7 +49,7 @@ class ConfigurationFileContextsManager {
                 isOk: false,
                 errorType: "UNKNOWN",
             };
-            const isDeleted = this.#filesManagerInTheCurrentContext.deleteEntireContextInFile(contextValue, fileName);
+            const isDeleted = this.#filesService.deleteEntireContextInFile(contextValue, fileName);
 
             if (isDeleted) {
                 this.#contextManager.resetCurrentContext();
@@ -75,7 +75,7 @@ class ConfigurationFileContextsManager {
                 errorType: "UNKNOWN",
             };
 
-            const isSaved = this.#filesManagerInTheCurrentContext.saveNewContextInFile(contextValue, fileName);
+            const isSaved = this.#filesService.saveNewContextInFile(contextValue, fileName);
 
             if (isSaved) {
                 this.#contextManager.setCurrentContext(contextValue);
