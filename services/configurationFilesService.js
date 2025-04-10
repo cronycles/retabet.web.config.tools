@@ -182,6 +182,34 @@ class ConfigurationFilesService {
         }
         return outcome;
     }
+
+    /**
+     * Actualiza el orden de los objetos debajo de una jerarquia de un fichero.
+     * @param {string} objectToUpdateKey - El key del objeto a modificar.
+     * @param {Object|null} newObjectAttributes - los atributos del objeto a modificar.
+     * @param {string} fileName - Nombre del fichero de configuración.
+     * @param {string[]} [hierarchyArray] - Especifica la ruta jerárquica para actualizar el objeto deseado.
+     * Si no se pasa, o la jerarquía pasada no se encuentra, se asume que el objeto se actualizará en la tercera posición:
+     * "Configuracion" → "Nombre_CONF" → Aquí.
+     * Si se pasa y se encuentra, el objeto se actualizará en la jerarquía especificada.
+     */
+    updateConfigurationObjectsOrderInFileExtrictlyInTheCurrentContext(order, fileName, hierarchyArray) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+
+        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        const updateResponse = this.#filesManager.updateObjectsOrderIntoTheTargetObjectIfExists(order, targetObject);
+        if (updateResponse?.isOk) {
+            outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+        } else {
+            outcome.errorType = updateResponse.errorType;
+        }
+        return outcome;
+    }
 }
 
 const instance = ConfigurationFilesService.getInstance();

@@ -98,6 +98,22 @@ class PageSectionsManager {
 
         return outcome;
     }
+
+    updateSectionsOrderInAPanelOfAPageInTheCurrentContext(panelName, pageName, order) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+
+        const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
+        outcome = this.#filesService.updateConfigurationObjectsOrderInFileExtrictlyInTheCurrentContext(
+            order,
+            this.#pageSectionsFileName,
+            newHierarchy,
+        );
+
+        return outcome;
+    }
 }
 
 const instance = PageSectionsManager.getInstance();

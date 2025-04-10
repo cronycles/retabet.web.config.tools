@@ -106,22 +106,7 @@ class PageSectionsViewManager {
             errorType: "UNKNOWN",
         };
 
-        const pageInvariantNamesObj = this.getPageInvariantNamesObjectFromFile();
-        const page = pageInvariantNamesObj[pageName];
-        if (!page || !page[panelName]) {
-            outcome.errorType = "NOT_FOUND";
-        } else {
-            const panelSections = page[panelName];
-            const reorderedSections = order.map(sectionName => {
-                return panelSections.find(section => {
-                    return typeof section === "string" ? section === sectionName : Object.keys(section)[0] === sectionName;
-                });
-            });
-
-            pageInvariantNamesObj[pageName][panelName] = reorderedSections;
-            this.savePageInvariantNamesObjectToFile(pageInvariantNamesObj);
-            outcome.isOk = true;
-        }
+        outcome = this.#pageSectionsManager.updateSectionsOrderInAPanelOfAPageInTheCurrentContext(panelName, pageName, order);
 
         return outcome;
     }

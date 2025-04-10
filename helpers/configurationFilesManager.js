@@ -73,6 +73,25 @@ class ConfigurationFilesManager {
         return outcome;
     }
 
+    updateObjectsOrderIntoTheTargetObjectIfExists(order, targetObject) {
+        let outcome = {
+            isOk: false,
+            errorType: "UNKNOWN",
+        };
+        if (targetObject) {
+            const reorderedSections = order.map(objectKey => {
+                return targetObject.find(objectToSort => {
+                    return typeof objectToSort === "string" ? objectToSort === objectKey : Object.keys(objectToSort)[0] === objectKey;
+                });
+            });
+
+            targetObject = reorderedSections;
+
+            outcome.isOk = true;
+        }
+        return outcome;
+    }
+
     #updateObjectIntoTheTargetObject(objectToUpdateKey, newObjectAttributes, targetObject, position = null) {
         if (position) {
             if (targetObject[position]?.[objectToUpdateKey]) {
