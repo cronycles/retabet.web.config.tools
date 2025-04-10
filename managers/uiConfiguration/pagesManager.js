@@ -1,19 +1,19 @@
-import { ConfigurationFilesOperationsManager } from "../../managers/configuration/configurationFilesOperationsManager.js";
+import ConfigurationFilesOperationsManager from "../../managers/configuration/configurationFilesOperationsManager.js";
 
-class PagesManager {
-    static #instance = null;
-
-    #filesOperationsManager = ConfigurationFilesOperationsManager;
-
+export default class PagesManager {
     #pagesFileName = "pages.config.json";
     #pagesHierarchy = ["Pages"];
     #defaultAttributesHierarchy = ["DefaultPageAttributes"];
 
-    static getInstance() {
-        if (!PagesManager.#instance) {
-            PagesManager.#instance = new PagesManager();
+    #filesOperationsManager;
+
+    constructor() {
+        if (PagesManager.instance) {
+            return PagesManager.instance;
         }
-        return PagesManager.#instance;
+        this.#filesOperationsManager = new ConfigurationFilesOperationsManager();
+
+        PagesManager.instance = this;
     }
 
     getAllPagesInTheCurrentContextForEditingPurpose() {
@@ -92,6 +92,3 @@ class PagesManager {
         return outcome;
     }
 }
-
-const instance = PagesManager.getInstance();
-export { PagesManager as PagesManager, instance as default };

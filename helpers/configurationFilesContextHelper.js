@@ -1,17 +1,16 @@
-import { ConfigurationContextManager } from "../managers/configuration/configurationContextManager.js";
+import ConfigurationContextManager from "../managers/configuration/configurationContextManager.js";
 
-class ConfigurationFilesContextHelper {
-    static #instance = null;
-
+export default class ConfigurationFilesContextHelper {
     #CONFIGURATION_KEY = "Configuration";
 
-    #contextManager = ConfigurationContextManager;
+    #contextManager;
 
-    static getInstance() {
-        if (!ConfigurationFilesContextHelper.#instance) {
-            ConfigurationFilesContextHelper.#instance = new ConfigurationFilesContextHelper();
+    constructor() {
+        if (ConfigurationFilesContextHelper.instance) {
+            return ConfigurationFilesContextHelper.instance;
         }
-        return ConfigurationFilesContextHelper.#instance;
+        this.#contextManager = new ConfigurationContextManager();
+        ConfigurationFilesContextHelper.instance = this;
     }
 
     getAllContextsInConfigurationFile(configFile) {
@@ -137,6 +136,3 @@ class ConfigurationFilesContextHelper {
         return Object.fromEntries(Object.entries(fileContextPart).filter(([key]) => key !== this.#CONFIGURATION_KEY));
     }
 }
-
-const instance = ConfigurationFilesContextHelper.getInstance();
-export { ConfigurationFilesContextHelper, instance as default };

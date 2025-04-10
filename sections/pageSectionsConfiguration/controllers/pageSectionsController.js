@@ -1,10 +1,10 @@
-import { PageSectionsViewManager } from "../viewManagers/pageSectionsViewManager.js";
+import PageSectionsViewManager from "../viewManagers/pageSectionsViewManager.js";
 
-class PageSectionsController {
+export default class PageSectionsController {
     #pageSectionsViewManager;
 
     constructor() {
-        this.#pageSectionsViewManager = PageSectionsViewManager;
+        this.#pageSectionsViewManager = new PageSectionsViewManager();
     }
 
     getAllPages(req, res) {
@@ -81,4 +81,3 @@ class PageSectionsController {
         return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
     }
 }
-export default PageSectionsController;

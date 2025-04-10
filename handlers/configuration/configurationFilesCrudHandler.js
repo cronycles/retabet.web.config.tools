@@ -1,22 +1,24 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { JsonFilesDTOHandler } from "../JsonFilesDTOHandler.js";
+import JsonFilesDTOHandler from "../JsonFilesDTOHandler.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-class ConfigurationFilesCrudHandler {
-    static #instance = null;
-
+export default class ConfigurationFilesCrudHandler {
     #JSONS_CONFIGURATION_PATH = "../data";
-    #jsonsHandler = JsonFilesDTOHandler;
 
-    static getInstance() {
-        if (!ConfigurationFilesCrudHandler.#instance) {
-            ConfigurationFilesCrudHandler.#instance = new ConfigurationFilesCrudHandler();
+    #jsonsHandler;
+
+    constructor() {
+        if (ConfigurationFilesCrudHandler.instance) {
+            return ConfigurationFilesCrudHandler.instance;
         }
-        return ConfigurationFilesCrudHandler.#instance;
+
+        this.#jsonsHandler = new JsonFilesDTOHandler();
+
+        ConfigurationFilesCrudHandler.instance = this;
     }
 
     getConfigurationFileByName(fileName) {
@@ -58,6 +60,3 @@ class ConfigurationFilesCrudHandler {
         return path.join(__dirname, filePathPart);
     }
 }
-
-const instance = ConfigurationFilesCrudHandler.getInstance();
-export { ConfigurationFilesCrudHandler, instance as default };

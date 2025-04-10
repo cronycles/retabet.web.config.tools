@@ -1,23 +1,25 @@
-import { ConfigurationFilesHelper } from "../../helpers/configurationFilesHelper.js";
-import { ConfigurationFilesCrudHandler } from "../../handlers/configuration/configurationFilesCrudHandler.js";
-import { ConfigurationFilesContextHelper } from "../../helpers/configurationFilesContextHelper.js";
+import ConfigurationFilesHelper from "../../helpers/configurationFilesHelper.js";
+import ConfigurationFilesCrudHandler from "../../handlers/configuration/configurationFilesCrudHandler.js";
+import ConfigurationFilesContextHelper from "../../helpers/configurationFilesContextHelper.js";
 
 /**
  * @class ConfigurationFilesOperationsManager
  * @description Clase Que todos los managers de configuración llaman para hacer sus funciones principales con los ficheros de configuración
  */
-class ConfigurationFilesOperationsManager {
-    static #instance = null;
+export default class ConfigurationFilesOperationsManager {
+    #filesHelper;
+    #filesCrudHandler;
+    #filesContextHelper;
 
-    #filesHelper = ConfigurationFilesHelper;
-    #filesCrudHandler = ConfigurationFilesCrudHandler;
-    #filesContextHelper = ConfigurationFilesContextHelper;
-
-    static getInstance() {
-        if (!ConfigurationFilesOperationsManager.#instance) {
-            ConfigurationFilesOperationsManager.#instance = new ConfigurationFilesOperationsManager();
+    constructor() {
+        if (ConfigurationFilesOperationsManager.instance) {
+            return ConfigurationFilesOperationsManager.instance;
         }
-        return ConfigurationFilesOperationsManager.#instance;
+        this.#filesHelper = new ConfigurationFilesHelper();
+        this.#filesCrudHandler = new ConfigurationFilesCrudHandler();
+        this.#filesContextHelper = new ConfigurationFilesContextHelper();
+
+        ConfigurationFilesOperationsManager.instance = this;
     }
 
     loadAllContextsByFileName(fileName) {
@@ -214,6 +216,3 @@ class ConfigurationFilesOperationsManager {
         return outcome;
     }
 }
-
-const instance = ConfigurationFilesOperationsManager.getInstance();
-export { ConfigurationFilesOperationsManager, instance as default };

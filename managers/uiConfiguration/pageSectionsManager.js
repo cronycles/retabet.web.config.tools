@@ -1,18 +1,18 @@
-import { ConfigurationFilesOperationsManager } from "../configurationFilesOperationsManager.js";
+import ConfigurationFilesOperationsManager from "../configurationFilesOperationsManager.js";
 
-class PageSectionsManager {
-    static #instance = null;
-
-    #filesOperationsManager = ConfigurationFilesOperationsManager;
-
+export default class PageSectionsManager {
     #pageSectionsFileName = "pageSections.config.json";
     #pageInvariantNameHierarchy = ["PageInvariantNames"];
 
-    static getInstance() {
-        if (!PageSectionsManager.#instance) {
-            PageSectionsManager.#instance = new PageSectionsManager();
+    #filesOperationsManager;
+    
+    constructor() {
+        if (PageSectionsManager.instance) {
+            return PageSectionsManager.instance;
         }
-        return PageSectionsManager.#instance;
+        this.#filesOperationsManager = new ConfigurationFilesOperationsManager();
+
+        PageSectionsManager.instance = this;
     }
 
     getAllPageSectionsInTheCurrentContextForEditingPurpose() {
@@ -31,7 +31,12 @@ class PageSectionsManager {
             errorType: "UNKNOWN",
         };
         const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName];
-        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, [], newHierarchy, this.#pageSectionsFileName);
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
+            panelName,
+            [],
+            newHierarchy,
+            this.#pageSectionsFileName
+        );
 
         return outcome;
     }
@@ -43,7 +48,11 @@ class PageSectionsManager {
         };
 
         const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName];
-        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, this.#pageSectionsFileName, newHierarchy);
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
+            panelName,
+            this.#pageSectionsFileName,
+            newHierarchy
+        );
 
         return outcome;
     }
@@ -109,12 +118,9 @@ class PageSectionsManager {
         outcome = this.#filesOperationsManager.updateConfigurationObjectsOrderInFileExtrictlyInTheCurrentContext(
             order,
             this.#pageSectionsFileName,
-            newHierarchy,
+            newHierarchy
         );
 
         return outcome;
     }
 }
-
-const instance = PageSectionsManager.getInstance();
-export { PageSectionsManager as PageSectionsManager, instance as default };

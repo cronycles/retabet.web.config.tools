@@ -1,10 +1,10 @@
-import { PagesViewManager } from "../viewManagers/pagesViewManager.js";
+import PagesViewManager from "../viewManagers/pagesViewManager.js";
 
-class PagesController {
+export default class PagesController {
     #pagesViewManager;
 
     constructor() {
-        this.#pagesViewManager = PagesViewManager;
+        this.#pagesViewManager = new PagesViewManager();
     }
 
     getPages(req, res) {
@@ -91,4 +91,3 @@ class PagesController {
         return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
     }
 }
-export default PagesController;

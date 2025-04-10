@@ -1,19 +1,19 @@
-import { ConfigurationFilesOperationsManager } from "../configurationFilesOperationsManager.js";
+import ConfigurationFilesOperationsManager from "../configurationFilesOperationsManager.js";
 
-class SectionsManager {
-    static #instance = null;
-
-    #filesOperationsManager = ConfigurationFilesOperationsManager;
-
+export default class SectionsManager {
     #sectionsFileName = "sections.config.json";
     #sectionsHierarchy = ["Sections"];
     #defaultAttributesHierarchy = ["DefaultSectionAttributes"];
 
-    static getInstance() {
-        if (!SectionsManager.#instance) {
-            SectionsManager.#instance = new SectionsManager();
+    #filesOperationsManager;
+
+    constructor() {
+        if (SectionsManager.instance) {
+            return SectionsManager.instance;
         }
-        return SectionsManager.#instance;
+        this.#filesOperationsManager = new ConfigurationFilesOperationsManager();
+
+        SectionsManager.instance = this;
     }
 
     getAllSectionsInTheCurrentContextForEditingPurpose() {
@@ -92,6 +92,3 @@ class SectionsManager {
         return outcome;
     }
 }
-
-const instance = SectionsManager.getInstance();
-export { SectionsManager as SectionsManager, instance as default };

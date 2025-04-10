@@ -1,21 +1,23 @@
-import { ConfigurationFilesOperationsManager } from "../../managers/configuration/configurationFilesOperationsManager.js";
-import { ConfigurationContextManager } from "./configurationContextManager.js";
+import ConfigurationFilesOperationsManager from "../../managers/configuration/configurationFilesOperationsManager.js";
+import ConfigurationContextManager from "./configurationContextManager.js";
 
 /**
  * @class ConfigurationFileContextsManager
  * @description Clase para gestionar la edición de contextos de archivos de configuración.
  */
-class ConfigurationFileContextsManager {
-    static #instance = null;
+export default class ConfigurationFileContextsManager {
+    #filesOperationsManager;
+    #contextManager;
 
-    #filesOperationsManager = ConfigurationFilesOperationsManager;
-    #contextManager = ConfigurationContextManager;
-
-    static getInstance() {
-        if (!ConfigurationFileContextsManager.#instance) {
-            ConfigurationFileContextsManager.#instance = new ConfigurationFileContextsManager();
+    constructor() {
+        if (ConfigurationFileContextsManager.instance) {
+            return ConfigurationFileContextsManager.instance;
         }
-        return ConfigurationFileContextsManager.#instance;
+
+        this.#filesOperationsManager = new ConfigurationFilesOperationsManager();
+        this.#contextManager = new ConfigurationContextManager();
+
+        ConfigurationFileContextsManager.instance = this;
     }
 
     loadFileContextsByFileName(fileName) {
@@ -94,6 +96,3 @@ class ConfigurationFileContextsManager {
         }
     }
 }
-
-const instance = ConfigurationFileContextsManager.getInstance();
-export { ConfigurationFileContextsManager as ConfigurationFilesContextEditorManager, instance as default };

@@ -1,10 +1,10 @@
-import { SectionsViewManager } from "../viewManagers/sectionsViewManager.js";
+import SectionsViewManager from "../viewManagers/sectionsViewManager.js";
 
-class SectionsController {
+export default class SectionsController {
     #sectionsViewManager;
 
     constructor() {
-        this.#sectionsViewManager = SectionsViewManager;
+        this.#sectionsViewManager = new SectionsViewManager();
     }
 
     // Handlers for sections.config.json
@@ -69,4 +69,3 @@ class SectionsController {
         return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
     }
 }
-export default SectionsController;

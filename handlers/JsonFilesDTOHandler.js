@@ -1,14 +1,13 @@
 import fs from "fs";
 import JSON5 from "json5";
 
-class JsonFilesDTOHandler {
-    static #instance = null;
-
-    static getInstance() {
-        if (!JsonFilesDTOHandler.#instance) {
-            JsonFilesDTOHandler.#instance = new JsonFilesDTOHandler();
+export default class JsonFilesDTOHandler {
+    constructor() {
+        if (JsonFilesDTOHandler.instance) {
+            return JsonFilesDTOHandler.instance;
         }
-        return JsonFilesDTOHandler.#instance;
+
+        JsonFilesDTOHandler.instance = this;
     }
 
     readJson(filePath) {
@@ -24,6 +23,3 @@ class JsonFilesDTOHandler {
         fs.writeFileSync(filePath, JSON5.stringify(data, null, 4));
     }
 }
-
-const instance = JsonFilesDTOHandler.getInstance();
-export { JsonFilesDTOHandler, instance as default };

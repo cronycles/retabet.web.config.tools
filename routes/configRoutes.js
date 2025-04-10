@@ -27,13 +27,23 @@ router.delete("/panels/:panelName", (req, res) => panelsController.deletePanel(r
 router.get("/pageSections", (req, res) => pageSectionsController.getPageSections(req, res));
 router.get("/pageSections/pages", (req, res) => pageSectionsController.getAllPages(req, res));
 router.put("/pageSections/:pageName", (req, res) => pageSectionsController.updatePageSectionsByPage(req, res));
-router.put("/pageSections/:pageName/panels/:panelName/sections/order", (req, res) => pageSectionsController.updateSectionsOrderInAPanelOfAPage(req, res));
+router.put("/pageSections/:pageName/panels/:panelName/sections/order", (req, res) =>
+    pageSectionsController.updateSectionsOrderInAPanelOfAPage(req, res)
+);
 
 router.get("/configContext/getSelectedContext", (req, res) => configurationContextSelectorModuleController.getSelectedContext(req, res));
 router.post("/configContext/setSelectedContext", (req, res) => configurationContextSelectorModuleController.setSelectedContext(req, res));
-router.get("/configContext/loadContextsFromFile/:fileName", (req, res) => configurationContextSelectorModuleController.loadContextsFromFile(req, res));
-router.get("/configContext/getContextConfigProperties", (req, res) => configurationContextSelectorModuleController.getContextConfigProperties(req, res));
-router.put("/configContext/saveNewContextInFile/:fileName", (req, res) => configurationContextSelectorModuleController.saveNewContextInFile(req, res));
-router.put("/configContext/deleteSelectedContextInFile/:fileName", (req, res) => configurationContextSelectorModuleController.deleteSelectedContextInFile(req, res));
+router.get("/configContext/loadContextsFromFile/:fileName", (req, res) =>
+    configurationContextSelectorModuleController.loadContextsFromFile(req, res)
+);
+router.get("/configContext/getContextConfigProperties", (req, res) =>
+    configurationContextSelectorModuleController.getContextConfigProperties(req, res)
+);
+router.put("/configContext/saveNewContextInFile/:fileName", (req, res) =>
+    configurationContextSelectorModuleController.saveNewContextInFile(req, res)
+);
+router.put("/configContext/deleteSelectedContextInFile/:fileName", (req, res) =>
+    configurationContextSelectorModuleController.deleteSelectedContextInFile(req, res)
+);
 
 export default router;

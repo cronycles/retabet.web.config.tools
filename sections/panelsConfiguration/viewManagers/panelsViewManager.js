@@ -1,15 +1,15 @@
-import { PanelsManager } from "../../../managers/uiConfiguration/panelsManager.js";
+import PanelsManager from "../../../managers/uiConfiguration/panelsManager.js";
 
-class PanelsViewManager {
-    static #instance = null;
+export default class PanelsViewManager {
+    #panelsManager;
 
-    #panelsManager = PanelsManager;
-
-    static getInstance() {
-        if (!PanelsViewManager.#instance) {
-            PanelsViewManager.#instance = new PanelsViewManager();
+    constructor() {
+        if (PanelsViewManager.instance) {
+            return PanelsViewManager.instance;
         }
-        return PanelsViewManager.#instance;
+        this.#panelsManager = new PanelsManager();
+
+        PanelsViewManager.instance = this;
     }
 
     getAllPanels() {
@@ -44,6 +44,3 @@ class PanelsViewManager {
         return outcome;
     }
 }
-
-const instance = PanelsViewManager.getInstance();
-export { PanelsViewManager as PanelsManager, instance as default };

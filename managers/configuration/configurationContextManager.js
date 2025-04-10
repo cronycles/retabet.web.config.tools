@@ -1,23 +1,23 @@
-import { ConfigurationCurrentContextHandler } from "../../handlers/configuration/configurationCurrentContextHandler.js";
-import { ConfigurationFilesCrudHandler } from "../../handlers/configuration/ConfigurationFilesCrudHandler.js";
+import ConfigurationCurrentContextHandler from "../../handlers/configuration/configurationCurrentContextHandler.js";
+import ConfigurationFilesCrudHandler from "../../handlers/configuration/ConfigurationFilesCrudHandler.js";
 
 /**
  * @class ConfigurationContextManager
  * @description Clase para gestionar el contexto de toda la configuración.
  */
-class ConfigurationContextManager {
-    static #instance = null;
-
+export default class ConfigurationContextManager {
     #contextConfigPropertiesFileName = "contextConfiguration.schema.json";
-
-    #currentContextHandler = ConfigurationCurrentContextHandler;
-    #filesCrudHandler = ConfigurationFilesCrudHandler;
-
-    static getInstance() {
-        if (!ConfigurationContextManager.#instance) {
-            ConfigurationContextManager.#instance = new ConfigurationContextManager();
+    #currentContextHandler;
+    #filesCrudHandler;
+    
+    constructor() {
+        if (ConfigurationContextManager.instance) {
+            return ConfigurationContextManager.instance;
         }
-        return ConfigurationContextManager.#instance;
+        this.#currentContextHandler = new ConfigurationCurrentContextHandler();
+        this.#filesCrudHandler = new ConfigurationFilesCrudHandler();
+
+        ConfigurationContextManager.instance = this;
     }
 
     getCurrentContext() {
@@ -36,6 +36,3 @@ class ConfigurationContextManager {
         return this.#filesCrudHandler.getConfigurationFileByName(this.#contextConfigPropertiesFileName);
     }
 }
-
-const instance = ConfigurationContextManager.getInstance();
-export { ConfigurationContextManager, instance as default };

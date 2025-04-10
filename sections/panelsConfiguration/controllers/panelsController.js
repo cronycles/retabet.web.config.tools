@@ -1,10 +1,10 @@
-import { PanelsViewManager } from "../viewManagers/panelsViewManager.js";
+import PanelsViewManager from "../viewManagers/panelsViewManager.js";
 
-class PanelsController {
+export default class PanelsController {
     #panelsViewManager;
 
     constructor() {
-        this.#panelsViewManager = PanelsViewManager;
+        this.#panelsViewManager = new PanelsViewManager();
     }
 
     getPanels(req, res) {
@@ -91,4 +91,3 @@ class PanelsController {
         return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
     }
 }
-export default PanelsController;

@@ -1,10 +1,10 @@
-import { ConfigurationContextSelectorModuleViewManager } from "../viewManagers/configurationContextSelectorModuleViewManager.js";
+import ConfigurationContextSelectorModuleViewManager from "../viewManagers/configurationContextSelectorModuleViewManager.js";
 
-class ConfigurationContextSelectorModuleController {
+export default class ConfigurationContextSelectorModuleController {
     #contextSelectorModuleViewManager;
 
     constructor() {
-        this.#contextSelectorModuleViewManager = ConfigurationContextSelectorModuleViewManager;
+        this.#contextSelectorModuleViewManager = new ConfigurationContextSelectorModuleViewManager();
     }
 
     loadContextsFromFile(req, res) {
@@ -32,7 +32,10 @@ class ConfigurationContextSelectorModuleController {
 
         const fileName = req.params.fileName;
         const stringContextValue = JSON.stringify(req.body);
-        const deleteResponse = this.#contextSelectorModuleViewManager.deleteContextInFileByFileNameAndResetCurrentContext(stringContextValue, fileName);
+        const deleteResponse = this.#contextSelectorModuleViewManager.deleteContextInFileByFileNameAndResetCurrentContext(
+            stringContextValue,
+            fileName
+        );
         if (deleteResponse && deleteResponse.isOk) {
             outcome.status = 200;
             outcome.data = deleteResponse.data;
@@ -96,4 +99,3 @@ class ConfigurationContextSelectorModuleController {
         res.json({ selectedContext: outcome });
     }
 }
-export default ConfigurationContextSelectorModuleController;

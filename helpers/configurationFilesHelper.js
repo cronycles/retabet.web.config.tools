@@ -1,13 +1,12 @@
-class ConfigurationFilesHelper {
-    static #instance = null;
-
+export default class ConfigurationFilesHelper {
     #JSON_CONFIGURATION_KEY = "Configuration";
 
-    static getInstance() {
-        if (!ConfigurationFilesHelper.#instance) {
-            ConfigurationFilesHelper.#instance = new ConfigurationFilesHelper();
+    constructor() {
+        if (ConfigurationFilesHelper.instance) {
+            return ConfigurationFilesHelper.instance;
         }
-        return ConfigurationFilesHelper.#instance;
+
+        ConfigurationFilesHelper.instance = this;
     }
 
     extractNestedObjectInHierarchy(jsonObject, hierarchyArray) {
@@ -79,8 +78,8 @@ class ConfigurationFilesHelper {
             errorType: "UNKNOWN",
         };
         if (targetObject) {
-            const reorderedSections = order.map(objectKey => {
-                return targetObject.find(objectToSort => {
+            const reorderedSections = order.map((objectKey) => {
+                return targetObject.find((objectToSort) => {
                     return typeof objectToSort === "string" ? objectToSort === objectKey : Object.keys(objectToSort)[0] === objectKey;
                 });
             });
@@ -148,6 +147,3 @@ class ConfigurationFilesHelper {
         }, obj);
     }
 }
-
-const instance = ConfigurationFilesHelper.getInstance();
-export { ConfigurationFilesHelper, instance as default };

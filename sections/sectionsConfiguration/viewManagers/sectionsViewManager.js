@@ -1,15 +1,14 @@
-import { SectionsManager } from "../../../managers/uiConfiguration/sectionsManager.js";
+import SectionsManager from "../../../managers/uiConfiguration/sectionsManager.js";
 
-class SectionsViewManager {
-    static #instance = null;
-    
-    #sectionsManager = SectionsManager;
+export default class SectionsViewManager {
+    #sectionsManager;
 
-    static getInstance() {
-        if (!SectionsViewManager.#instance) {
-            SectionsViewManager.#instance = new SectionsViewManager();
+    constructor() {
+        if (SectionsViewManager.instance) {
+            return SectionsViewManager.instance;
         }
-        return SectionsViewManager.#instance;
+        this.#sectionsManager = new SectionsManager();
+        SectionsViewManager.instance = this;
     }
 
     getAllSections() {
@@ -44,6 +43,3 @@ class SectionsViewManager {
         return outcome;
     }
 }
-
-const instance = SectionsViewManager.getInstance();
-export { SectionsViewManager as SectionsManager, instance as default };

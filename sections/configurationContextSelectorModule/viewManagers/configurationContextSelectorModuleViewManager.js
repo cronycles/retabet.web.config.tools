@@ -1,17 +1,19 @@
-import { ConfigurationFileContextsManager } from "../../../managers/configuration/configurationFileContextsManager.js";
-import { ConfigurationContextManager } from "../../../managers/configuration/configurationContextManager.js";
+import ConfigurationFileContextsManager from "../../../managers/configuration/configurationFileContextsManager.js";
+import ConfigurationContextManager from "../../../managers/configuration/configurationContextManager.js";
 
-class ConfigurationContextSelectorModuleViewManager {
-    static #instance = null;
+export default class ConfigurationContextSelectorModuleViewManager {
+    #fileContextsManager;
+    #contextManager;
 
-    #fileContextsManager = ConfigurationFileContextsManager;
-    #contextManager = ConfigurationContextManager;
-
-    static getInstance() {
-        if (!ConfigurationContextSelectorModuleViewManager.#instance) {
-            ConfigurationContextSelectorModuleViewManager.#instance = new ConfigurationContextSelectorModuleViewManager();
+    constructor() {
+        if (ConfigurationContextSelectorModuleViewManager.instance) {
+            return ConfigurationContextSelectorModuleViewManager.instance;
         }
-        return ConfigurationContextSelectorModuleViewManager.#instance;
+
+        this.#fileContextsManager = new ConfigurationFileContextsManager();
+        this.#contextManager = new ConfigurationContextManager();
+
+        ConfigurationContextSelectorModuleViewManager.instance = this;
     }
 
     loadFileContextsByFileName(fileName) {
@@ -137,6 +139,3 @@ class ConfigurationContextSelectorModuleViewManager {
         return this.#contextManager.getCurrentContext();
     }
 }
-
-const instance = ConfigurationContextSelectorModuleViewManager.getInstance();
-export { ConfigurationContextSelectorModuleViewManager, instance as default };

@@ -1,15 +1,15 @@
-import { PagesManager } from "../../../managers/uiConfiguration/pagesManager.js";
+import PagesManager from "../../../managers/uiConfiguration/pagesManager.js";
 
-class PagesViewManager {
-    static #instance = null;
+export default class PagesViewManager {
+    #pagesManager;
 
-    #pagesManager = PagesManager;
-
-    static getInstance() {
-        if (!PagesViewManager.#instance) {
-            PagesViewManager.#instance = new PagesViewManager();
+    constructor() {
+        if (PagesViewManager.instance) {
+            return PagesViewManager.instance;
         }
-        return PagesViewManager.#instance;
+        this.#pagesManager = new PagesManager();
+
+        PagesViewManager.instance = this;
     }
 
     getAllPages() {
@@ -44,6 +44,3 @@ class PagesViewManager {
         return outcome;
     }
 }
-
-const instance = PagesViewManager.getInstance();
-export { PagesViewManager as PagesManager, instance as default };

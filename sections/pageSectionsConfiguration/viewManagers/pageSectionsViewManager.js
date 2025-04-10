@@ -1,30 +1,34 @@
-import { PageSectionsManager } from "../../../managers/uiConfiguration/pageSectionsManager.js";
-import { PagesManager } from "../../../managers/uiConfiguration/pagesManager.js";
-import { PanelsManager } from "../../../managers/uiConfiguration/panelsManager.js";
-import { SectionsManager } from "../../../managers/uiConfiguration/sectionsManager.js";
+import PageSectionsManager from "../../../managers/uiConfiguration/pageSectionsManager.js";
+import PagesManager from "../../../managers/uiConfiguration/pagesManager.js";
+import PanelsManager from "../../../managers/uiConfiguration/panelsManager.js";
+import SectionsManager from "../../../managers/uiConfiguration/sectionsManager.js";
 
-class PageSectionsViewManager {
-    static #instance = null;
-    #pageSectionsManager = PageSectionsManager;
-    #pagesManager = PagesManager;
-    #panelsManager = PanelsManager;
-    #sectionsManager = SectionsManager;
-
+export default class PageSectionsViewManager {
     #pageSectionsFileName = "pageSections.config.json";
     #pageInvariantNameHierarchy = ["PageInvariantNames"];
 
-    static getInstance() {
-        if (!PageSectionsViewManager.#instance) {
-            PageSectionsViewManager.#instance = new PageSectionsViewManager();
+    #pageSectionsManager;
+    #pagesManager;
+    #panelsManager;
+    #sectionsManager;
+
+    constructor() {
+        if (PageSectionsViewManager.instance) {
+            return PageSectionsViewManager.instance;
         }
-        return PageSectionsViewManager.#instance;
+        this.#pageSectionsManager = new PageSectionsManager();
+        this.#pagesManager = new PagesManager();
+        this.#panelsManager = new PanelsManager();
+        this.#sectionsManager = new SectionsManager();
+
+        PageSectionsViewManager.instance = this;
     }
 
     getAvailablePages() {
         let outcome = {};
         const allPages = this.#pagesManager.getAllPagesAvailablesForTheCurrentContext();
         if (allPages) {
-            outcome = Object.keys(allPages).map(pageName => ({
+            outcome = Object.keys(allPages).map((pageName) => ({
                 name: pageName,
             }));
         }
@@ -36,7 +40,7 @@ class PageSectionsViewManager {
         let outcome = {};
         const allPanels = this.#panelsManager.getAllPanelsAvailablesForTheCurrentContext();
         if (allPanels) {
-            outcome = Object.keys(allPanels).map(panelName => ({
+            outcome = Object.keys(allPanels).map((panelName) => ({
                 name: panelName,
             }));
         }
@@ -48,7 +52,7 @@ class PageSectionsViewManager {
         let outcome = {};
         const allSections = this.#sectionsManager.getAllSectionsAvailablesForTheCurrentContext();
         if (allSections) {
-            outcome = Object.keys(allSections).map(sectionName => ({
+            outcome = Object.keys(allSections).map((sectionName) => ({
                 name: sectionName,
             }));
         }
@@ -95,7 +99,13 @@ class PageSectionsViewManager {
 
     updateExistingSectionFromPanelOfPage(sectionName, attributes, position, panelName, pageName) {
         let outcome = true;
-        outcome = this.#pageSectionsManager.updateExistingSectionFromPanelOfPageInTheCurrentContext(sectionName, attributes, position, panelName, pageName);
+        outcome = this.#pageSectionsManager.updateExistingSectionFromPanelOfPageInTheCurrentContext(
+            sectionName,
+            attributes,
+            position,
+            panelName,
+            pageName
+        );
 
         return outcome;
     }
@@ -119,6 +129,3 @@ class PageSectionsViewManager {
         );
     }
 }
-
-const instance = PageSectionsViewManager.getInstance();
-export { PageSectionsViewManager as PageSectionsManager, instance as default };

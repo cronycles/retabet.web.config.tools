@@ -1,12 +1,14 @@
-class ConfigurationCurrentContextHandler {
-    static #instance = null;
-    #currentContext = {};
+export default class ConfigurationCurrentContextHandler {
+    #currentContext;
 
-    static getInstance() {
-        if (!ConfigurationCurrentContextHandler.#instance) {
-            ConfigurationCurrentContextHandler.#instance = new ConfigurationCurrentContextHandler();
+    constructor() {
+        if (ConfigurationCurrentContextHandler.instance) {
+            return ConfigurationCurrentContextHandler.instance;
         }
-        return ConfigurationCurrentContextHandler.#instance;
+
+        this.#currentContext = {};
+
+        ConfigurationCurrentContextHandler.instance = this;
     }
 
     getCurrentContext() {
@@ -21,6 +23,3 @@ class ConfigurationCurrentContextHandler {
         this.#currentContext = {};
     }
 }
-
-const instance = ConfigurationCurrentContextHandler.getInstance();
-export { ConfigurationCurrentContextHandler, instance as default };

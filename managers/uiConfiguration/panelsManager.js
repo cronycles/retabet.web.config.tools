@@ -1,19 +1,19 @@
-import { ConfigurationFilesOperationsManager } from "../../managers/configurationFilesOperationsManager.js";
+import ConfigurationFilesOperationsManager from "../../managers/configurationFilesOperationsManager.js";
 
-class PanelsManager {
-    static #instance = null;
-
-    #filesOperationsManager = ConfigurationFilesOperationsManager;
-
+export default class PanelsManager {
     #panelsFileName = "panels.config.json";
     #panelsHierarchy = ["Panels"];
     #defaultAttributesHierarchy = ["DefaultPanelAttributes"];
 
-    static getInstance() {
-        if (!PanelsManager.#instance) {
-            PanelsManager.#instance = new PanelsManager();
+    #filesOperationsManager;
+
+    constructor() {
+        if (PanelsManager.instance) {
+            return PanelsManager.instance;
         }
-        return PanelsManager.#instance;
+        this.#filesOperationsManager = new ConfigurationFilesOperationsManager();
+
+        PanelsManager.instance = this;
     }
 
     getAllPanelsInTheCurrentContextForEditingPurpose() {
@@ -92,6 +92,3 @@ class PanelsManager {
         return outcome;
     }
 }
-
-const instance = PanelsManager.getInstance();
-export { PanelsManager as PanelsManager, instance as default };
