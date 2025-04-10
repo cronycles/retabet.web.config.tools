@@ -1,9 +1,9 @@
-import { ConfigurationFilesService } from "../../managers/configurationFilesService.js";
+import { ConfigurationFilesOperationsManager } from "../../managers/configurationFilesOperationsManager.js";
 
 class PanelsManager {
     static #instance = null;
 
-    #filesService = ConfigurationFilesService;
+    #filesOperationsManager = ConfigurationFilesOperationsManager;
 
     #panelsFileName = "panels.config.json";
     #panelsHierarchy = ["Panels"];
@@ -18,7 +18,7 @@ class PanelsManager {
 
     getAllPanelsInTheCurrentContextForEditingPurpose() {
         let outcome = null;
-        const allPanels = this.#filesService.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+        const allPanels = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
             this.#panelsFileName,
             this.#panelsHierarchy
         );
@@ -28,7 +28,7 @@ class PanelsManager {
 
     getAllPanelsAvailablesForTheCurrentContext() {
         let outcome = null;
-        const allPanels = this.#filesService.getConfigurationObjectFromFileBelongingToTheCurrentContext(
+        const allPanels = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(
             this.#panelsFileName,
             this.#panelsHierarchy
         );
@@ -38,7 +38,7 @@ class PanelsManager {
 
     getPanelsDefaultAttributesInTheCurrentContext() {
         let outcome = null;
-        const pabelDefaultAttributes = this.#filesService.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+        const pabelDefaultAttributes = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
             this.#panelsFileName,
             this.#defaultAttributesHierarchy
         );
@@ -51,7 +51,7 @@ class PanelsManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        outcome = this.#filesService.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
             panelName,
             attributes,
             this.#panelsHierarchy,
@@ -67,7 +67,7 @@ class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesService.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesOperationsManager.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
             panelName,
             attributes,
             this.#panelsFileName,
@@ -83,7 +83,7 @@ class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesService.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
             panelName,
             this.#panelsFileName,
             this.#panelsHierarchy

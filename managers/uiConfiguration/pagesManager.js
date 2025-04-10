@@ -1,9 +1,9 @@
-import { ConfigurationFilesService } from "../../services/configurationFilesService.js";
+import { ConfigurationFilesOperationsManager } from "../../managers/configuration/configurationFilesOperationsManager.js";
 
 class PagesManager {
     static #instance = null;
 
-    #filesService = ConfigurationFilesService;
+    #filesOperationsManager = ConfigurationFilesOperationsManager;
 
     #pagesFileName = "pages.config.json";
     #pagesHierarchy = ["Pages"];
@@ -18,7 +18,7 @@ class PagesManager {
 
     getAllPagesInTheCurrentContextForEditingPurpose() {
         let outcome = null;
-        const allPages = this.#filesService.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+        const allPages = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
             this.#pagesFileName,
             this.#pagesHierarchy
         );
@@ -28,7 +28,7 @@ class PagesManager {
 
     getPagesDefaultAttributesInTheCurrentContext() {
         let outcome = null;
-        const pabelDefaultAttributes = this.#filesService.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+        const pabelDefaultAttributes = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
             this.#pagesFileName,
             this.#defaultAttributesHierarchy
         );
@@ -38,7 +38,7 @@ class PagesManager {
 
     getAllPagesAvailablesForTheCurrentContext() {
         let outcome = null;
-        const allPages = this.#filesService.getConfigurationObjectFromFileBelongingToTheCurrentContext(
+        const allPages = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(
             this.#pagesFileName,
             this.#pagesHierarchy
         );
@@ -51,7 +51,7 @@ class PagesManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        outcome = this.#filesService.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
             pageName,
             attributes,
             this.#pagesHierarchy,
@@ -67,7 +67,7 @@ class PagesManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesService.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesOperationsManager.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
             pageName,
             attributes,
             this.#pagesFileName,
@@ -83,7 +83,7 @@ class PagesManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesService.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
             pageName,
             this.#pagesFileName,
             this.#pagesHierarchy

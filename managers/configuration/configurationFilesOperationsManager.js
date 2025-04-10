@@ -1,12 +1,12 @@
-import { ConfigurationFilesHelper } from "../helpers/configurationFilesHelper.js";
-import { ConfigurationFilesCrudHandler } from "../handlers/configuration/configurationFilesCrudHandler.js";
-import { ConfigurationFilesContextHelper } from "../helpers/configurationFilesContextHelper.js";
+import { ConfigurationFilesHelper } from "../../helpers/configurationFilesHelper.js";
+import { ConfigurationFilesCrudHandler } from "../../handlers/configuration/configurationFilesCrudHandler.js";
+import { ConfigurationFilesContextHelper } from "../../helpers/configurationFilesContextHelper.js";
 
 /**
- * @class ConfigurationFilesService
+ * @class ConfigurationFilesOperationsManager
  * @description Clase Que todos los managers de configuración llaman para hacer sus funciones principales con los ficheros de configuración
  */
-class ConfigurationFilesService {
+class ConfigurationFilesOperationsManager {
     static #instance = null;
 
     #filesHelper = ConfigurationFilesHelper;
@@ -14,10 +14,10 @@ class ConfigurationFilesService {
     #filesContextHelper = ConfigurationFilesContextHelper;
 
     static getInstance() {
-        if (!ConfigurationFilesService.#instance) {
-            ConfigurationFilesService.#instance = new ConfigurationFilesService();
+        if (!ConfigurationFilesOperationsManager.#instance) {
+            ConfigurationFilesOperationsManager.#instance = new ConfigurationFilesOperationsManager();
         }
-        return ConfigurationFilesService.#instance;
+        return ConfigurationFilesOperationsManager.#instance;
     }
 
     loadAllContextsByFileName(fileName) {
@@ -215,5 +215,5 @@ class ConfigurationFilesService {
     }
 }
 
-const instance = ConfigurationFilesService.getInstance();
-export { ConfigurationFilesService, instance as default };
+const instance = ConfigurationFilesOperationsManager.getInstance();
+export { ConfigurationFilesOperationsManager, instance as default };
