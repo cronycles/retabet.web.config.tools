@@ -1,4 +1,4 @@
-import { PanelsViewManager } from "../managers/panelsViewManager.js";
+import { PanelsViewManager } from "../viewManagers/panelsViewManager.js";
 
 class PanelsController {
     #panelsViewManager;

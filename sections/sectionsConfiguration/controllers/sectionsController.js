@@ -1,20 +1,20 @@
-import { SectionsManager } from "../managers/sectionsManager.js";
+import { SectionsViewManager } from "../viewManagers/sectionsViewManager.js";
 
 class SectionsController {
-    #sectionsManager;
+    #sectionsViewManager;
 
     constructor() {
-        this.#sectionsManager = SectionsManager;
+        this.#sectionsViewManager = SectionsViewManager;
     }
 
     // Handlers for sections.config.json
     getSections(req, res) {
-        const outcome = this.#sectionsManager.getAllSections();
+        const outcome = this.#sectionsViewManager.getAllSections();
         res.json(outcome || {});
     }
 
     getSectionDefaultAttributes(req, res) {
-        const outcome = this.#sectionsManager.getSectionDefaultAttributes();
+        const outcome = this.#sectionsViewManager.getSectionDefaultAttributes();
         res.json(outcome || {});
     }
 
@@ -27,7 +27,7 @@ class SectionsController {
 
         const { sectionName, attributes } = req.body;
 
-        let updateOutput = this.#sectionsManager.addSection(sectionName, attributes);
+        let updateOutput = this.#sectionsViewManager.addSection(sectionName, attributes);
 
         if (updateOutput.isOk) {
             outcome.status = 201;
@@ -50,7 +50,7 @@ class SectionsController {
         };
         const { sectionName, attributes, oldSectionName } = req.body;
 
-        let updateOutput = this.#sectionsManager.updateSection(sectionName, attributes, oldSectionName);
+        let updateOutput = this.#sectionsViewManager.updateSection(sectionName, attributes, oldSectionName);
 
         if (updateOutput.isOk) {
             outcome.status = 201;
