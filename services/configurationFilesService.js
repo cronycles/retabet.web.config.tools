@@ -1,7 +1,6 @@
-import { ConfigurationFilesManager } from "../helpers/configurationFilesManager.js";
-import { ConfigurationFilesCrudHelper } from "../helpers/configurationFilesCrudHelper.js";
+import { ConfigurationFilesHelper } from "../helpers/configurationFilesHelper.js";
+import { ConfigurationFilesCrudHandler } from "../handlers/configuration/configurationFilesCrudHandler.js";
 import { ConfigurationFilesContextHelper } from "../helpers/configurationFilesContextHelper.js";
-import { ConfigurationFilesContextManagerExtension } from "../extensions/configurationFilesContextManagerExtension.js";
 
 /**
  * @class ConfigurationFilesService
@@ -10,10 +9,9 @@ import { ConfigurationFilesContextManagerExtension } from "../extensions/configu
 class ConfigurationFilesService {
     static #instance = null;
 
-    #filesManager = ConfigurationFilesManager;
-    #filesCrudHelper = ConfigurationFilesCrudHelper;
+    #filesHelper = ConfigurationFilesHelper;
+    #filesCrudHandler = ConfigurationFilesCrudHandler;
     #filesContextHelper = ConfigurationFilesContextHelper;
-    #extension = ConfigurationFilesContextManagerExtension;
 
     static getInstance() {
         if (!ConfigurationFilesService.#instance) {
@@ -23,8 +21,8 @@ class ConfigurationFilesService {
     }
 
     loadAllContextsByFileName(fileName) {
-        const jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
-        return this.#filesContextHelper.getKeysAndValuesContextJsonByFileContent(jsonFile);
+        const jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
+        return this.#filesContextHelper.getAllContextsInConfigurationFile(jsonFile);
     }
 
     deleteEntireContextInFile(contextValue, fileName) {
@@ -32,11 +30,11 @@ class ConfigurationFilesService {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        const jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        const jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
 
-        const isDeleted = this.#filesContextHelper.deleteContextInFileContent(contextValue, jsonFile);
+        const isDeleted = this.#filesContextHelper.deleteContextInConfigurationFile(contextValue, jsonFile);
         if (isDeleted) {
-            outcome = this.#filesCrudHelper.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = addResponse.errorType;
         }
@@ -48,11 +46,11 @@ class ConfigurationFilesService {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        const jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
+        const jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
 
-        const isAdded = this.#filesContextHelper.addNewContextInFileContent(contextValue, jsonFile);
+        const isAdded = this.#filesContextHelper.addNewContextInConfigurationFile(contextValue, jsonFile);
         if (isAdded) {
-            outcome = this.#filesCrudHelper.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = addResponse.errorType;
         }
@@ -73,9 +71,9 @@ class ConfigurationFilesService {
     getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(fileName, hierarchyArray) {
         let outcome = {};
 
-        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#extension.extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile);
-        outcome = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile);
+        outcome = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
         return outcome;
     }
@@ -92,9 +90,9 @@ class ConfigurationFilesService {
      */
     getConfigurationObjectFromFileBelongingToTheCurrentContext(fileName, hierarchyArray) {
         let outcome = {};
-        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(jsonFile);
-        outcome = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(jsonFile);
+        outcome = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
         return outcome;
     }
@@ -116,13 +114,13 @@ class ConfigurationFilesService {
             errorType: "UNKNOWN",
         };
 
-        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
-        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
-        const addResponse = this.#filesManager.addNewObjectIntoTheTargetObjectIfNotExists(newObjectKey, newObjectAttributes, targetObject);
+        const addResponse = this.#filesHelper.addNewObjectIntoTheTargetObjectIfNotExists(newObjectKey, newObjectAttributes, targetObject);
         if (addResponse?.isOk) {
-            outcome = this.#filesCrudHelper.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = addResponse.errorType;
         }
@@ -145,12 +143,17 @@ class ConfigurationFilesService {
             errorType: "UNKNOWN",
         };
 
-        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
-        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
-        const updateResponse = this.#filesManager.updateObjectIntoTheTargetObjectIfExists(objectToUpdateKey, newObjectAttributes, targetObject, position = null);
+        var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        const updateResponse = this.#filesHelper.updateObjectIntoTheTargetObjectIfExists(
+            objectToUpdateKey,
+            newObjectAttributes,
+            targetObject,
+            (position = null)
+        );
         if (updateResponse?.isOk) {
-            outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesHelper.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = updateResponse.errorType;
         }
@@ -171,12 +174,12 @@ class ConfigurationFilesService {
             errorType: "UNKNOWN",
         };
 
-        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
-        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
-        const updateResponse = this.#filesManager.deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject, position = null);
+        var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        const updateResponse = this.#filesHelper.deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject, (position = null));
         if (updateResponse?.isOk) {
-            outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesHelper.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = updateResponse.errorType;
         }
@@ -199,12 +202,12 @@ class ConfigurationFilesService {
             errorType: "UNKNOWN",
         };
 
-        var jsonFile = this.#filesCrudHelper.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#extension.extractObjectFromFileBelongingToTheCurrentContext(fileName);
-        let targetObject = this.#filesManager.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
-        const updateResponse = this.#filesManager.updateObjectsOrderIntoTheTargetObjectIfExists(order, targetObject);
+        var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
+        const updateResponse = this.#filesHelper.updateObjectsOrderIntoTheTargetObjectIfExists(order, targetObject);
         if (updateResponse?.isOk) {
-            outcome = this.#filesManager.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesHelper.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = updateResponse.errorType;
         }

@@ -1,14 +1,14 @@
 import fs from "fs";
 import JSON5 from "json5";
 
-class ConfigurationJsonsHelper {
+class JsonFilesDTOHandler {
     static #instance = null;
 
     static getInstance() {
-        if (!ConfigurationJsonsHelper.#instance) {
-            ConfigurationJsonsHelper.#instance = new ConfigurationJsonsHelper();
+        if (!JsonFilesDTOHandler.#instance) {
+            JsonFilesDTOHandler.#instance = new JsonFilesDTOHandler();
         }
-        return ConfigurationJsonsHelper.#instance;
+        return JsonFilesDTOHandler.#instance;
     }
 
     readJson(filePath) {
@@ -21,9 +21,9 @@ class ConfigurationJsonsHelper {
     }
 
     writeJson(filePath, data) {
-        fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
+        fs.writeFileSync(filePath, JSON5.stringify(data, null, 4));
     }
 }
 
-const instance = ConfigurationJsonsHelper.getInstance();
-export { ConfigurationJsonsHelper, instance as default };
+const instance = JsonFilesDTOHandler.getInstance();
+export { JsonFilesDTOHandler, instance as default };

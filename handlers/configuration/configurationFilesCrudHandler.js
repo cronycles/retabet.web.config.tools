@@ -1,28 +1,28 @@
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { ConfigurationJsonsHelper } from "./configurationJsonsHelper.js";
+import { JsonFilesDTOHandler } from "../JsonFilesDTOHandler.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-class ConfigurationFilesCrudHelper {
+class ConfigurationFilesCrudHandler {
     static #instance = null;
 
     #JSONS_CONFIGURATION_PATH = "../data";
-    #jsonsHelper = ConfigurationJsonsHelper;
+    #jsonsHandler = JsonFilesDTOHandler;
 
     static getInstance() {
-        if (!ConfigurationFilesCrudHelper.#instance) {
-            ConfigurationFilesCrudHelper.#instance = new ConfigurationFilesCrudHelper();
+        if (!ConfigurationFilesCrudHandler.#instance) {
+            ConfigurationFilesCrudHandler.#instance = new ConfigurationFilesCrudHandler();
         }
-        return ConfigurationFilesCrudHelper.#instance;
+        return ConfigurationFilesCrudHandler.#instance;
     }
 
     getConfigurationFileByName(fileName) {
         let outcome = {};
         const filePath = this.#getConfigurationFilePathByName(fileName);
-        var jsonFile = this.#jsonsHelper.readJson(filePath);
+        var jsonFile = this.#jsonsHandler.readJson(filePath);
 
         if (jsonFile) {
             outcome = jsonFile;
@@ -39,7 +39,7 @@ class ConfigurationFilesCrudHelper {
             };
             const filePath = this.#getConfigurationFilePathByName(fileName);
 
-            this.#jsonsHelper.writeJson(filePath, jsoObject);
+            this.#jsonsHandler.writeJson(filePath, jsoObject);
 
             outcome.isOk = true;
             return outcome;
@@ -59,5 +59,5 @@ class ConfigurationFilesCrudHelper {
     }
 }
 
-const instance = ConfigurationFilesCrudHelper.getInstance();
-export { ConfigurationFilesCrudHelper, instance as default };
+const instance = ConfigurationFilesCrudHandler.getInstance();
+export { ConfigurationFilesCrudHandler, instance as default };

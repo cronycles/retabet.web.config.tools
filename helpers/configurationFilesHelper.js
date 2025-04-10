@@ -1,13 +1,13 @@
-class ConfigurationFilesManager {
+class ConfigurationFilesHelper {
     static #instance = null;
 
     #JSON_CONFIGURATION_KEY = "Configuration";
 
     static getInstance() {
-        if (!ConfigurationFilesManager.#instance) {
-            ConfigurationFilesManager.#instance = new ConfigurationFilesManager();
+        if (!ConfigurationFilesHelper.#instance) {
+            ConfigurationFilesHelper.#instance = new ConfigurationFilesHelper();
         }
-        return ConfigurationFilesManager.#instance;
+        return ConfigurationFilesHelper.#instance;
     }
 
     extractNestedObjectInHierarchy(jsonObject, hierarchyArray) {
@@ -149,5 +149,5 @@ class ConfigurationFilesManager {
     }
 }
 
-const instance = ConfigurationFilesManager.getInstance();
-export { ConfigurationFilesManager, instance as default };
+const instance = ConfigurationFilesHelper.getInstance();
+export { ConfigurationFilesHelper, instance as default };

@@ -26,7 +26,7 @@ class ConfigurationContextSelectorModuleViewManager {
             const fileContextsResponse = this.#fileContextsManager.loadFileContextsByFileName(fileName);
             if (fileContextsResponse?.isOk && fileContextsResponse.data) {
                 const contexts = fileContextsResponse.data;
-                contexts.forEach(context => {
+                contexts.forEach((context) => {
                     let stringContext = JSON.stringify(context);
                     let contextOutput = {
                         textContent: stringContext === "{}" ? "Default" : stringContext,

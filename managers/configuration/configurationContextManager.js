@@ -1,5 +1,5 @@
-import { ConfigurationCurrentContextHandler } from "../handlers/configurationCurrentContextHandler.js";
-import { ConfigurationFilesCrudHelper } from "../helpers/configurationFilesCrudHelper.js";
+import { ConfigurationCurrentContextHandler } from "../../handlers/configuration/configurationCurrentContextHandler.js";
+import { ConfigurationFilesCrudHandler } from "../../handlers/configuration/ConfigurationFilesCrudHandler.js";
 
 /**
  * @class ConfigurationContextManager
@@ -11,7 +11,7 @@ class ConfigurationContextManager {
     #contextConfigPropertiesFileName = "contextConfiguration.schema.json";
 
     #currentContextHandler = ConfigurationCurrentContextHandler;
-    #filesCrudHelper = ConfigurationFilesCrudHelper;
+    #filesCrudHandler = ConfigurationFilesCrudHandler;
 
     static getInstance() {
         if (!ConfigurationContextManager.#instance) {
@@ -33,7 +33,7 @@ class ConfigurationContextManager {
     }
 
     getContextConfigurationAvailableProperties() {
-        return this.#filesCrudHelper.getConfigurationFileByName(this.#contextConfigPropertiesFileName);
+        return this.#filesCrudHandler.getConfigurationFileByName(this.#contextConfigPropertiesFileName);
     }
 }
 
