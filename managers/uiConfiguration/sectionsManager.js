@@ -26,7 +26,7 @@ export default class SectionsManager {
         return outcome;
     }
 
-    getAllPanelsAvailablesForTheCurrentContext() {
+    getAllSectionsAvailablesForTheCurrentContext() {
         let outcome = null;
         const allSections = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(
             this.#sectionsFileName,
