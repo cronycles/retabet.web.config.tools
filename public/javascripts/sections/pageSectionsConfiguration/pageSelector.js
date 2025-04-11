@@ -27,9 +27,7 @@ export function initializePageSelector() {
             option.textContent = page.ExclusiveContext
                 ? `${page.name} (${
                       Array.isArray(page.ExclusiveContext)
-                          ? page.ExclusiveContext.map(
-                                context => `Only ${context.charAt(0).toUpperCase() + context.slice(1)}`
-                            ).join(", ")
+                          ? page.ExclusiveContext.map(context => `Only ${context.charAt(0).toUpperCase() + context.slice(1)}`).join(", ")
                           : `Only ${page.ExclusiveContext.charAt(0).toUpperCase() + page.ExclusiveContext.slice(1)}`
                   })`
                 : page.name;
@@ -104,7 +102,7 @@ export function initializePageSelector() {
                         sectionsUl.appendChild(sectionPlaceHolderLi);
 
                         const sections = pageData[panelName];
-                        sections.forEach((section) => {
+                        sections.forEach(section => {
                             const sectionName = typeof section === "string" ? section : Object.keys(section)[0];
                             const sectionAttributes = typeof section === "string" ? {} : section[sectionName];
 
@@ -112,7 +110,7 @@ export function initializePageSelector() {
                             sectionLi.textContent = sectionName;
                             sectionLi.draggable = true;
                             sectionLi.dataset.sectionName = sectionName;
-                            sectionLi.classList.add("inserted"); 
+                            sectionLi.classList.add("inserted");
 
                             // Add edit button for section
                             const editButton = document.createElement("button");
@@ -130,11 +128,12 @@ export function initializePageSelector() {
                                     editorContainer,
                                     sectionAttributes,
                                     updatedAttributes => {
-                                        fetch(`/api/pageSections/${selectedPage}`, {
+                                        fetch(`/api/pageSections`, {
                                             method: "PUT",
                                             headers: { "Content-Type": "application/json" },
                                             body: JSON.stringify({
                                                 action: "updateSection",
+                                                pageName: selectedPage,
                                                 panelName,
                                                 sectionName,
                                                 attributes: updatedAttributes,
@@ -177,6 +176,4 @@ export function initializePageSelector() {
                 }
             });
     });
-
-    
 }

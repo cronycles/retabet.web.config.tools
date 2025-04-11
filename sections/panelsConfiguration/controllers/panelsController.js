@@ -75,7 +75,7 @@ export default class PanelsController {
             message: "",
         };
 
-        const panelName = req.params.panelName;
+        const { panelName } = req.body;
         let updateOutput = this.#panelsViewManager.deletePanel(panelName);
 
         if (updateOutput.isOk) {

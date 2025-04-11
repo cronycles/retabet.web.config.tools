@@ -35,10 +35,10 @@ export function enableSectionSorting(panelName, selectedPage) {
                 .map(li => li.dataset.sectionName);
 
             // Update the backend with the new order
-            fetch(`/api/pageSections/${selectedPage}/panels/${panelName}/sections/order`, {
+            fetch(`/api/pageSections/sectionsSorting`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ order: newOrder }),
+                body: JSON.stringify({ order: newOrder, pageName: selectedPage, panelName }),
             }).catch(err => console.error("Failed to update section order:", err));
         });
 

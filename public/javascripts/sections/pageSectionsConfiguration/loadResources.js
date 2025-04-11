@@ -5,7 +5,7 @@ export function loadAvailablePanels() {
         return;
     }
 
-    fetch('/api/panels')
+    fetch('/api/pageSections/panels')
         .then(res => res.json())
         .then(panels => {
             availablePanels.innerHTML = ''; // Clear existing panels
@@ -29,7 +29,7 @@ export function loadAvailableSections() {
         return;
     }
 
-    fetch('/api/sections')
+    fetch('/api/pageSections/sections')
         .then(res => res.json())
         .then(sections => {
             availableSections.innerHTML = ''; // Clear existing sections

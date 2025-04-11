@@ -76,7 +76,7 @@ export default class SectionsController {
             message: "",
         };
 
-        const sectionName = req.params.sectionName;
+        const { sectionName } = req.body;
         let updateOutput = this.#sectionsViewManager.deleteSection(sectionName);
 
         if (updateOutput.isOk) {

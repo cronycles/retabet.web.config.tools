@@ -36,9 +36,12 @@ router.delete("/panels", (req, res) => panelsController.deletePanel(req, res));
 // Routes for pageSections.config.json
 router.get("/pageSections", (req, res) => pageSectionsController.getPageSections(req, res));
 router.get("/pageSections/pages", (req, res) => pageSectionsController.getAllPages(req, res));
-router.put("/pageSections/:pageName", (req, res) => pageSectionsController.updatePageSectionsByPage(req, res));
-router.put("/pageSections/:pageName/panels/:panelName/sections/order", (req, res) => pageSectionsController.updateSectionsOrderInAPanelOfAPage(req, res));
+router.get("/pageSections/panels", (req, res) => pageSectionsController.getAllPanels(req, res));
+router.get("/pageSections/sections", (req, res) => pageSectionsController.getAllSections(req, res));
+router.put("/pageSections/", (req, res) => pageSectionsController.updatePageSectionsByPage(req, res));
+router.put("/pageSections/sectionsSorting", (req, res) => pageSectionsController.updateSectionsOrderInAPanelOfAPage(req, res));
 
+//Roots for the Context selector module
 router.get("/configContext/getSelectedContext", (req, res) => configurationContextSelectorModuleController.getSelectedContext(req, res));
 router.post("/configContext/setSelectedContext", (req, res) => configurationContextSelectorModuleController.setSelectedContext(req, res));
 router.get("/configContext/loadContextsFromFile/:fileName", (req, res) => configurationContextSelectorModuleController.loadContextsFromFile(req, res));

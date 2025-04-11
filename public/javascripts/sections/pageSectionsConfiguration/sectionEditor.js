@@ -61,7 +61,7 @@ export function renderSectionEditor(container, attributes, onSave, onCancel, sec
     restoreDefaultsButton.type = 'button';
     restoreDefaultsButton.textContent = 'Restore Defaults';
     restoreDefaultsButton.addEventListener('click', () => {
-        fetch('/api/sections')
+        fetch('/api/pageSections/sections')
             .then(res => res.json())
             .then(data => {
                 const defaultAttributes = data[sectionName];

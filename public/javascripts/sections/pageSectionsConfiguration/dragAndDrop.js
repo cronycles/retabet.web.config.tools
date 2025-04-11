@@ -49,7 +49,7 @@ export function initializeDragAndDrop() {
                 const panelName = e.dataTransfer.getData("panelName");
                 if (panelName && selectedPage) {
                     // Add the panel to the pageSections.config.json
-                    fetch(`/api/pageSections/${selectedPage}`, {
+                    fetch(`/api/pageSections/`, {
                         method: "PUT",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -98,7 +98,7 @@ export function initializeDragAndDrop() {
 
                 if (sectionName && panelName && selectedPage) {
                     // Add the section to the panel in pageSections.config.json
-                    fetch("/api/sections")
+                    fetch("/api/pageSections/sections")
                         .then(res => res.json())
                         .then(sections => {
                             const defaultAttributes = sections[sectionName];
@@ -107,7 +107,7 @@ export function initializeDragAndDrop() {
                                 return;
                             }
 
-                            fetch(`/api/pageSections/${selectedPage}`, {
+                            fetch(`/api/pageSections`, {
                                 method: "PUT",
                                 headers: { "Content-Type": "application/json" },
                                 body: JSON.stringify({
@@ -142,7 +142,7 @@ export function initializeDragAndDrop() {
                                         editorContainer,
                                         defaultAttributes,
                                         updatedAttributes => {
-                                            fetch(`/api/pageSections/${selectedPage}`, {
+                                            fetch(`/api/pageSections`, {
                                                 method: "PUT",
                                                 headers: { "Content-Type": "application/json" },
                                                 body: JSON.stringify({

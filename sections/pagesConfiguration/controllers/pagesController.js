@@ -75,7 +75,7 @@ export default class PagesController {
             message: "",
         };
 
-        const pageName = req.params.pageName;
+        const { pageName } = req.body;
         let updateOutput = this.#pagesViewManager.deletePage(pageName);
 
         if (updateOutput.isOk) {

@@ -29,8 +29,7 @@ export default class PageSectionsController {
 
     updatePageSectionsByPage(req, res) {
         var statusini = 200;
-        const pageName = req.params.pageName;
-        const { action, panelName, sectionName, attributes, position } = req.body;
+        const { action, pageName, panelName, sectionName, attributes, position } = req.body;
 
         if (action === "addPanel") {
             if (!this.#pageSectionsViewManager.addPanelInPage(panelName, pageName)) {
@@ -63,8 +62,7 @@ export default class PageSectionsController {
             message: "",
         };
 
-        const { pageName, panelName } = req.params;
-        const { order } = req.body;
+        const { order, pageName, panelName } = req.body;
 
         let updateOutput = this.#pageSectionsViewManager.updateSectionsOrderInAPanelOfAPage(pageName, panelName, order);
 
