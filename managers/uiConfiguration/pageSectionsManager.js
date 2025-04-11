@@ -5,7 +5,7 @@ export default class PageSectionsManager {
     #pageInvariantNameHierarchy = ["PageInvariantNames"];
 
     #filesOperationsManager;
-    
+
     constructor() {
         if (PageSectionsManager.instance) {
             return PageSectionsManager.instance;
@@ -31,12 +31,7 @@ export default class PageSectionsManager {
             errorType: "UNKNOWN",
         };
         const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName];
-        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            panelName,
-            [],
-            newHierarchy,
-            this.#pageSectionsFileName
-        );
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, [], newHierarchy, this.#pageSectionsFileName);
 
         return outcome;
     }
@@ -48,11 +43,7 @@ export default class PageSectionsManager {
         };
 
         const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName];
-        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            panelName,
-            this.#pageSectionsFileName,
-            newHierarchy
-        );
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, this.#pageSectionsFileName, newHierarchy);
 
         return outcome;
     }
@@ -63,12 +54,7 @@ export default class PageSectionsManager {
             errorType: "UNKNOWN",
         };
         const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
-        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            sectionName,
-            sectionAttributes,
-            newHierarchy,
-            this.#pageSectionsFileName
-        );
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(sectionName, sectionAttributes, newHierarchy, this.#pageSectionsFileName);
 
         return outcome;
     }
@@ -80,12 +66,7 @@ export default class PageSectionsManager {
         };
 
         const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
-        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            sectionName,
-            this.#pageSectionsFileName,
-            newHierarchy,
-            position
-        );
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(sectionName, this.#pageSectionsFileName, newHierarchy, position);
 
         return outcome;
     }
@@ -115,11 +96,7 @@ export default class PageSectionsManager {
         };
 
         const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
-        outcome = this.#filesOperationsManager.updateConfigurationObjectsOrderInFileExtrictlyInTheCurrentContext(
-            order,
-            this.#pageSectionsFileName,
-            newHierarchy
-        );
+        outcome = this.#filesOperationsManager.updateConfigurationObjectsOrderInFileExtrictlyInTheCurrentContext(order, this.#pageSectionsFileName, newHierarchy);
 
         return outcome;
     }
