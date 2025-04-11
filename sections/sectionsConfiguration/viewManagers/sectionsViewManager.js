@@ -31,14 +31,14 @@ export default class SectionsViewManager {
         return outcome;
     }
 
-    updateSection(sectionName, attributes, oldSectionName) {
-        let outcome = this.#sectionsManager.updateExistingSectionInTheCurrentContext(sectionName, attributes, oldSectionName);
+    updateSection(sectionName, attributes) {
+        let outcome = this.#sectionsManager.updateExistingSectionInTheCurrentContext(sectionName, attributes);
 
         return outcome;
     }
 
     deleteSection(sectionName) {
-        let outcome = this.#sectionsManager.deleteExistingSectionInTheCurrentContext(sectionName, attributes, oldSectionName);
+        let outcome = this.#sectionsManager.deleteExistingSectionInTheCurrentContext(sectionName, attributes);
 
         return outcome;
     }

@@ -1,4 +1,3 @@
-
 import { initializeContextSelector } from "../configurationContextSelectorModule/configurationContextSelectorModule.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -35,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             editingPanel = panelName;
                             formTitle.textContent = `Edit Panel: ${panelName}`;
                             panelNameInput.value = panelName;
-                            panelNameInput.disabled = false; // Allow editing the panel name
+                            panelNameInput.disabled = true;
                             attributesContainer.innerHTML = "";
                             Object.entries(panels[panelName]).forEach(([key, value]) => {
                                 if (key === "PanelName") return; // Skip the PanelName field
@@ -151,11 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const method = editingPanel ? "PUT" : "POST";
-        const url = editingPanel ? `/api/panels/${editingPanel}` : "/api/panels";
-        fetch(url, {
+        fetch("/api/panels", {
             method,
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ panelName, attributes, oldPanelName: editingPanel }),
+            body: JSON.stringify({ panelName, attributes }),
         }).then(() => {
             window.location.reload();
         });

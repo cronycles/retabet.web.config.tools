@@ -32,14 +32,14 @@ export default class PanelsViewManager {
         return outcome;
     }
 
-    updatePanel(panelName, attributes, oldPanelName) {
-        let outcome = this.#panelsManager.updateExistingPanelInTheCurrentContext(panelName, attributes, oldPanelName);
+    updatePanel(panelName, attributes) {
+        let outcome = this.#panelsManager.updateExistingPanelInTheCurrentContext(panelName, attributes);
 
         return outcome;
     }
 
     deletePanel(panelName) {
-        let outcome = this.#panelsManager.deleteExistingPanelInTheCurrentContext(panelName, attributes, oldPanelName);
+        let outcome = this.#panelsManager.deleteExistingPanelInTheCurrentContext(panelName, attributes);
 
         return outcome;
     }

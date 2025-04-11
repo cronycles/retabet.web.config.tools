@@ -48,9 +48,9 @@ export default class SectionsController {
             error: "Unknown error occured",
             message: "",
         };
-        const { sectionName, attributes, oldSectionName } = req.body;
+        const { sectionName, attributes } = req.body;
 
-        let updateOutput = this.#sectionsViewManager.updateSection(sectionName, attributes, oldSectionName);
+        let updateOutput = this.#sectionsViewManager.updateSection(sectionName, attributes);
 
         if (updateOutput.isOk) {
             outcome.status = 201;
@@ -66,6 +66,29 @@ export default class SectionsController {
                 }
             }
         }
+        return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
+    }
+
+    deletePanel(req, res) {
+        let outcome = {
+            status: 500,
+            error: "Unknown error occured",
+            message: "",
+        };
+
+        const sectionName = req.params.sectionName;
+        let updateOutput = this.#sectionsViewManager.deleteSection(sectionName);
+
+        if (updateOutput.isOk) {
+            outcome.status = 204;
+            outcome.message = "Section deleted successfully";
+        } else {
+            if (updateOutput.errorType == "NOT_FOUND") {
+                outcome.status = 404;
+                outcome.error = "Section not found";
+            }
+        }
+
         return res.status(outcome.status).json({ error: outcome.error, message: outcome.message });
     }
 }

@@ -47,9 +47,9 @@ export default class PanelsController {
             error: "Unknown error occured",
             message: "",
         };
-        const { panelName, attributes, oldPanelName } = req.body;
+        const { panelName, attributes } = req.body;
 
-        let updateOutput = this.#panelsViewManager.updatePanel(panelName, attributes, oldPanelName);
+        let updateOutput = this.#panelsViewManager.updatePanel(panelName, attributes);
 
         if (updateOutput.isOk) {
             outcome.status = 201;
