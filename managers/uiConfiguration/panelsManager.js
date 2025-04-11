@@ -1,4 +1,4 @@
-import ConfigurationFilesOperationsManager from "../../managers/configurationFilesOperationsManager.js";
+import ConfigurationFilesOperationsManager from "../configuration/configurationFilesOperationsManager.js";
 
 export default class PanelsManager {
     #panelsFileName = "panels.config.json";
@@ -18,20 +18,14 @@ export default class PanelsManager {
 
     getAllPanelsInTheCurrentContextForEditingPurpose() {
         let outcome = null;
-        const allPanels = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
-            this.#panelsFileName,
-            this.#panelsHierarchy
-        );
+        const allPanels = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
         outcome = allPanels;
         return outcome;
     }
 
     getAllPanelsAvailablesForTheCurrentContext() {
         let outcome = null;
-        const allPanels = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(
-            this.#panelsFileName,
-            this.#panelsHierarchy
-        );
+        const allPanels = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(this.#panelsFileName, this.#panelsHierarchy);
         outcome = allPanels;
         return outcome;
     }
@@ -51,12 +45,7 @@ export default class PanelsManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            panelName,
-            attributes,
-            this.#panelsHierarchy,
-            this.#panelsFileName
-        );
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, attributes, this.#panelsHierarchy, this.#panelsFileName);
 
         return outcome;
     }
@@ -67,12 +56,7 @@ export default class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesOperationsManager.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            panelName,
-            attributes,
-            this.#panelsFileName,
-            this.#panelsHierarchy
-        );
+        outcome = this.#filesOperationsManager.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, attributes, this.#panelsFileName, this.#panelsHierarchy);
 
         return outcome;
     }
@@ -83,11 +67,7 @@ export default class PanelsManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            panelName,
-            this.#panelsFileName,
-            this.#panelsHierarchy
-        );
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, this.#panelsFileName, this.#panelsHierarchy);
 
         return outcome;
     }

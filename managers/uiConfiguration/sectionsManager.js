@@ -1,4 +1,4 @@
-import ConfigurationFilesOperationsManager from "../configurationFilesOperationsManager.js";
+import ConfigurationFilesOperationsManager from "../configuration/configurationFilesOperationsManager.js";
 
 export default class SectionsManager {
     #sectionsFileName = "sections.config.json";

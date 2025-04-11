@@ -1,13 +1,10 @@
 import path from "path";
-import { fileURLToPath } from "url";
 
 import JsonFilesDTOHandler from "../JsonFilesDTOHandler.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export default class ConfigurationFilesCrudHandler {
-    #JSONS_CONFIGURATION_PATH = "../data";
+    #JSONS_CONFIGURATION_PATH = "data";
 
     #jsonsHandler;
 
@@ -57,6 +54,6 @@ export default class ConfigurationFilesCrudHandler {
 
     #getConfigurationFilePathByName(fileName) {
         const filePathPart = `${this.#JSONS_CONFIGURATION_PATH}/${fileName}`;
-        return path.join(__dirname, filePathPart);
+        return path.join(process.cwd(), filePathPart);
     }
 }
