@@ -20,6 +20,6 @@ export default class JsonFilesDTOHandler {
     }
 
     writeJson(filePath, data) {
-        fs.writeFileSync(filePath, JSON5.stringify(data, null, 4));
+        fs.writeFileSync(filePath, JSON.stringify(data, null, 4));
     }
 }

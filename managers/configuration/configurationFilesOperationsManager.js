@@ -117,7 +117,7 @@ export default class ConfigurationFilesOperationsManager {
         };
 
         var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile);
         let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
 
         const addResponse = this.#filesHelper.addNewObjectIntoTheTargetObjectIfNotExists(newObjectKey, newObjectAttributes, targetObject);
@@ -146,7 +146,7 @@ export default class ConfigurationFilesOperationsManager {
         };
 
         var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile);
         let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
         const updateResponse = this.#filesHelper.updateObjectIntoTheTargetObjectIfExists(
             objectToUpdateKey,
@@ -155,7 +155,7 @@ export default class ConfigurationFilesOperationsManager {
             (position = null)
         );
         if (updateResponse?.isOk) {
-            outcome = this.#filesHelper.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = updateResponse.errorType;
         }
@@ -177,11 +177,11 @@ export default class ConfigurationFilesOperationsManager {
         };
 
         var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile);
         let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
         const updateResponse = this.#filesHelper.deleteObjectFromTheTargetObjectIfExists(objectKeyToDelete, targetObject, (position = null));
         if (updateResponse?.isOk) {
-            outcome = this.#filesHelper.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = updateResponse.errorType;
         }
@@ -205,11 +205,11 @@ export default class ConfigurationFilesOperationsManager {
         };
 
         var jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
-        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileBelongingToTheCurrentContext(fileName);
+        let foundObjectInContext = this.#filesContextHelper.extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile);
         let targetObject = this.#filesHelper.extractNestedObjectInHierarchy(foundObjectInContext, hierarchyArray);
         const updateResponse = this.#filesHelper.updateObjectsOrderIntoTheTargetObjectIfExists(order, targetObject);
         if (updateResponse?.isOk) {
-            outcome = this.#filesHelper.saveConfigurationFileByName(jsonFile, fileName);
+            outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
         } else {
             outcome.errorType = updateResponse.errorType;
         }

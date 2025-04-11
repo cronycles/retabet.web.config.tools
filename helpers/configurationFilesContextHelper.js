@@ -89,8 +89,7 @@ export default class ConfigurationFilesContextHelper {
                     this.#isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) ||
                     this.#isFileContextPartBelongingToThePassedContext(fileContextPartObj, passedContext)
                 ) {
-                    outcome = { ...foundObjectInContext, ...fileContextPartObj };
-                    break;
+                    outcome = { ...outcome, ...fileContextPartObj };
                 }
             }
         }
