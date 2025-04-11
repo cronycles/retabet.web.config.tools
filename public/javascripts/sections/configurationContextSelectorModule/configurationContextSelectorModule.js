@@ -209,7 +209,7 @@ async function saveManualContext(fileName) {
         const saveResponse = await fetch(`/api/configContext/saveNewContextInFile/${fileName}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(newContext),
+            body: JSON.stringify({ contextValue: newContext, fileName }),
         });
 
         if (!saveResponse.ok) {
@@ -234,7 +234,7 @@ async function deleteSelectedContext(fileName, dropdown) {
             const deleteResponse = await fetch(`/api/configContext/deleteSelectedContextInFile/${fileName}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: contextValue,
+                body: {contextValue, fileName} ,
             });
 
             if (!deleteResponse.ok) {

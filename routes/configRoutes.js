@@ -46,7 +46,7 @@ router.get("/configContext/getSelectedContext", (req, res) => configurationConte
 router.post("/configContext/setSelectedContext", (req, res) => configurationContextSelectorModuleController.setSelectedContext(req, res));
 router.get("/configContext/loadContextsFromFile/:fileName", (req, res) => configurationContextSelectorModuleController.loadContextsFromFile(req, res));
 router.get("/configContext/getContextConfigProperties", (req, res) => configurationContextSelectorModuleController.getContextConfigProperties(req, res));
-router.put("/configContext/saveNewContextInFile/:fileName", (req, res) => configurationContextSelectorModuleController.saveNewContextInFile(req, res));
-router.put("/configContext/deleteSelectedContextInFile/:fileName", (req, res) => configurationContextSelectorModuleController.deleteSelectedContextInFile(req, res));
+router.put("/configContext/saveNewContextInFile", (req, res) => configurationContextSelectorModuleController.saveNewContextInFile(req, res));
+router.put("/configContext/deleteSelectedContextInFile", (req, res) => configurationContextSelectorModuleController.deleteSelectedContextInFile(req, res));
 
 export default router;

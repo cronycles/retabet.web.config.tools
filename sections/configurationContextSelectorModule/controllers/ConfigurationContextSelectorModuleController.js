@@ -30,12 +30,8 @@ export default class ConfigurationContextSelectorModuleController {
             data: null,
         };
 
-        const fileName = req.params.fileName;
-        const stringContextValue = JSON.stringify(req.body);
-        const deleteResponse = this.#contextSelectorModuleViewManager.deleteContextInFileByFileNameAndResetCurrentContext(
-            stringContextValue,
-            fileName
-        );
+        const { contextValue, fileName } = JSON.stringify(req.body);
+        const deleteResponse = this.#contextSelectorModuleViewManager.deleteContextInFileByFileNameAndResetCurrentContext(contextValue, fileName);
         if (deleteResponse && deleteResponse.isOk) {
             outcome.status = 200;
             outcome.data = deleteResponse.data;
@@ -54,9 +50,8 @@ export default class ConfigurationContextSelectorModuleController {
             data: null,
         };
 
-        const fileName = req.params.fileName;
-        const stringContextValue = JSON.stringify(req.body);
-        const saveResponse = this.#contextSelectorModuleViewManager.saveContextInFileByFileNameAndSetNewCurrentContext(stringContextValue, fileName);
+        const { contextValue, fileName } = JSON.stringify(req.body);
+        const saveResponse = this.#contextSelectorModuleViewManager.saveContextInFileByFileNameAndSetNewCurrentContext(contextValue, fileName);
         if (saveResponse && saveResponse.isOk) {
             outcome.status = 200;
             outcome.data = saveResponse.data;
