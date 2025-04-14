@@ -89,13 +89,37 @@ export default class ConfigurationFilesContextHelper {
                     this.#isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) ||
                     this.#isFileContextPartBelongingToThePassedContext(fileContextPartObj, passedContext)
                 ) {
-                    outcome = { ...outcome, ...fileContextPartObj };
+                    outcome = this.#mergeDeep(outcome, fileContextPartObj);
                 }
             }
         }
 
         return outcome;
     }
+
+    #mergeDeep(target, ...sources) {
+        if (!sources.length) return target;
+        const source = sources.shift();
+      
+        if (this.#isObject(target) && this.#isObject(source)) {
+          for (const key in source) {
+            if (this.#isObject(source[key])) {
+              if (!target[key]) Object.assign(target, { [key]: {} });
+              this.#mergeDeep(target[key], source[key]);
+            } else {
+              Object.assign(target, { [key]: source[key] });
+            }
+          }
+        }
+      
+        return this.#mergeDeep(target, ...sources);
+      }
+
+      #isObject(item) {
+        return (item && typeof item === 'object' && !Array.isArray(item));
+      }
+      
+    
 
     #isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) {
         return this.#isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, {});
