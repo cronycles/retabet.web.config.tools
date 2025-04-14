@@ -74,6 +74,8 @@ async function loadContextsFromFile(fileName, dropdown) {
     }
 }
 
+let cachedProperties = []; // Cache for properties fetched from the API
+
 // Open a modal for manual context creation
 function openManualContextModal(fileName) {
     // Check if the modal already exists
@@ -93,78 +95,113 @@ function openManualContextModal(fileName) {
     const configurationContextPlaceholder = document.getElementById("configurationContextModulePlaceholder");
     configurationContextPlaceholder.appendChild(modal);
 
+    // Fetch properties once and store them in the cache
+    if (cachedProperties.length === 0) {
+        fetch("/api/configContext/getContextConfigProperties")
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch schema: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(jsonResponse => {
+                const schema = jsonResponse.data;
+                cachedProperties = Object.keys(schema.items.properties).filter(key => key !== "Configuration");
+                cachedProperties.schema = schema; // Store schema for later use
+            })
+            .catch(error => console.error("Error loading properties from schema:", error));
+    }
+
     document.getElementById("addPropertyButton").onclick = addPropertyField;
     document.getElementById("saveContextButton").onclick = () => saveManualContext(fileName);
 }
 
 // Add a property field for manual context creation
-async function addPropertyField() {
-    try {
-        const response = await fetch("/api/configContext/getContextConfigProperties");
-        if (!response.ok) {
-            throw new Error(`Failed to fetch schema: ${response.statusText}`);
-        }
-        const jsonResponse = await response.json();
-        const schema = jsonResponse.data;
-        const properties = Object.keys(schema.items.properties).filter(key => key !== "Configuration");
-
-        const container = document.getElementById("propertiesContainer");
-        const propertyField = document.createElement("div");
-        const select = document.createElement("select");
-        select.className = "propertySelector";
-
-        properties.forEach(property => {
-            const option = document.createElement("option");
-            option.value = property;
-            option.textContent = property;
-            select.appendChild(option);
-        });
-
-        const inputContainer = document.createElement("div");
-        inputContainer.className = "inputContainer";
-
-        select.onchange = () => {
-            const selectedProperty = select.value;
-            const items = getItemsForProperty(schema, selectedProperty);
-            inputContainer.innerHTML = ""; // Clear previous input
-
-            if (items.length > 0) {
-                // Create a multi-select for enum items
-                const multiSelect = document.createElement("select");
-                multiSelect.className = "itemsMultiSelect";
-                multiSelect.multiple = true;
-
-                items.forEach(item => {
-                    const option = document.createElement("option");
-                    option.value = item;
-                    option.textContent = item;
-                    multiSelect.appendChild(option);
-                });
-
-                inputContainer.appendChild(multiSelect);
-            } else {
-                // Create a text input for non-enum items
-                const input = document.createElement("input");
-                input.type = "text";
-                input.className = "itemsInput";
-                input.placeholder = "Enter items (comma-separated)";
-                inputContainer.appendChild(input);
-            }
-        };
-
-        propertyField.appendChild(select);
-        propertyField.appendChild(inputContainer);
-        container.appendChild(propertyField);
-
-        // Trigger the onchange event to populate the input for the first property
-        select.dispatchEvent(new Event("change"));
-    } catch (error) {
-        console.error("Error loading properties from schema:", error);
+function addPropertyField() {
+    if (cachedProperties.length === 0) {
+        alert("Properties are not yet loaded. Please try again.");
+        return;
     }
+
+    const container = document.getElementById("propertiesContainer");
+    const selectedProperties = Array.from(document.querySelectorAll(".propertySelector")).map(selector => selector.value);
+    const availableProperties = cachedProperties.filter(property => !selectedProperties.includes(property));
+
+    if (availableProperties.length === 0) {
+        alert("No more properties available to add.");
+        return;
+    }
+
+    const propertyField = document.createElement("div");
+    const select = document.createElement("select");
+    select.className = "propertySelector";
+
+    availableProperties.forEach(property => {
+        const option = document.createElement("option");
+        option.value = property;
+        option.textContent = property;
+        select.appendChild(option);
+    });
+
+    const inputContainer = document.createElement("div");
+    inputContainer.className = "inputContainer";
+
+    select.onchange = () => {
+        const selectedProperty = select.value;
+        const items = getItemsForProperty(selectedProperty);
+        inputContainer.innerHTML = ""; // Clear previous input
+
+        if (items.length > 0) {
+            // Create a multi-select for enum items
+            const multiSelect = document.createElement("select");
+            multiSelect.className = "itemsMultiSelect";
+            multiSelect.multiple = true;
+
+            items.forEach(item => {
+                const option = document.createElement("option");
+                option.value = item;
+                option.textContent = item;
+                multiSelect.appendChild(option);
+            });
+
+            inputContainer.appendChild(multiSelect);
+        } else {
+            // Create a text input for non-enum items
+            const input = document.createElement("input");
+            input.type = "text";
+            input.className = "itemsInput";
+            input.placeholder = "Enter items (comma-separated)";
+            inputContainer.appendChild(input);
+        }
+
+        updateDisabledOptions(); // Update disabled options in all dropdowns
+    };
+
+    propertyField.appendChild(select);
+    propertyField.appendChild(inputContainer);
+    container.appendChild(propertyField);
+
+    // Trigger the onchange event to populate the input for the first property
+    select.dispatchEvent(new Event("change"));
+
+    updateDisabledOptions(); // Update disabled options in all dropdowns
+}
+
+// Update disabled options in all property selectors
+function updateDisabledOptions() {
+    const allSelectors = Array.from(document.querySelectorAll(".propertySelector"));
+    const selectedProperties = allSelectors.map(selector => selector.value);
+
+    allSelectors.forEach(selector => {
+        Array.from(selector.options).forEach(option => {
+            option.disabled = selectedProperties.includes(option.value) && selector.value !== option.value;
+        });
+    });
 }
 
 // Helper function to get items for a selected property
-function getItemsForProperty(schema, property) {
+function getItemsForProperty(property) {
+    const schema = cachedProperties.schema; // Use cached schema
     const propertySchema = schema.items.properties[property];
     if (propertySchema && propertySchema.items && propertySchema.items.$ref) {
         const ref = propertySchema.items.$ref;
