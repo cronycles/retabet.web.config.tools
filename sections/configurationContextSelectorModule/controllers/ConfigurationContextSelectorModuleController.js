@@ -59,6 +59,10 @@ export default class ConfigurationContextSelectorModuleController {
             outcome.status = 400;
             outcome.error = "cannot create new context";
         }
+        else if (saveResponse?.errorType == "ALREADY_EXISTS") {
+            outcome.status = 400;
+            outcome.error = "cannot create new context";
+        }
 
         return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
     }

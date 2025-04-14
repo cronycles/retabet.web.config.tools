@@ -50,9 +50,15 @@ export default class ConfigurationFilesOperationsManager {
         };
         const jsonFile = this.#filesCrudHandler.getConfigurationFileByName(fileName);
 
-        this.#filesContextHelper.addNewContextInConfigurationFile(contextValue, jsonFile);
+        if (this.#filesContextHelper.isContextAlreadyPresentInFile(contextValue, jsonFile)) {
+            outcome.errorType = "ALREADY_EXISTS";
+        } else {
+            this.#filesContextHelper.addNewContextInConfigurationFile(contextValue, jsonFile);
+            outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
+            outcome.isOk = true;
+            
+        }
 
-        outcome = this.#filesCrudHandler.saveConfigurationFileByName(jsonFile, fileName);
 
         return outcome;
     }

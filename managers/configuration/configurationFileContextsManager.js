@@ -77,12 +77,13 @@ export default class ConfigurationFileContextsManager {
                 errorType: "UNKNOWN",
             };
 
-            const isSaved = this.#filesOperationsManager.saveNewContextInFile(contextValue, fileName);
+            const saveContextOutput = this.#filesOperationsManager.saveNewContextInFile(contextValue, fileName);
 
-            if (isSaved) {
+            if (saveContextOutput && saveContextOutput.isOk) {
                 this.#contextManager.setCurrentContext(contextValue);
-                outcome.isOk = true;
             }
+
+            outcome = saveContextOutput;
 
             return outcome;
         } catch (error) {

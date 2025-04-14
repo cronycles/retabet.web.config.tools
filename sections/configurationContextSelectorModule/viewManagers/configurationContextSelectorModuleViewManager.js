@@ -28,7 +28,7 @@ export default class ConfigurationContextSelectorModuleViewManager {
             const fileContextsResponse = this.#fileContextsManager.loadFileContextsByFileName(fileName);
             if (fileContextsResponse?.isOk && fileContextsResponse.data) {
                 const contexts = fileContextsResponse.data;
-                contexts.forEach((context) => {
+                contexts.forEach(context => {
                     let stringContext = JSON.stringify(context);
                     let contextOutput = {
                         textContent: stringContext === "{}" ? "Default" : stringContext,
@@ -90,10 +90,7 @@ export default class ConfigurationContextSelectorModuleViewManager {
                     outcome.errorType = "BAD_REQUEST";
                 }
 
-                const deleteResponse = this.#fileContextsManager.saveNewContextInFileByFileName(contextValue, fileName);
-                if (deleteResponse?.isOk) {
-                    outcome.isOk = true;
-                }
+                outcome = this.#fileContextsManager.saveNewContextInFileByFileName(contextValue, fileName);
             }
             return outcome;
         } catch (error) {

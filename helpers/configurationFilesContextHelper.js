@@ -40,6 +40,19 @@ export default class ConfigurationFilesContextHelper {
         return outcome;
     }
 
+    isContextAlreadyPresentInFile(contextValue, configFileContent) {
+        let outcome = false;
+        if (contextValue && configFileContent) {
+            for (const context of configFileContent) {
+                const keysAndValues = this.#getKeysAndValueContextJsonByFileContextPart(context);
+                if (JSON.stringify(keysAndValues) == JSON.stringify(contextValue)) {
+                    outcome = true;
+                }
+            }
+        }
+        return outcome;
+    }
+
     addNewContextInConfigurationFile(newContext, configFileContent) {
         if (newContext && configFileContent) {
             newContext.Configuration = {};
