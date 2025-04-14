@@ -46,7 +46,7 @@ export default class ConfigurationFilesContextHelper {
             outcome = { ...configFileContent };
             const contextWithConfiguration = { ...newContext };
             contextWithConfiguration.Configuration = {};
-            outcome.push(contextWithConfiguration);
+            outcome = { ...outcome, ...contextWithConfiguration };
         }
         return outcome;
     }

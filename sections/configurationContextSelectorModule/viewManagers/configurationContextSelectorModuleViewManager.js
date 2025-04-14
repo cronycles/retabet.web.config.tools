@@ -79,14 +79,13 @@ export default class ConfigurationContextSelectorModuleViewManager {
         }
     }
 
-    saveContextInFileByFileNameAndSetNewCurrentContext(stringContextValue, fileName) {
+    saveContextInFileByFileNameAndSetNewCurrentContext(contextValue, fileName) {
         try {
             let outcome = {
                 isOk: false,
                 errorType: "UNKNOWN",
             };
-            if (stringContextValue) {
-                const contextValue = JSON.parse(stringContextValue);
+            if (contextValue) {
                 if (Object.keys(contextValue).length === 0) {
                     outcome.errorType = "BAD_REQUEST";
                 }

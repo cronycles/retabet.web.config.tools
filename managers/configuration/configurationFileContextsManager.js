@@ -70,7 +70,7 @@ export default class ConfigurationFileContextsManager {
         }
     }
 
-    saveNewContextInFileByFileName(newContext, fileName) {
+    saveNewContextInFileByFileName(contextValue, fileName) {
         try {
             let outcome = {
                 isOk: false,
