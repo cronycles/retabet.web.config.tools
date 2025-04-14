@@ -288,7 +288,7 @@ async function saveManualContext(fileName) {
         })
             .then(res => res.json())
             .then(saveResponse => {
-                if (!saveResponse.ok) {
+                if (!saveResponse.isOk) {
                     alert(saveResponse.error);
                 } else {
                     alert("Context added successfully.");
