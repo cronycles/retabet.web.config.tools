@@ -77,7 +77,7 @@ export default class ConfigurationFilesContextHelper {
     }
 
     #extractObjectFromFileExtrictlyCorrespondingToThePassedContext(jsonFile, passedContext) {
-        let outcome = null;
+        let outcome = {};
         if (jsonFile) {
             for (const fileContextPartObj of jsonFile) {
                 if (this.#isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, passedContext)) {
