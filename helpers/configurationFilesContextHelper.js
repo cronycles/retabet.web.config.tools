@@ -17,7 +17,7 @@ export default class ConfigurationFilesContextHelper {
         let outcome = null;
         if (configFile) {
             outcome = [];
-            configFile.forEach((context) => {
+            configFile.forEach(context => {
                 const jsonKeysAndValues = this.#getKeysAndValueContextJsonByFileContextPart(context);
                 outcome.push(jsonKeysAndValues);
             });
@@ -28,7 +28,7 @@ export default class ConfigurationFilesContextHelper {
     deleteContextInConfigurationFile(contextValue, configFileContent) {
         let outcome = false;
         if (contextValue && configFileContent) {
-            const updatedConfigFileContent = configFileContent.filter((context) => {
+            const updatedConfigFileContent = configFileContent.filter(context => {
                 const keysAndValues = this.#getKeysAndValueContextJsonByFileContextPart(context);
                 return JSON.stringify(keysAndValues) !== JSON.stringify(contextValue);
             });
@@ -89,37 +89,13 @@ export default class ConfigurationFilesContextHelper {
                     this.#isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) ||
                     this.#isFileContextPartBelongingToThePassedContext(fileContextPartObj, passedContext)
                 ) {
-                    outcome = this.#mergeDeep(outcome, fileContextPartObj);
+                    outcome = this.#objectsDeepMerge(outcome, fileContextPartObj);
                 }
             }
         }
 
         return outcome;
     }
-
-    #mergeDeep(target, ...sources) {
-        if (!sources.length) return target;
-        const source = sources.shift();
-      
-        if (this.#isObject(target) && this.#isObject(source)) {
-          for (const key in source) {
-            if (this.#isObject(source[key])) {
-              if (!target[key]) Object.assign(target, { [key]: {} });
-              this.#mergeDeep(target[key], source[key]);
-            } else {
-              Object.assign(target, { [key]: source[key] });
-            }
-          }
-        }
-      
-        return this.#mergeDeep(target, ...sources);
-      }
-
-      #isObject(item) {
-        return (item && typeof item === 'object' && !Array.isArray(item));
-      }
-      
-    
 
     #isFileContextPartCorrespondingToTheDefaultContext(fileContextPartObj) {
         return this.#isFileContextPartCorrespondingExtrictlyToThePassedContext(fileContextPartObj, {});
@@ -144,7 +120,7 @@ export default class ConfigurationFilesContextHelper {
                 const passedContextValues = passedContext[key];
                 if (Array.isArray(value) && Array.isArray(passedContextValues)) {
                     if (value.length != 0 && passedContextValues.length != 0) {
-                        if (!value.some((item) => passedContextValues.includes(item))) {
+                        if (!value.some(item => passedContextValues.includes(item))) {
                             return false;
                         }
                     }
@@ -157,5 +133,27 @@ export default class ConfigurationFilesContextHelper {
 
     #getKeysAndValueContextJsonByFileContextPart(fileContextPart) {
         return Object.fromEntries(Object.entries(fileContextPart).filter(([key]) => key !== this.#CONFIGURATION_KEY));
+    }
+
+    #objectsDeepMerge(target, ...sources) {
+        if (!sources.length) return target;
+        const source = sources.shift();
+
+        if (this.#isObject(target) && this.#isObject(source)) {
+            for (const key in source) {
+                if (this.#isObject(source[key])) {
+                    if (!target[key]) Object.assign(target, { [key]: {} });
+                    this.#objectsDeepMerge(target[key], source[key]);
+                } else {
+                    Object.assign(target, { [key]: source[key] });
+                }
+            }
+        }
+
+        return this.#objectsDeepMerge(target, ...sources);
+    }
+
+    #isObject(item) {
+        return item && typeof item === "object" && !Array.isArray(item);
     }
 }
