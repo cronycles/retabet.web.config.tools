@@ -133,6 +133,8 @@ function addPropertyField() {
     }
 
     const propertyField = document.createElement("div");
+    propertyField.className = "propertyField";
+
     const select = document.createElement("select");
     select.className = "propertySelector";
 
@@ -177,8 +179,17 @@ function addPropertyField() {
         updateDisabledOptions(); // Update disabled options in all dropdowns
     };
 
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.className = "removePropertyButton";
+    removeButton.onclick = () => {
+        propertyField.remove();
+        updateDisabledOptions(); // Update disabled options after removal
+    };
+
     propertyField.appendChild(select);
     propertyField.appendChild(inputContainer);
+    propertyField.appendChild(removeButton);
     container.appendChild(propertyField);
 
     // Trigger the onchange event to populate the input for the first property
