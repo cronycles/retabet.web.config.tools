@@ -281,18 +281,20 @@ async function saveManualContext(fileName) {
 
     // Save the new context to the file
     try {
-        const saveResponse = await fetch(`/api/configContext/saveNewContextInFile`, {
+        fetch(`/api/configContext/saveNewContextInFile`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contextValue: newContext, fileName }),
-        });
-
-        if (!saveResponse.ok) {
-            throw new Error(`Failed to add new context in file ${fileName}: ${saveResponse.error}`);
-        } else {
-            alert("Context added successfully.");
-            location.reload(); // Reload the page to apply the new context
-        }
+        })
+            .then(res => res.json())
+            .then(saveResponse => {
+                if (!saveResponse.ok) {
+                    alert(saveResponse.error);
+                } else {
+                    alert("Context added successfully.");
+                    location.reload(); // Reload the page to apply the new context
+                }
+            });
     } catch (error) {
         console.error("Error saving context to file:", error);
     }

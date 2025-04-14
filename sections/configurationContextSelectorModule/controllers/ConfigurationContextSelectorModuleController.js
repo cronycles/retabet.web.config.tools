@@ -46,22 +46,20 @@ export default class ConfigurationContextSelectorModuleController {
     saveNewContextInFile(req, res) {
         let outcome = {
             status: 500,
-            error: "Unknown error occured",
-            data: null,
+            error: "Unknown error occured"
         };
 
         const { contextValue, fileName } = req.body;
         const saveResponse = this.#contextSelectorModuleViewManager.saveContextInFileByFileNameAndSetNewCurrentContext(contextValue, fileName);
         if (saveResponse && saveResponse.isOk) {
             outcome.status = 200;
-            outcome.data = saveResponse.data;
         } else if (saveResponse?.errorType == "BAD_REQUEST") {
             outcome.status = 400;
             outcome.error = "cannot create new context";
         }
         else if (saveResponse?.errorType == "ALREADY_EXISTS") {
             outcome.status = 400;
-            outcome.error = "cannot create new context";
+            outcome.error = "Error creating new context: already exists!";
         }
 
         return res.status(outcome.status).json({ error: outcome.error, data: outcome.data });
