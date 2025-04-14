@@ -206,7 +206,7 @@ async function saveManualContext(fileName) {
 
     // Save the new context to the file
     try {
-        const saveResponse = await fetch(`/api/configContext/saveNewContextInFile/${fileName}`, {
+        const saveResponse = await fetch(`/api/configContext/saveNewContextInFile`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contextValue: newContext, fileName }),
