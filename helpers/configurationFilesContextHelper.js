@@ -41,14 +41,10 @@ export default class ConfigurationFilesContextHelper {
     }
 
     addNewContextInConfigurationFile(newContext, configFileContent) {
-        let outcome = null;
         if (newContext && configFileContent) {
-            outcome = { ...configFileContent };
-            const contextWithConfiguration = { ...newContext };
-            contextWithConfiguration.Configuration = {};
-            outcome = { ...outcome, ...contextWithConfiguration };
+            newContext.Configuration = {};
+            configFileContent.push(newContext);
         }
-        return outcome;
     }
 
     extractObjectFromFileExtrictlyCorrespondingToTheCurrentContext(jsonFile) {
