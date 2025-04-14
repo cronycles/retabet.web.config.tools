@@ -114,6 +114,8 @@ function openManualContextModal(fileName) {
 
     document.getElementById("addPropertyButton").onclick = addPropertyField;
     document.getElementById("saveContextButton").onclick = () => saveManualContext(fileName);
+
+    validateContextButtons(); // Initial validation
 }
 
 // Add a property field for manual context creation
@@ -166,6 +168,7 @@ function addPropertyField() {
                 multiSelect.appendChild(option);
             });
 
+            multiSelect.onchange = validateContextButtons; // Validate buttons on change
             inputContainer.appendChild(multiSelect);
         } else {
             // Create a text input for non-enum items
@@ -173,10 +176,12 @@ function addPropertyField() {
             input.type = "text";
             input.className = "itemsInput";
             input.placeholder = "Enter items (comma-separated)";
+            input.oninput = validateContextButtons; // Validate buttons on input
             inputContainer.appendChild(input);
         }
 
         updateDisabledOptions(); // Update disabled options in all dropdowns
+        validateContextButtons(); // Validate buttons after adding a new field
     };
 
     const removeButton = document.createElement("button");
@@ -185,6 +190,7 @@ function addPropertyField() {
     removeButton.onclick = () => {
         propertyField.remove();
         updateDisabledOptions(); // Update disabled options after removal
+        validateContextButtons(); // Validate buttons after removal
     };
 
     propertyField.appendChild(select);
@@ -196,6 +202,27 @@ function addPropertyField() {
     select.dispatchEvent(new Event("change"));
 
     updateDisabledOptions(); // Update disabled options in all dropdowns
+}
+
+// Validate the "Add Property" and "Save Context" buttons
+function validateContextButtons() {
+    const addPropertyButton = document.getElementById("addPropertyButton");
+    const saveContextButton = document.getElementById("saveContextButton");
+
+    const allFieldsValid = Array.from(document.querySelectorAll(".propertyField")).every(field => {
+        const multiSelect = field.querySelector(".itemsMultiSelect");
+        const itemsInput = field.querySelector(".itemsInput");
+
+        if (multiSelect) {
+            return multiSelect.selectedOptions.length > 0; // At least one item selected
+        } else if (itemsInput) {
+            return itemsInput.value.trim() !== ""; // Input is not empty
+        }
+        return false;
+    });
+
+    addPropertyButton.disabled = !allFieldsValid;
+    saveContextButton.disabled = !allFieldsValid;
 }
 
 // Update disabled options in all property selectors
@@ -282,7 +309,7 @@ async function deleteSelectedContext(fileName, dropdown) {
             const deleteResponse = await fetch(`/api/configContext/deleteSelectedContextInFile/${fileName}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: {contextValue, fileName} ,
+                body: { contextValue, fileName },
             });
 
             if (!deleteResponse.ok) {
