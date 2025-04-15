@@ -103,7 +103,8 @@ export function initializeDragAndDrop() {
                     fetch("/api/pageSections/sections")
                         .then(res => res.json())
                         .then(sections => {
-                            const defaultAttributes = sections[sectionName];
+                            const sectionObject = sections.find(section => section.name === sectionName);
+                            const defaultAttributes = sectionObject ? sectionObject : null;
                             if (!defaultAttributes) {
                                 console.error("Invalid section name");
                                 return;
