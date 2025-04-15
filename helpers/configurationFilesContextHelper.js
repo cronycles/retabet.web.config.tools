@@ -28,13 +28,12 @@ export default class ConfigurationFilesContextHelper {
     deleteContextInConfigurationFile(contextValue, configFileContent) {
         let outcome = false;
         if (contextValue && configFileContent) {
-            const updatedConfigFileContent = configFileContent.filter(context => {
-                const keysAndValues = this.#getKeysAndValueContextJsonByFileContextPart(context);
-                return JSON.stringify(keysAndValues) !== JSON.stringify(contextValue);
-            });
-
-            if (updatedConfigFileContent != {}) {
-                outcome = true;
+            for (let i = configFileContent.length - 1; i >= 0; i--) {
+                const keysAndValues = this.#getKeysAndValueContextJsonByFileContextPart(configFileContent[i]);
+                if (JSON.stringify(keysAndValues) === JSON.stringify(contextValue)) {
+                    configFileContent.splice(i, 1);
+                    outcome = true;
+                }
             }
         }
         return outcome;
