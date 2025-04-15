@@ -80,7 +80,31 @@ document.addEventListener("DOMContentLoaded", () => {
                             sectionFormContainer.style.display = "block";
                         });
 
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "Delete";
+                        deleteButton.addEventListener("click", () => {
+                            if (confirm(`Are you sure you want to delete the section "${sectionName}"?`)) {
+                                fetch("/api/sections", {
+                                    method: "DELETE",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ sectionName }),
+                                })
+                                    .then(res => {
+                                        if (res.ok) {
+                                            window.location.reload();
+                                        } else {
+                                            alert("Error deleting the panel. Please try again.");
+                                        }
+                                    })
+                                    .catch(() => {
+                                        alert("Error deleting the panel. Please try again.");
+                                    });
+                            }
+                        });
+
+
                         li.appendChild(editButton);
+                        li.appendChild(deleteButton);
                         sectionsList.appendChild(li);
                     });
 

@@ -76,7 +76,30 @@ document.addEventListener("DOMContentLoaded", () => {
                             panelFormContainer.style.display = "block";
                         });
 
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = "Delete";
+                        deleteButton.addEventListener("click", () => {
+                            if (confirm(`Are you sure you want to delete the panel "${panelName}"?`)) {
+                                fetch("/api/panels", {
+                                    method: "DELETE",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ panelName }),
+                                })
+                                    .then(res => {
+                                        if (res.ok) {
+                                            window.location.reload();
+                                        } else {
+                                            alert("Error deleting the panel. Please try again.");
+                                        }
+                                    })
+                                    .catch(() => {
+                                        alert("Error deleting the panel. Please try again.");
+                                    });
+                            }
+                        });
+
                         li.appendChild(editButton);
+                        li.appendChild(deleteButton);
                         panelsList.appendChild(li);
                     });
 

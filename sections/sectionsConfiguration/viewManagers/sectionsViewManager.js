@@ -38,7 +38,7 @@ export default class SectionsViewManager {
     }
 
     deleteSection(sectionName) {
-        let outcome = this.#sectionsManager.deleteExistingSectionInTheCurrentContext(sectionName, attributes);
+        let outcome = this.#sectionsManager.deleteExistingSectionInTheCurrentContext(sectionName);
 
         return outcome;
     }

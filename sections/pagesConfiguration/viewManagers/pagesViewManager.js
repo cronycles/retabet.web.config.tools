@@ -32,14 +32,14 @@ export default class PagesViewManager {
         return outcome;
     }
 
-    updatePage(pageName, attributes, oldPageName) {
-        let outcome = this.#pagesManager.updateExistingPageInTheCurrentContext(pageName, attributes, oldPageName);
+    updatePage(pageName, attributes) {
+        let outcome = this.#pagesManager.updateExistingPageInTheCurrentContext(pageName, attributes);
 
         return outcome;
     }
 
     deletePage(pageName) {
-        let outcome = this.#pagesManager.deleteExistingPageInTheCurrentContext(pageName, attributes, oldPageName);
+        let outcome = this.#pagesManager.deleteExistingPageInTheCurrentContext(pageName);
 
         return outcome;
     }

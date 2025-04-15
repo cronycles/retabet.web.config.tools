@@ -42,7 +42,7 @@ export default class PanelsViewManager {
     }
 
     deletePanel(panelName) {
-        let outcome = this.#panelsManager.deleteExistingPanelInTheCurrentContext(panelName, attributes);
+        let outcome = this.#panelsManager.deleteExistingPanelInTheCurrentContext(panelName);
 
         return outcome;
     }
