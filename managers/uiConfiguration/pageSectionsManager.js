@@ -2,7 +2,7 @@ import ConfigurationFilesOperationsManager from "../configuration/configurationF
 
 export default class PageSectionsManager {
     #pageSectionsFileName = "pageSections.config.json";
-    #pageInvariantNameHierarchy = ["PageInvariantNames"];
+    #pageInvariantNameHierarchy = ["PageSections_CONF", "PageInvariantNames"];
 
     #filesOperationsManager;
 

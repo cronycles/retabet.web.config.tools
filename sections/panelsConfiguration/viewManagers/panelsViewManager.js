@@ -21,8 +21,11 @@ export default class PanelsViewManager {
 
     getPanelDefaultAttributes() {
         let outcome = null;
-        const pabelDefaultAttributes = this.#panelsManager.getPanelsDefaultAttributesInTheCurrentContext();
-        outcome = pabelDefaultAttributes;
+        let panelDefaultAttributes = this.#panelsManager.getPanelsDefaultAttributesInTheCurrentContext();
+        if (!panelDefaultAttributes || {}) {
+            panelDefaultAttributes = this.#panelsManager.getPanelsDefaultAttributesBelongingToTheCurrentContext();
+        }
+        outcome = panelDefaultAttributes;
         return outcome;
     }
 

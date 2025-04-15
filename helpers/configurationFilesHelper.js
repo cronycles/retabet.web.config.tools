@@ -12,9 +12,10 @@ export default class ConfigurationFilesHelper {
     extractNestedObjectInHierarchy(jsonObject, hierarchyArray) {
         let outcome = {};
         if (hierarchyArray && hierarchyArray.length > 0) {
-            const configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(jsonObject);
+            let configurationObject = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(jsonObject);
             if (configurationObject) {
-                outcome = this.#createOrTraverseNestedKeys(configurationObject, hierarchyArray);
+                configurationObject = this.#createNestedKeysOfTheObjectIfNotExists(configurationObject, hierarchyArray);
+                outcome = this.#getObjectToTheLastKeyOfHierarchy(configurationObject, hierarchyArray);
             }
         } else {
             outcome = this.#getObjectFromFirstNestedKeyAfterConfigurationKey(jsonObject);
@@ -78,8 +79,8 @@ export default class ConfigurationFilesHelper {
             errorType: "UNKNOWN",
         };
         if (targetObject) {
-            const reorderedSections = order.map((objectKey) => {
-                return targetObject.find((objectToSort) => {
+            const reorderedSections = order.map(objectKey => {
+                return targetObject.find(objectToSort => {
                     return typeof objectToSort === "string" ? objectToSort === objectKey : Object.keys(objectToSort)[0] === objectKey;
                 });
             });
@@ -125,25 +126,30 @@ export default class ConfigurationFilesHelper {
     }
 
     #getObjectFromFirstNestedKeyAfterConfigurationKey(jsonObject) {
-        let outcome = {};
-
-        const configurationObject = jsonObject[this.#JSON_CONFIGURATION_KEY];
-        if (configurationObject) {
-            const firstNestedKey = Object.keys(configurationObject)[0];
-            if (firstNestedKey) {
-                outcome = configurationObject[firstNestedKey];
-            }
-        }
-
-        return outcome;
+        return jsonObject[this.#JSON_CONFIGURATION_KEY];
+       
     }
 
-    #createOrTraverseNestedKeys(obj, keys) {
-        return keys.reduce((current, key) => {
+    #createNestedKeysOfTheObjectIfNotExists(obj, keys) {
+        keys.reduce((current, key) => {
             if (!current[key]) {
-                current[key] = {};
+                current[key] = {}; // Crear la clave si no existe
             }
-            return current[key];
+            return current[key]; // Avanzar al siguiente nivel
         }, obj);
+
+        return obj; // Devuelve el objeto modificado
+    }
+
+    #getObjectToTheLastKeyOfHierarchy(obj, keys) {
+        let outcome = {};
+        outcome = keys.reduce((current, key) => {
+            if (!current[key]) {
+                current[key] = {}; // Crear la clave si no existe
+            }
+            return current[key]; // Avanzar al siguiente nivel
+        }, obj);
+
+        return outcome;
     }
 }

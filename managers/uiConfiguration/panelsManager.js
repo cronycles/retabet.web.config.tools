@@ -2,8 +2,8 @@ import ConfigurationFilesOperationsManager from "../configuration/configurationF
 
 export default class PanelsManager {
     #panelsFileName = "panels.config.json";
-    #panelsHierarchy = ["Panels"];
-    #defaultAttributesHierarchy = ["DefaultPanelAttributes"];
+    #panelsHierarchy = ["Panels_CONF", "Panels"];
+    #defaultAttributesHierarchy = ["Panels_CONF", "DefaultPanelAttributes"];
 
     #filesOperationsManager;
 
@@ -33,6 +33,16 @@ export default class PanelsManager {
     getPanelsDefaultAttributesInTheCurrentContext() {
         let outcome = null;
         const pabelDefaultAttributes = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
+            this.#panelsFileName,
+            this.#defaultAttributesHierarchy
+        );
+        outcome = pabelDefaultAttributes;
+        return outcome;
+    }
+
+    getPanelsDefaultAttributesBelongingToTheCurrentContext() {
+        let outcome = null;
+        const pabelDefaultAttributes = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(
             this.#panelsFileName,
             this.#defaultAttributesHierarchy
         );

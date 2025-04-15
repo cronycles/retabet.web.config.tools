@@ -2,8 +2,8 @@ import ConfigurationFilesOperationsManager from "../configuration/configurationF
 
 export default class SectionsManager {
     #sectionsFileName = "sections.config.json";
-    #sectionsHierarchy = ["Sections"];
-    #defaultAttributesHierarchy = ["DefaultSectionAttributes"];
+    #sectionsHierarchy = ["Sections_CONF", "Sections"];
+    #defaultAttributesHierarchy = ["Sections_CONF", "DefaultSectionAttributes"];
 
     #filesOperationsManager;
 
@@ -18,20 +18,14 @@ export default class SectionsManager {
 
     getAllSectionsInTheCurrentContextForEditingPurpose() {
         let outcome = null;
-        const allSections = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
-            this.#sectionsFileName,
-            this.#sectionsHierarchy
-        );
+        const allSections = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(this.#sectionsFileName, this.#sectionsHierarchy);
         outcome = allSections;
         return outcome;
     }
 
     getAllSectionsAvailablesForTheCurrentContext() {
         let outcome = null;
-        const allSections = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(
-            this.#sectionsFileName,
-            this.#sectionsHierarchy
-        );
+        const allSections = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(this.#sectionsFileName, this.#sectionsHierarchy);
         outcome = allSections;
         return outcome;
     }
@@ -51,12 +45,7 @@ export default class SectionsManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            sectionName,
-            attributes,
-            this.#sectionsHierarchy,
-            this.#sectionsFileName
-        );
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(sectionName, attributes, this.#sectionsHierarchy, this.#sectionsFileName);
 
         return outcome;
     }
@@ -83,11 +72,7 @@ export default class SectionsManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            sectionName,
-            this.#sectionsFileName,
-            this.#sectionsHierarchy
-        );
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(sectionName, this.#sectionsFileName, this.#sectionsHierarchy);
 
         return outcome;
     }

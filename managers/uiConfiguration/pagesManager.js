@@ -2,8 +2,8 @@ import ConfigurationFilesOperationsManager from "../../managers/configuration/co
 
 export default class PagesManager {
     #pagesFileName = "pages.config.json";
-    #pagesHierarchy = ["Pages"];
-    #defaultAttributesHierarchy = ["DefaultPageAttributes"];
+    #pagesHierarchy = ["Pages_CONF", "Pages"];
+    #defaultAttributesHierarchy = ["Pages_CONF", "DefaultPageAttributes"];
 
     #filesOperationsManager;
 
@@ -18,10 +18,7 @@ export default class PagesManager {
 
     getAllPagesInTheCurrentContextForEditingPurpose() {
         let outcome = null;
-        const allPages = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(
-            this.#pagesFileName,
-            this.#pagesHierarchy
-        );
+        const allPages = this.#filesOperationsManager.getConfigurationObjectFromFileExtrictlyCorrespondingToTheCurrentContext(this.#pagesFileName, this.#pagesHierarchy);
         outcome = allPages;
         return outcome;
     }
@@ -38,10 +35,7 @@ export default class PagesManager {
 
     getAllPagesAvailablesForTheCurrentContext() {
         let outcome = null;
-        const allPages = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(
-            this.#pagesFileName,
-            this.#pagesHierarchy
-        );
+        const allPages = this.#filesOperationsManager.getConfigurationObjectFromFileBelongingToTheCurrentContext(this.#pagesFileName, this.#pagesHierarchy);
         outcome = allPages;
         return outcome;
     }
@@ -51,12 +45,7 @@ export default class PagesManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            pageName,
-            attributes,
-            this.#pagesHierarchy,
-            this.#pagesFileName
-        );
+        outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(pageName, attributes, this.#pagesHierarchy, this.#pagesFileName);
 
         return outcome;
     }
@@ -67,12 +56,7 @@ export default class PagesManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesOperationsManager.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            pageName,
-            attributes,
-            this.#pagesFileName,
-            this.#pagesHierarchy
-        );
+        outcome = this.#filesOperationsManager.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(pageName, attributes, this.#pagesFileName, this.#pagesHierarchy);
 
         return outcome;
     }
@@ -83,11 +67,7 @@ export default class PagesManager {
             errorType: "UNKNOWN",
         };
 
-        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(
-            pageName,
-            this.#pagesFileName,
-            this.#pagesHierarchy
-        );
+        outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(pageName, this.#pagesFileName, this.#pagesHierarchy);
 
         return outcome;
     }
