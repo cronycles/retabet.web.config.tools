@@ -28,31 +28,37 @@ export default class PageSectionsController {
     }
 
     updatePageSectionsByPage(req, res) {
-        var statusini = 200;
+        let outcome = {
+            status: 200,
+            isOk: true
+        };
         const { action, pageName, panelName, sectionName, attributes, position } = req.body;
 
         if (action === "addPanel") {
             if (!this.#pageSectionsViewManager.addPanelInPage(panelName, pageName)) {
-                statusini = 403;
+                outcome.status = 403;
             }
         } else if (action === "removePanel") {
             if (!this.#pageSectionsViewManager.deletePanelFromPage(panelName, pageName)) {
-                statusini = 403;
+                outcome.status = 403;
             }
         } else if (action === "addSection") {
             if (!this.#pageSectionsViewManager.addSectionToPanelOfPage(sectionName, attributes, panelName, pageName)) {
-                statusini = 403;
+                outcome.status = 403;
             }
         } else if (action === "removeSection") {
             if (!this.#pageSectionsViewManager.deleteExistingSectionFromPanelOfPage(sectionName, position, panelName, pageName)) {
-                statusini = 403;
+                outcome.status = 403;
             }
         } else if (action === "updateSection") {
             if (!this.#pageSectionsViewManager.updateExistingSectionFromPanelOfPage(sectionName, attributes, position, panelName, pageName)) {
-                statusini = 403;
+                outcome.status = 403;
             }
         }
-        res.status(statusini);
+        if(outcome.status >=300) {
+            outcome.isOk = false
+        }
+        res.status(outcome.status).json(outcome);
     }
 
     updateSectionsOrderInAPanelOfAPage(req, res) {

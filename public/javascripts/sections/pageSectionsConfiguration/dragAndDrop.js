@@ -4,14 +4,13 @@ import { renderSectionEditor } from "./sectionEditor.js";
 
 export function initializeDragAndDrop() {
     document.addEventListener("dragstart", e => {
-        if(!e.target.classList.contains("inserted")) {
+        if (!e.target.classList.contains("inserted")) {
             if (e.target.dataset.panelName) {
                 e.dataTransfer.setData("panelName", e.target.dataset.panelName);
             } else if (e.target.dataset.sectionName) {
                 e.dataTransfer.setData("sectionName", e.target.dataset.sectionName);
             }
-        }
-        else {
+        } else {
             e.dataTransfer.setData("inserted", true);
         }
     });
@@ -55,43 +54,45 @@ export function initializeDragAndDrop() {
                         body: JSON.stringify({
                             action: "addPanel",
                             panelName,
-                            pageName: selectedPage
+                            pageName: selectedPage,
                         }),
-                    }).then(response => {
-                        if (response.ok) {
-                            const panelDiv = document.createElement("div");
-                            panelDiv.textContent = panelName;
-                            panelDiv.dataset.panelName = panelName;
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data && data.isOk) {
+                                const panelDiv = document.createElement("div");
+                                panelDiv.textContent = panelName;
+                                panelDiv.dataset.panelName = panelName;
 
-                            // Add delete button for the panel
-                            addDeleteButton(panelDiv, "panel", panelName, selectedPage);
+                                // Add delete button for the panel
+                                addDeleteButton(panelDiv, "panel", panelName, selectedPage);
 
-                            const sectionsUl = document.createElement("ul");
-                            sectionsUl.classList.add("droppableSectionsContainer");
-                            sectionsUl.classList.add("droppable");
-                            sectionsUl.dataset.panelName = panelName;
+                                const sectionsUl = document.createElement("ul");
+                                sectionsUl.classList.add("droppableSectionsContainer");
+                                sectionsUl.classList.add("droppable");
+                                sectionsUl.dataset.panelName = panelName;
 
-                            const sectionPlaceHolderLi = document.createElement("li");
-                            sectionPlaceHolderLi.classList.add("dropSectionPlaceholder");
-                            sectionPlaceHolderLi.classList.add("placeholder-text");
-                            sectionPlaceHolderLi.classList.add("text-muted");
-                            sectionPlaceHolderLi.textContent = "Drop sections here";
-                            sectionPlaceHolderLi.dataset.panelName = panelName;
+                                const sectionPlaceHolderLi = document.createElement("li");
+                                sectionPlaceHolderLi.classList.add("dropSectionPlaceholder");
+                                sectionPlaceHolderLi.classList.add("placeholder-text");
+                                sectionPlaceHolderLi.classList.add("text-muted");
+                                sectionPlaceHolderLi.textContent = "Drop sections here";
+                                sectionPlaceHolderLi.dataset.panelName = panelName;
 
-                            sectionsUl.appendChild(sectionPlaceHolderLi);
+                                sectionsUl.appendChild(sectionPlaceHolderLi);
 
-                            panelDiv.appendChild(sectionsUl);
+                                panelDiv.appendChild(sectionsUl);
 
-                            var dropPanelPlaceHolder = e.target.id === "dropPanelPlaceholder" ? e.target : e.target.querySelector("#dropPanelPlaceholder");
+                                var dropPanelPlaceHolder = e.target.id === "dropPanelPlaceholder" ? e.target : e.target.querySelector("#dropPanelPlaceholder");
 
-                            if (dropPanelPlaceHolder) {
-                                dropPanelPlaceHolder.parentElement.insertBefore(panelDiv, dropPanelPlaceHolder); // Insert before the placeholder
-                                enableSectionSorting(panelName, selectedPage);
+                                if (dropPanelPlaceHolder) {
+                                    dropPanelPlaceHolder.parentElement.insertBefore(panelDiv, dropPanelPlaceHolder); // Insert before the placeholder
+                                    enableSectionSorting(panelName, selectedPage);
+                                }
+                            } else {
+                                console.error("Failed to add panel to page");
                             }
-                        } else {
-                            console.error("Failed to add panel to page");
-                        }
-                    });
+                        });
                 }
             } else if (isADroppableSectionArea && e.target.dataset.panelName) {
                 const sectionName = e.dataTransfer.getData("sectionName");
@@ -118,67 +119,70 @@ export function initializeDragAndDrop() {
                                     sectionName,
                                     attributes: defaultAttributes,
                                 }),
-                            }).then(response => {
-                                if (response.ok) {
-                                    return response.json(); // Parse the response to get the index
-                                } else {
-                                    console.error("Failed to add section to panel");
-                                    throw new Error("Failed to add section");
-                                }
-                            }).then(data => {
-                                const sectionLi = document.createElement("li");
-                                sectionLi.textContent = sectionName;
-                                sectionLi.dataset.sectionName = sectionName;
-                                sectionLi.setAttribute("draggable", "true");
-                                sectionLi.classList.add("inserted");
+                            })
+                                .then(response => {
+                                    if (response.ok) {
+                                        return response.json(); // Parse the response to get the index
+                                    } else {
+                                        console.error("Failed to add section to panel");
+                                        throw new Error("Failed to add section");
+                                    }
+                                })
+                                .then(data => {
+                                    const sectionLi = document.createElement("li");
+                                    sectionLi.textContent = sectionName;
+                                    sectionLi.dataset.sectionName = sectionName;
+                                    sectionLi.setAttribute("draggable", "true");
+                                    sectionLi.classList.add("inserted");
 
-                                // Add edit button for the section
-                                const editButton = document.createElement("button");
-                                editButton.textContent = "Edit";
-                                editButton.addEventListener("click", () => {
-                                    const editorContainer = document.createElement("div");
-                                    sectionLi.appendChild(editorContainer);
-                                    const position = Array.from(sectionLi.parentNode.children).indexOf(sectionLi); // Calcular posición actual
+                                    // Add edit button for the section
+                                    const editButton = document.createElement("button");
+                                    editButton.textContent = "Edit";
+                                    editButton.addEventListener("click", () => {
+                                        const editorContainer = document.createElement("div");
+                                        sectionLi.appendChild(editorContainer);
+                                        const position = Array.from(sectionLi.parentNode.children).indexOf(sectionLi); // Calcular posición actual
 
-                                    renderSectionEditor(
-                                        editorContainer,
-                                        defaultAttributes,
-                                        updatedAttributes => {
-                                            fetch(`/api/pageSections`, {
-                                                method: "PUT",
-                                                headers: { "Content-Type": "application/json" },
-                                                body: JSON.stringify({
-                                                    action: "updateSection",
-                                                    panelName,
-                                                    pageName: selectedPage,
-                                                    sectionName,
-                                                    attributes: updatedAttributes,
-                                                    position: position, // Pass the index
-                                                }),
-                                            }).then(() => {
+                                        renderSectionEditor(
+                                            editorContainer,
+                                            defaultAttributes,
+                                            updatedAttributes => {
+                                                fetch(`/api/pageSections`, {
+                                                    method: "PUT",
+                                                    headers: { "Content-Type": "application/json" },
+                                                    body: JSON.stringify({
+                                                        action: "updateSection",
+                                                        panelName,
+                                                        pageName: selectedPage,
+                                                        sectionName,
+                                                        attributes: updatedAttributes,
+                                                        position: position, // Pass the index
+                                                    }),
+                                                }).then(() => {
+                                                    editorContainer.remove();
+                                                });
+                                            },
+                                            () => {
                                                 editorContainer.remove();
-                                            });
-                                        },
-                                        () => {
-                                            editorContainer.remove();
-                                        },
-                                        sectionName // Pass sectionName for restoring defaults
-                                    );
+                                            },
+                                            sectionName // Pass sectionName for restoring defaults
+                                        );
+                                    });
+
+                                    sectionLi.appendChild(editButton);
+                                    addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName); // Pass index to deleteButton
+
+                                    var sectionPlaceholderFinding = e.target.classList.contains("dropSectionPlaceholder")
+                                        ? e.target
+                                        : e.target.querySelector(".dropSectionPlaceholder");
+                                    if (sectionPlaceholderFinding) {
+                                        sectionPlaceholderFinding.parentElement.insertBefore(sectionLi, sectionPlaceholderFinding); // Insert before the placeholder
+                                        enableSectionSorting(panelName, selectedPage);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error(error);
                                 });
-
-                                sectionLi.appendChild(editButton);
-                                addDeleteButton(sectionLi, "section", sectionName, selectedPage, panelName); // Pass index to deleteButton
-
-                                var sectionPlaceholderFinding = e.target.classList.contains("dropSectionPlaceholder")
-                                    ? e.target
-                                    : e.target.querySelector(".dropSectionPlaceholder");
-                                if (sectionPlaceholderFinding) {
-                                    sectionPlaceholderFinding.parentElement.insertBefore(sectionLi, sectionPlaceholderFinding); // Insert before the placeholder
-                                    enableSectionSorting(panelName, selectedPage);
-                                }
-                            }).catch(error => {
-                                console.error(error);
-                            });
                         });
                 }
             }
