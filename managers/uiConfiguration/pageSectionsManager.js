@@ -30,7 +30,7 @@ export default class PageSectionsManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName];
+        const newHierarchy = [...this.#pageInvariantNameHierarchy, pageName];
         outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, [], newHierarchy, this.#pageSectionsFileName);
 
         return outcome;
@@ -42,7 +42,7 @@ export default class PageSectionsManager {
             errorType: "UNKNOWN",
         };
 
-        const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName];
+        const newHierarchy = [...this.#pageInvariantNameHierarchy, pageName];
         outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(panelName, this.#pageSectionsFileName, newHierarchy);
 
         return outcome;
@@ -53,7 +53,7 @@ export default class PageSectionsManager {
             isOk: false,
             errorType: "UNKNOWN",
         };
-        const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
+        const newHierarchy = [...this.#pageInvariantNameHierarchy, pageName, panelName];
         outcome = this.#filesOperationsManager.saveConfigurationObjectInFileExtrictlyInTheCurrentContext(sectionName, sectionAttributes, newHierarchy, this.#pageSectionsFileName);
 
         return outcome;
@@ -65,7 +65,7 @@ export default class PageSectionsManager {
             errorType: "UNKNOWN",
         };
 
-        const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
+        const newHierarchy = [...this.#pageInvariantNameHierarchy, pageName, panelName];
         outcome = this.#filesOperationsManager.deleteConfigurationObjectInFileExtrictlyInTheCurrentContext(sectionName, this.#pageSectionsFileName, newHierarchy, position);
 
         return outcome;
@@ -77,7 +77,7 @@ export default class PageSectionsManager {
             errorType: "UNKNOWN",
         };
 
-        const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
+        const newHierarchy = [...this.#pageInvariantNameHierarchy, pageName, panelName];
         outcome = this.#filesOperationsManager.updateConfigurationObjectInFileExtrictlyInTheCurrentContext(
             sectionName,
             sectionAttributes,
@@ -95,7 +95,7 @@ export default class PageSectionsManager {
             errorType: "UNKNOWN",
         };
 
-        const newHierarchy = [...this.#pageInvariantNameHierarchy, ...pageName, ...panelName];
+        const newHierarchy = [...this.#pageInvariantNameHierarchy, pageName, panelName];
         outcome = this.#filesOperationsManager.updateConfigurationObjectsOrderInFileExtrictlyInTheCurrentContext(order, this.#pageSectionsFileName, newHierarchy);
 
         return outcome;

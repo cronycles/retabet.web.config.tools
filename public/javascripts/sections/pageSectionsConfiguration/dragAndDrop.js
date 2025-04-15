@@ -55,6 +55,7 @@ export function initializeDragAndDrop() {
                         body: JSON.stringify({
                             action: "addPanel",
                             panelName,
+                            pageName: selectedPage
                         }),
                     }).then(response => {
                         if (response.ok) {
@@ -113,6 +114,7 @@ export function initializeDragAndDrop() {
                                 body: JSON.stringify({
                                     action: "addSection",
                                     panelName,
+                                    pageName: selectedPage,
                                     sectionName,
                                     attributes: defaultAttributes,
                                 }),
@@ -148,6 +150,7 @@ export function initializeDragAndDrop() {
                                                 body: JSON.stringify({
                                                     action: "updateSection",
                                                     panelName,
+                                                    pageName: selectedPage,
                                                     sectionName,
                                                     attributes: updatedAttributes,
                                                     position: position, // Pass the index
