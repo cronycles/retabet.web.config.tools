@@ -308,10 +308,10 @@ async function deleteSelectedContext(fileName, dropdown) {
         if (contextValue === "{}") {
             alert("Cannot delete the default context.");
         } else {
-            const deleteResponse = await fetch(`/api/configContext/deleteSelectedContextInFile/${fileName}`, {
+            const deleteResponse = await fetch(`/api/configContext/deleteSelectedContextInFile`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
-                body: { contextValue, fileName },
+                body: JSON.stringify({ contextValue, fileName }),
             });
 
             if (!deleteResponse.ok) {
