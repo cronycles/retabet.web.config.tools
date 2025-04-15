@@ -55,8 +55,9 @@ export default class ConfigurationFilesContextHelper {
 
     addNewContextInConfigurationFile(newContext, configFileContent) {
         if (newContext && configFileContent) {
-            newContext.Configuration = {};
-            configFileContent.push(newContext);
+            let contextToSaveInFile = { ...newContext };
+            contextToSaveInFile.Configuration = {};
+            configFileContent.push(contextToSaveInFile);
         }
     }
 
