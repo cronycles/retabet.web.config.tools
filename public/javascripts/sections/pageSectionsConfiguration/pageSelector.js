@@ -6,6 +6,10 @@ export function initializePageSelector() {
     const pageSelector = document.getElementById("pageSelector");
     const pageDropdown = document.getElementById("pageDropdown"); // Reference to the dropdown container
     const droppablePanelsContainer = document.getElementById("droppablePanelsContainer");
+    const pageSectionsFormContainer = document.getElementById("pageSectionsFormContainer"); // Form container
+
+    // Ensure the form container is initially hidden
+    pageSectionsFormContainer.style.display = "none";
 
     let pages = []; // Store pages for filtering
     let currentEditingSection = null; // Track the currently open editor
@@ -64,9 +68,14 @@ export function initializePageSelector() {
         }
     });
 
+    
+
     pageSelector.addEventListener("change", () => {
         const selectedPage = pageSelector.value;
-        //droppablePanelsContainer.innerHTML = "";
+
+        // Make the form container visible when a page is selected
+        pageSectionsFormContainer.style.display = selectedPage ? "block" : "none";
+
         const panels = droppablePanelsContainer.querySelectorAll("div[data-panel-name]");
 
         // Eliminar cada uno de los divs encontrados
