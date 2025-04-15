@@ -209,20 +209,25 @@ function validateContextButtons() {
     const addPropertyButton = document.getElementById("addPropertyButton");
     const saveContextButton = document.getElementById("saveContextButton");
 
-    const allFieldsValid = Array.from(document.querySelectorAll(".propertyField")).every(field => {
-        const multiSelect = field.querySelector(".itemsMultiSelect");
-        const itemsInput = field.querySelector(".itemsInput");
+    saveContextButton.disabled = true;
 
-        if (multiSelect) {
-            return multiSelect.selectedOptions.length > 0; // At least one item selected
-        } else if (itemsInput) {
-            return itemsInput.value.trim() !== ""; // Input is not empty
-        }
-        return false;
-    });
+    const newContextproperties = Array.from(document.querySelectorAll(".propertyField"));
+    if (newContextproperties && newContextproperties.length > 0) {
+        const allFieldsValid = newContextproperties.every(field => {
+            const multiSelect = field.querySelector(".itemsMultiSelect");
+            const itemsInput = field.querySelector(".itemsInput");
 
-    addPropertyButton.disabled = !allFieldsValid;
-    saveContextButton.disabled = !allFieldsValid;
+            if (multiSelect) {
+                return multiSelect.selectedOptions.length > 0; // At least one item selected
+            } else if (itemsInput) {
+                return itemsInput.value.trim() !== ""; // Input is not empty
+            }
+            return false;
+        });
+
+        addPropertyButton.disabled = !allFieldsValid;
+        saveContextButton.disabled = !allFieldsValid;
+    }
 }
 
 // Update disabled options in all property selectors
